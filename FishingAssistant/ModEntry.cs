@@ -25,7 +25,8 @@ namespace FishingAssistant
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-
+            // apply infinite bait/tackle
+            ApplyInfiniteBaitAndTackle(e);
         }
 
         /// <summary>  Raised after a game menu is opened, closed, or replaced. </summary>

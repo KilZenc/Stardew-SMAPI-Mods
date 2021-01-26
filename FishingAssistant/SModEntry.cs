@@ -31,5 +31,17 @@ namespace FishingAssistant
                 Monitor.Log("Config reloaded", LogLevel.Info);
             }
         }
+
+        private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)
+        {
+            if (!(Context.IsWorldReady && e.IsOneSecond && Game1.player.CurrentTool is FishingRod rod))
+                return;
+
+            if (Config.InfiniteBait && rod.attachments?.Length > 0 && rod.attachments[0] != null)
+                rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
+
+            if (Config.InfiniteTackle && rod.attachments?.Length > 1 && rod.attachments[1] != null)
+                rod.attachments[1].uses.Value = 0;
+        }
     }
 }
