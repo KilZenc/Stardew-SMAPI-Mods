@@ -2,11 +2,6 @@
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Tools;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FishingAssistant
 {
@@ -30,6 +25,11 @@ namespace FishingAssistant
                 Config = Helper.ReadConfig<ModConfig>();
                 Monitor.Log("Config reloaded", LogLevel.Info);
             }
+        }
+
+        private bool IsFishingMiniGameReady()
+        {
+            return inFishingMiniGame && bobberBar != null;
         }
 
         private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)
