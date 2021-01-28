@@ -8,6 +8,20 @@ namespace FishingAssistant
     {
         private BobberBar bobberBar;
 
+        private int bobberBarHeight // Hardcoded Max: 568
+        {
+            get
+            {
+                if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
+                return Helper.Reflection.GetField<int>(bobberBar, nameof(bobberBarHeight), true).GetValue();
+            }
+            set
+            {
+                if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
+                Helper.Reflection.GetField<int>(bobberBar, nameof(bobberBarHeight), true).SetValue(value);
+            }
+        }
+
         private float difficulty
         {
             get

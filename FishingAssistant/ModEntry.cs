@@ -1,6 +1,8 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
+using StardewValley;
 using StardewValley.Menus;
+using StardewValley.Tools;
 
 namespace FishingAssistant
 {
@@ -8,7 +10,18 @@ namespace FishingAssistant
     {
         private ModConfig Config;
 
+        private bool modEnable;
+        private int playerStandingX;
+        private int playerStandingY;
+        private int playerFacingDirection;
+
         private bool inFishingMiniGame;
+
+        private bool maxCastPower;
+        private int autoCastDelay = 30;
+        private bool autoHook;
+        private bool autoCatchTreasure;
+        private int autoClosePopupDelay = 30;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -23,6 +36,27 @@ namespace FishingAssistant
         {
             // apply infinite bait/tackle
             ApplyInfiniteBaitAndTackle(e);
+
+            if (Game1.player?.CurrentTool is FishingRod rod)
+            {
+                fishingRod = rod;
+
+                // Force max cast power
+                if (maxCastPower)
+                    RodCastPower = 1.01f;
+
+                // Cast fishing rod if possible
+                AutoCastFishingRod();
+
+                // Make fish instantly bite
+                InstantFishBite();
+
+                //Auto hook fish when fish bite
+                AutoHook();
+
+                //Auto close fish popup
+                AutoCloseFishPopup();
+            }
 
             if (IsFishingMiniGameReady())
             {
@@ -46,6 +80,15 @@ namespace FishingAssistant
         /// <summary> Raised after the player presses a button on the keyboard, controller, or mouse. </summary>
         private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
+            //Enable or disable mod
+            ToggleMod(e);
+
+            //Toggle cast power to max or free
+            ToggleMaxCastPower(e);
+
+            //Toggle catch or ignore treasure when play fishing minigame
+            ToggleCatchTreasure(e);
+
             //Reload new config
             ReloadConfig(e);
         }
@@ -58,6 +101,7 @@ namespace FishingAssistant
             //Overide fish difficulty
             difficulty *= Config.FishDifficultyMultiplier;
             difficulty += Config.FishDifficultyAdditive;
+            if (difficulty < 0) difficulty = 0;
 
             //Make treasure appear every time
             if (Config.AlwaysFindTreasure)
@@ -68,7 +112,7 @@ namespace FishingAssistant
             {
                 if (treasure)
                     treasureCaught = true;
-                distanceFromCatching = 1.01f;
+                distanceFromCatching = 1.0f;
             }
 
             //Instantly catch treasure when treasure appear
@@ -79,6 +123,8 @@ namespace FishingAssistant
         private void OnFishingMiniGameEnd()
         {
             inFishingMiniGame = false;
+            autoCastDelay = 30;
+            autoClosePopupDelay = 30;
         }
     }
 }
