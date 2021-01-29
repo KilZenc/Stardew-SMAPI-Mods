@@ -138,33 +138,51 @@ namespace FishingAssistant
             if (!modEnable)
                 return;
 
-            float fishPos = bobberPosition;
-            float barPosMax = (568 - bobberBarHeight / 2) + 0.50f;
-            float barPosMin = (bobberBarHeight / 2) - 0.50f;
+            float fishPos = barBobberPosition;
+            float barPosMax = (568 - barHeight / 2);
+            float barPosMin = (barHeight / 2);
 
-            if (autoCatchTreasure && treasure && !treasureCaught && (distanceFromCatching > 0.85 || catchingTreasure))
+            if (barDistanceFromCatching >= 1.0f)
+            {
+                SkipMiniGame();
+            }
+            else if (autoCatchTreasure && barHasTreasure && !barTreasureCaught && (barDistanceFromCatching > 0.85 || catchingTreasure))
             {
                 catchingTreasure = true;
-                fishPos = treasurePosition;
+                fishPos = barTreasurePosition;
 
                 if (!IsTreasureInBar())
                     HandleTreasureCatchError();
 
             }
-            else if (catchingTreasure && distanceFromCatching < 0.15)
+            else if (catchingTreasure && barDistanceFromCatching < 0.15)
             {
                 catchingTreasure = false;
-                fishPos = bobberPosition;
+                fishPos = barBobberPosition;
             }
             fishPos += 20.0f;//center sprite
 
-            if (bobberPosition < barPosMin)
+            if (barBobberPosition < barPosMin)
                 fishPos = barPosMin;
-            else if (bobberPosition > barPosMax)
+            else if (barBobberPosition > barPosMax)
                 fishPos = barPosMax;
 
-            bobberBarPos = fishPos - bobberBarHeight / 2;
+            barPos = fishPos - (barHeight / 2);
         }
+
+        private void SkipMiniGame()
+        {
+            if (Game1.isFestival())
+                return;
+
+            int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].parentSheetIndex;
+            bool caughtDouble = Config.AlwaysCatchDoubleFish || (barBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0);
+
+            fishingRod.pullFishFromWater(barWhichFish, barFishSize, barFishQuality, (int)barDifficulty, barHasTreasure, barPerfect, barFromFishPond, caughtDouble);
+            Game1.exitActiveMenu();
+            Game1.setRichPresence("location", Game1.currentLocation.Name);
+        }
+
 
         private void AutoCloseFishPopup()
         {
@@ -180,20 +198,20 @@ namespace FishingAssistant
                     fishingRod.doneFishing(Game1.player, true);
                     Game1.player.completelyStopAnimatingOrDoingAction();
 
-                    Object @object = new Object(whichFish, 1, false, -1, fishQuality);
-                    if (whichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
+                    Object @object = new Object(rodWhichFish, 1, false, -1, rodFishQuality);
+                    if (rodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
                         @object.questItem.Value = true;
-                    if (whichFish == 79)
+                    if (rodWhichFish == 79)
                     {
                         @object = Game1.player.currentLocation.tryToCreateUnseenSecretNote(Game1.player);
                         if (@object == null)
                             return;
                     }
-                    if (caughtDoubleFish)
+                    if (rodCaughtDoubleFish)
                         @object.Stack = 2;
 
                     Game1.player.completelyStopAnimatingOrDoingAction();
-                    fishingRod.doneFishing(Game1.player, !fromFishPond);
+                    fishingRod.doneFishing(Game1.player, !rodFromFishPond);
                     if (Game1.isFestival() || Game1.player.addItemToInventoryBool(@object, false))
                         return;
 
@@ -207,9 +225,9 @@ namespace FishingAssistant
                     IsRodShowingTreasure = true;
                     Game1.player.UsingTool = true;
                     int initialStack = 1;
-                    if (caughtDoubleFish)
+                    if (rodCaughtDoubleFish)
                         initialStack = 2;
-                    bool inventoryBool = Game1.player.addItemToInventoryBool(new Object(whichFish, initialStack, false, -1, fishQuality), false);
+                    bool inventoryBool = Game1.player.addItemToInventoryBool(new Object(rodWhichFish, initialStack, false, -1, rodFishQuality), false);
                     fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, Game1.player.Position + new Vector2(-32f, -160f), false, false, (float)(Game1.player.getStandingY() / 10000.0 + 0.001), 0.0f, Color.White, 4f, 0.0f, 0.0f, 0.0f, false)
                     {
                         motion = new Vector2(0.0f, -0.128f),

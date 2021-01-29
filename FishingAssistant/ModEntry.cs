@@ -67,7 +67,7 @@ namespace FishingAssistant
             {
                 //Force fishing minigame result to be perfect
                 if (Config.AlwaysPerfect)
-                    perfect = true;
+                    barPerfect = true;
 
                 AutoPlayMiniGame();
             }
@@ -115,25 +115,25 @@ namespace FishingAssistant
             inFishingMiniGame = true;
 
             //Overide fish difficulty
-            difficulty *= Config.FishDifficultyMultiplier;
-            difficulty += Config.FishDifficultyAdditive;
-            if (difficulty < 0) difficulty = 0;
+            barDifficulty *= Config.FishDifficultyMultiplier;
+            barDifficulty += Config.FishDifficultyAdditive;
+            if (barDifficulty < 0) barDifficulty = 0;
 
             //Make treasure appear every time
             if (Config.AlwaysFindTreasure)
-                treasure = true;
+                barHasTreasure = true;
 
             //Instantly catch fish when minigame start
             if (Config.InstantCatchFish)
             {
-                if (treasure)
-                    treasureCaught = true;
-                distanceFromCatching = 1.0f;
+                if (barHasTreasure)
+                    barTreasureCaught = true;
+                barDistanceFromCatching = 1.0f;
             }
 
             //Instantly catch treasure when treasure appear
-            if (Config.InstantCatchTreasure && (treasure || Config.AlwaysFindTreasure))
-                treasureCaught = true;
+            if (Config.InstantCatchTreasure && (barHasTreasure || Config.AlwaysFindTreasure))
+                barTreasureCaught = true;
         }
 
         private void OnFishingMiniGameEnd()

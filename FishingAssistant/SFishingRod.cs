@@ -9,59 +9,59 @@ namespace FishingAssistant
     {
         private FishingRod fishingRod;
 
-        private int whichFish
+        private int rodWhichFish
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, nameof(whichFish), true).GetValue();
+                return Helper.Reflection.GetField<int>(fishingRod, FieldName.whichFish, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, nameof(whichFish), true).SetValue(value);
+                Helper.Reflection.GetField<int>(fishingRod, FieldName.whichFish, true).SetValue(value);
             }
         }
 
-        private int fishQuality
+        private int rodFishQuality
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, nameof(fishQuality), true).GetValue();
+                return Helper.Reflection.GetField<int>(fishingRod, FieldName.fishQuality, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, nameof(fishQuality), true).SetValue(value);
+                Helper.Reflection.GetField<int>(fishingRod, FieldName.fishQuality, true).SetValue(value);
             }
         }
 
-        private bool caughtDoubleFish
+        private bool rodCaughtDoubleFish
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<bool>(fishingRod, nameof(caughtDoubleFish), true).GetValue();
+                return Helper.Reflection.GetField<bool>(fishingRod, FieldName.caughtDoubleFish, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<bool>(fishingRod, nameof(caughtDoubleFish), true).SetValue(value);
+                Helper.Reflection.GetField<bool>(fishingRod, FieldName.caughtDoubleFish, true).SetValue(value);
             }
         }
 
-        private bool fromFishPond
+        private bool rodFromFishPond
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<bool>(fishingRod, nameof(fromFishPond), true).GetValue();
+                return Helper.Reflection.GetField<bool>(fishingRod, FieldName.fromFishPond, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<bool>(fishingRod, nameof(fromFishPond), true).SetValue(value);
+                Helper.Reflection.GetField<bool>(fishingRod, FieldName.fromFishPond, true).SetValue(value);
             }
         }
 

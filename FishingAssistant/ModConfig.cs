@@ -42,5 +42,8 @@ namespace FishingAssistant
 
         /// <summary>A value added to the fish difficulty. This can be less than 0 to decrease difficulty, or more than 0 to increase it.</summary>
         public float FishDifficultyAdditive { get; set; } = 0;
+
+        /// <summary></summary>
+        public bool AlwaysCatchDoubleFish { get; set; }
     }
 }
