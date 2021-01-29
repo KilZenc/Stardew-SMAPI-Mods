@@ -9,12 +9,86 @@ namespace FishingAssistant
     {
         private FishingRod fishingRod;
 
+        private int whichFish
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return Helper.Reflection.GetField<int>(fishingRod, nameof(whichFish), true).GetValue();
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                Helper.Reflection.GetField<int>(fishingRod, nameof(whichFish), true).SetValue(value);
+            }
+        }
+
+        private int fishQuality
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return Helper.Reflection.GetField<int>(fishingRod, nameof(fishQuality), true).GetValue();
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                Helper.Reflection.GetField<int>(fishingRod, nameof(fishQuality), true).SetValue(value);
+            }
+        }
+
+        private bool caughtDoubleFish
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return Helper.Reflection.GetField<bool>(fishingRod, nameof(caughtDoubleFish), true).GetValue();
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                Helper.Reflection.GetField<bool>(fishingRod, nameof(caughtDoubleFish), true).SetValue(value);
+            }
+        }
+
+        private bool fromFishPond
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return Helper.Reflection.GetField<bool>(fishingRod, nameof(fromFishPond), true).GetValue();
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                Helper.Reflection.GetField<bool>(fishingRod, nameof(fromFishPond), true).SetValue(value);
+            }
+        }
+
         private bool IsRodFishing
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
                 return fishingRod.isFishing;
+            }
+        }
+
+        private bool IsRodCasting
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return fishingRod.isCasting;
+            }
+        }
+
+        private bool IsRodTimingCasting
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return fishingRod.isTimingCast;
             }
         }
 
@@ -70,6 +144,34 @@ namespace FishingAssistant
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
                 return fishingRod.fishCaught;
             }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                fishingRod.fishCaught = value;
+            }
+        }
+
+        private bool IsRodTreasureCaught
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return fishingRod.treasureCaught;
+            }
+        }
+
+        private bool IsRodShowingTreasure
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return fishingRod.showingTreasure;
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                fishingRod.showingTreasure = value;
+            }
         }
 
         private float RodTimeUntilFishBite
@@ -100,6 +202,15 @@ namespace FishingAssistant
             }
         }
 
+        private bool IsRodInUse
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return fishingRod.inUse();
+            }
+        }
+
         private bool CanCastFishingRod()
         {
             return Context.CanPlayerMove && Game1.activeClickableMenu == null && !fishingRod.inUse();
@@ -108,6 +219,11 @@ namespace FishingAssistant
         private bool IsRodCanHook()
         {
             return (IsRodNibbing && !IsRodReeling && !IsRodHit && !IsRodPullingOutOfWater && !IsRodFishCaught);
+        }
+
+        private bool IsRodShowingFish()
+        {
+            return !Context.CanPlayerMove && IsRodFishCaught && IsRodInUse && !IsRodCasting && !IsRodTimingCasting && !IsRodReeling && !IsRodPullingOutOfWater && !IsRodShowingTreasure;
         }
     }
 }

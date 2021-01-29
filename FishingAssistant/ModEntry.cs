@@ -22,6 +22,8 @@ namespace FishingAssistant
         private bool autoHook;
         private bool autoCatchTreasure;
         private int autoClosePopupDelay = 30;
+        private int autoLootDelay = 30;
+        private float catchStep = 0;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -34,6 +36,9 @@ namespace FishingAssistant
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
+            if (!modEnable)
+                return;
+
             // apply infinite bait/tackle
             ApplyInfiniteBaitAndTackle(e);
 
@@ -41,12 +46,12 @@ namespace FishingAssistant
             {
                 fishingRod = rod;
 
+                // Cast fishing rod if possible
+                AutoCastFishingRod();
+
                 // Force max cast power
                 if (maxCastPower)
                     RodCastPower = 1.01f;
-
-                // Cast fishing rod if possible
-                AutoCastFishingRod();
 
                 // Make fish instantly bite
                 InstantFishBite();
@@ -60,14 +65,25 @@ namespace FishingAssistant
 
             if (IsFishingMiniGameReady())
             {
+                //Force fishing minigame result to be perfect
                 if (Config.AlwaysPerfect)
                     perfect = true;
+
+                AutoPlayMiniGame();
+            }
+            else
+            {
+                //Auto loot item in treasure chest
+                AutoLootTreasure();
             }
         }
 
         /// <summary>  Raised after a game menu is opened, closed, or replaced. </summary>
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
+            if (!modEnable)
+                return;
+
             // Check if fishing minigame is start
             if (e.NewMenu is BobberBar bar)
                 OnFishingMiniGameStart(bar);
@@ -123,8 +139,10 @@ namespace FishingAssistant
         private void OnFishingMiniGameEnd()
         {
             inFishingMiniGame = false;
+            catchingTreasure = false;
             autoCastDelay = 30;
             autoClosePopupDelay = 30;
+            autoLootDelay = 30;
         }
     }
 }

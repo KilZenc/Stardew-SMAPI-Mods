@@ -5,12 +5,15 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
 using System.Collections.Generic;
+using System.Linq;
 using Object = StardewValley.Object;
 
 namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
+        private bool catchingTreasure;
+
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
@@ -130,31 +133,59 @@ namespace FishingAssistant
             }
         }
 
+        private void AutoPlayMiniGame()
+        {
+            if (!modEnable)
+                return;
+
+            float fishPos = bobberPosition;
+            float barPosMax = (568 - bobberBarHeight / 2) + 0.50f;
+            float barPosMin = (bobberBarHeight / 2) - 0.50f;
+
+            if (autoCatchTreasure && treasure && !treasureCaught && (distanceFromCatching > 0.85 || catchingTreasure))
+            {
+                catchingTreasure = true;
+                fishPos = treasurePosition;
+
+                if (!IsTreasureInBar())
+                    HandleTreasureCatchError();
+
+            }
+            else if (catchingTreasure && distanceFromCatching < 0.15)
+            {
+                catchingTreasure = false;
+                fishPos = bobberPosition;
+            }
+            fishPos += 20.0f;//center sprite
+
+            if (bobberPosition < barPosMin)
+                fishPos = barPosMin;
+            else if (bobberPosition > barPosMax)
+                fishPos = barPosMax;
+
+            bobberBarPos = fishPos - bobberBarHeight / 2;
+        }
+
         private void AutoCloseFishPopup()
         {
-            if (modEnable && !Context.CanPlayerMove && fishingRod.fishCaught && fishingRod.inUse() && !fishingRod.isCasting && !fishingRod.isTimingCast && !fishingRod.castedButBobberStillInAir && !fishingRod.isFishing && !fishingRod.isReeling && !fishingRod.pullingOutOfWater && !fishingRod.showingTreasure)
+            if (modEnable && IsRodShowingFish())
             {
-                //collectFish = true;
                 if (autoClosePopupDelay-- > 0)
                     return;
-                Farmer player = Game1.player;
-                int whichFish = Helper.Reflection.GetField<int>(fishingRod, "whichFish", true).GetValue();
-                int fishQuality = Helper.Reflection.GetField<int>(fishingRod, "fishQuality", true).GetValue();
-                bool caughtDoubleFish = Helper.Reflection.GetField<bool>(fishingRod, "caughtDoubleFish", true).GetValue();
-                bool fromFishPond = Helper.Reflection.GetField<bool>(fishingRod, "fromFishPond", true).GetValue();
-                player.currentLocation.localSound("coin");
 
-                if (!fishingRod.treasureCaught)
+                Game1.player.currentLocation.localSound("coin");
+
+                if (!IsRodTreasureCaught)
                 {
-                    fishingRod.doneFishing(player, true);
-                    player.completelyStopAnimatingOrDoingAction();
+                    fishingRod.doneFishing(Game1.player, true);
+                    Game1.player.completelyStopAnimatingOrDoingAction();
 
                     Object @object = new Object(whichFish, 1, false, -1, fishQuality);
                     if (whichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
                         @object.questItem.Value = true;
                     if (whichFish == 79)
                     {
-                        @object = player.currentLocation.tryToCreateUnseenSecretNote(player);
+                        @object = Game1.player.currentLocation.tryToCreateUnseenSecretNote(Game1.player);
                         if (@object == null)
                             return;
                     }
@@ -163,7 +194,7 @@ namespace FishingAssistant
 
                     Game1.player.completelyStopAnimatingOrDoingAction();
                     fishingRod.doneFishing(Game1.player, !fromFishPond);
-                    if (Game1.isFestival() || player.addItemToInventoryBool(@object, false))
+                    if (Game1.isFestival() || Game1.player.addItemToInventoryBool(@object, false))
                         return;
 
                     List<Item> objList = new List<Item>();
@@ -172,14 +203,14 @@ namespace FishingAssistant
                 }
                 else
                 {
-                    fishingRod.fishCaught = false;
-                    fishingRod.showingTreasure = true;
-                    player.UsingTool = true;
+                    IsRodFishCaught = false;
+                    IsRodShowingTreasure = true;
+                    Game1.player.UsingTool = true;
                     int initialStack = 1;
                     if (caughtDoubleFish)
                         initialStack = 2;
-                    bool inventoryBool = player.addItemToInventoryBool(new Object(whichFish, initialStack, false, -1, fishQuality), false);
-                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, player.Position + new Vector2(-32f, -160f), false, false, (float)(player.getStandingY() / 10000.0 + 0.001), 0.0f, Color.White, 4f, 0.0f, 0.0f, 0.0f, false)
+                    bool inventoryBool = Game1.player.addItemToInventoryBool(new Object(whichFish, initialStack, false, -1, fishQuality), false);
+                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, Game1.player.Position + new Vector2(-32f, -160f), false, false, (float)(Game1.player.getStandingY() / 10000.0 + 0.001), 0.0f, Color.White, 4f, 0.0f, 0.0f, 0.0f, false)
                     {
                         motion = new Vector2(0.0f, -0.128f),
                         timeBasedMotion = true,
@@ -190,8 +221,55 @@ namespace FishingAssistant
                     });
                 }
             }
-            //else
-            //collectFish = false;
+        }
+
+        private void AutoLootTreasure()
+        {
+            if (!modEnable)
+                return;
+
+            if (Game1.player.isInventoryFull())
+            {
+                modEnable = false;
+                Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
+                return;
+            }
+
+            if (!(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
+                return;
+
+            IList<Item> actualInventory = itemGrab.ItemsToGrabMenu.actualInventory;
+
+            if (autoLootDelay-- > 0)
+                return;
+
+            if (actualInventory.Count == 0)
+                itemGrab.exitThisMenu(true);
+            else
+            {
+                Item obj = ((IEnumerable<Item>)actualInventory).First();
+                if (obj != null)
+                {
+                    if (obj.parentSheetIndex == 102)
+                    {
+                        Game1.player.foundArtifact(102, 1);
+                        Game1.playSound("fireball");
+                    }
+                    else
+                    {
+                        Item inventory = Game1.player.addItemToInventory(obj);
+                        if (inventory != null)
+                        {
+                            Game1.playSound("dwoop");
+                            Game1.createItemDebris(inventory, Game1.player.getStandingPosition(), Game1.player.facingDirection, null, -1);
+                        }
+                        else
+                            Game1.playSound("coin");
+                    }
+                }
+                actualInventory.RemoveAt(0);
+                autoLootDelay = 10;
+            }
         }
     }
 }
