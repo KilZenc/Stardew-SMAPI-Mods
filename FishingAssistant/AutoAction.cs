@@ -146,7 +146,7 @@ namespace FishingAssistant
 
         private void AutoLootTreasure()
         {
-            if (!modEnable || !Game1.isFestival())
+            if (!modEnable || Game1.isFestival())
                 return;
 
             if (Game1.player.isInventoryFull())

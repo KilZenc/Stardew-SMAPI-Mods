@@ -48,13 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CheatAction.cs" />
     <Compile Include="FieldName.cs" />
+    <Compile Include="FishPreview.cs" />
     <Compile Include="SBobberBar.cs" />
     <Compile Include="SFishingRod.cs" />
-    <Compile Include="SModEntry.cs" />
+    <Compile Include="AutoAction.cs" />
     <Compile Include="ModConfig.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SModEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="manifest.json" />

@@ -1,6 +1,7 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using System.Collections.Generic;
 
 namespace FishingAssistant
 {
@@ -10,9 +11,12 @@ namespace FishingAssistant
         {
             Config = helper.ReadConfig<ModConfig>();
 
+            helper.Events.GameLoop.GameLaunched += OnGameLaunched;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
             helper.Events.Display.MenuChanged += OnMenuChanged;
+            helper.Events.Display.RenderedActiveMenu += OnRenderMenu;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
+
 
             Monitor.Log("Initialized (press F5 to reload config)", LogLevel.Info);
         }
@@ -45,12 +49,35 @@ namespace FishingAssistant
             }
         }
 
-        private void ReloadConfig(ButtonPressedEventArgs e)
+        private void ReloadConfig()
         {
-            if (e.Button == Config.ReloadConfigButton)
+            Config = Helper.ReadConfig<ModConfig>();
+            Monitor.Log("Config reloaded", LogLevel.Info);
+
+            switch (Config.FishDisplayPosition)
             {
-                Config = Helper.ReadConfig<ModConfig>();
-                Monitor.Log("Config reloaded", LogLevel.Info);
+                case "Top":
+                    displayOrder = new List<string>() { "Top", "UpperRight", "UpperLeft", "LowerRight" };
+                    break;
+                case "UpperRight":
+                    displayOrder = new List<string>() { "UpperRight", "UpperLeft", "LowerRight" };
+                    break;
+                case "UpperLeft":
+                    displayOrder = new List<string>() { "UpperLeft", "UpperRight", "LowerLeft" };
+                    break;
+                case "Bottom":
+                    displayOrder = new List<string>() { "Bottom", "LowerRight", "LowerLeft", "UpperRight" };
+                    break;
+                case "LowerRight":
+                    displayOrder = new List<string>() { "LowerRight", "LowerLeft", "UpperRight" };
+                    break;
+                case "LowerLeft":
+                    displayOrder = new List<string>() { "LowerLeft", "LowerRight", "UpperLeft" };
+                    break;
+                default:
+                    displayOrder = new List<string>() { "UpperRight", "UpperLeft", "LowerLeft" };
+                    this.Monitor.Log($"Invalid config value {Config.FishDisplayPosition} for FishDisplayPosition. Valid entries include Top, Bottom, UpperRight, UpperLeft, LowerRight and LowerLeft.", LogLevel.Warn);
+                    break;
             }
         }
 

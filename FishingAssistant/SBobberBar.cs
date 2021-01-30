@@ -66,6 +66,20 @@ namespace FishingAssistant
             }
         }
 
+        private bool BarFadeOut
+        {
+            get
+            {
+                if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
+                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.fadeOut, true).GetValue();
+            }
+            set
+            {
+                if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
+                Helper.Reflection.GetField<bool>(bobberBar, FieldName.fadeOut, true).SetValue(value);
+            }
+        }
+
         private int BarFishQuality
         {
             get
