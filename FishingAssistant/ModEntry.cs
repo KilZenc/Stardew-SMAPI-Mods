@@ -18,12 +18,16 @@ namespace FishingAssistant
         private bool inFishingMiniGame;
 
         private bool maxCastPower;
-        private int autoCastDelay = 30;
         private bool autoHook;
         private bool autoCatchTreasure;
+
+        private int autoCastDelay = 30;
         private int autoClosePopupDelay = 30;
         private int autoLootDelay = 30;
+
         private float catchStep = 0;
+        private bool catchingTreasure;
+
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -67,7 +71,7 @@ namespace FishingAssistant
             {
                 //Force fishing minigame result to be perfect
                 if (Config.AlwaysPerfect)
-                    barPerfect = true;
+                    BarPerfect = true;
 
                 AutoPlayMiniGame();
             }
@@ -115,25 +119,25 @@ namespace FishingAssistant
             inFishingMiniGame = true;
 
             //Overide fish difficulty
-            barDifficulty *= Config.FishDifficultyMultiplier;
-            barDifficulty += Config.FishDifficultyAdditive;
-            if (barDifficulty < 0) barDifficulty = 0;
+            BarDifficulty *= Config.FishDifficultyMultiplier;
+            BarDifficulty += Config.FishDifficultyAdditive;
+            if (BarDifficulty < 0) BarDifficulty = 0;
 
             //Make treasure appear every time
             if (Config.AlwaysFindTreasure)
-                barHasTreasure = true;
+                BarHasTreasure = true;
 
             //Instantly catch fish when minigame start
             if (Config.InstantCatchFish)
             {
-                if (barHasTreasure)
-                    barTreasureCaught = true;
-                barDistanceFromCatching = 1.0f;
+                if (BarHasTreasure)
+                    BarTreasureCaught = true;
+                BarDistanceFromCatching = 1.0f;
             }
 
             //Instantly catch treasure when treasure appear
-            if (Config.InstantCatchTreasure && (barHasTreasure || Config.AlwaysFindTreasure))
-                barTreasureCaught = true;
+            if (Config.InstantCatchTreasure && (BarHasTreasure || Config.AlwaysFindTreasure))
+                BarTreasureCaught = true;
         }
 
         private void OnFishingMiniGameEnd()
