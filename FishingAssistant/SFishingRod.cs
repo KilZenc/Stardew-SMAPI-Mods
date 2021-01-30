@@ -206,16 +206,22 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Is player able to cast fishing rod</summary>
+        /// <returns>True if player can cast fishing rod</returns>
         private bool CanCastFishingRod()
         {
             return Context.CanPlayerMove && Game1.activeClickableMenu == null && !fishingRod.inUse();
         }
 
+        /// <summary>Is fish bite or not</summary>
+        /// <returns>True if fish bite</returns>
         private bool IsRodCanHook()
         {
             return IsRodNibbing && !IsRodReeling && !IsRodHit && !IsRodPullingOutOfWater && !IsRodFishCaught;
         }
 
+        /// <summary>Is player currenly showing fish</summary>
+        /// <returns>True if fish popup is show</returns>
         private bool IsRodShowingFish()
         {
             return !Context.CanPlayerMove && IsRodFishCaught && IsRodInUse && !IsRodCasting && !IsRodTimingCasting && !IsRodReeling && !IsRodPullingOutOfWater && !IsRodShowingTreasure;

@@ -1,31 +1,33 @@
 ﻿using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Tools;
 
 namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
+        /// <summary>Make bait and tackle last long forever</summary>
         private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)
         {
-            if (!(Context.IsWorldReady && e.IsOneSecond && Game1.player.CurrentTool is FishingRod rod))
+            if (!(Context.IsWorldReady && e.IsOneSecond))
                 return;
 
-            if (Config.InfiniteBait && rod.attachments?.Length > 0 && rod.attachments[0] != null)
-                rod.attachments[0].Stack = rod.attachments[0].maximumStackSize();
+            if (Config.InfiniteBait && fishingRod.attachments?.Length > 0 && fishingRod.attachments[0] != null)
+                fishingRod.attachments[0].Stack = fishingRod.attachments[0].maximumStackSize();
 
-            if (Config.InfiniteTackle && rod.attachments?.Length > 1 && rod.attachments[1] != null)
-                rod.attachments[1].uses.Value = 0;
+            if (Config.InfiniteTackle && fishingRod.attachments?.Length > 1 && fishingRod.attachments[1] != null)
+                fishingRod.attachments[1].uses.Value = 0;
         }
 
+        /// <summary>Make fish instantly bite when fishing</summary>
         private void InstantFishBite()
         {
             if (Config.InstantFishBite && (IsRodFishing && !IsRodHit && RodTimeUntilFishBite > 0))
                 RodTimeUntilFishBite = 0;
         }
 
-        private void SkipMiniGame()
+        /// <summary>End fishing minigame</summary>
+        private void EndMiniGame()
         {
             if (Game1.isFestival())
                 return;
@@ -33,17 +35,19 @@ namespace FishingAssistant
             int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].parentSheetIndex;
             bool caughtDouble = Config.AlwaysCatchDoubleFish || (BarBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0);
 
-            fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarHasTreasure, BarPerfect, BarFromFishPond, caughtDouble);
+            fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarTreasureCaught, BarPerfect, BarFromFishPond, caughtDouble);
             Game1.exitActiveMenu();
             Game1.setRichPresence("location", Game1.currentLocation.Name);
         }
 
+        /// <summary>Force treasure spawn every time when fishing</summary>
         private void AlwayFindTreasure()
         {
-            if (Config.AlwaysFindTreasure)
+            if (Config.AlwaysFindTreasure && !Game1.isFestival())
                 BarHasTreasure = true;
         }
 
+        /// <summary>Make fish instantly catch, simply skip minigame</summary>
         private void InstantCatchFish()
         {
             if (Config.InstantCatchFish)
@@ -54,12 +58,14 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Make treasure is instantly caught when appearing</summary>
         private void InstantCatchTreasure()
         {
             if (Config.InstantCatchTreasure && (BarHasTreasure || Config.AlwaysFindTreasure))
                 BarTreasureCaught = true;
         }
 
+        /// <summary>Override fish difficult</summary>
         private void OverrideFishDifficult()
         {
             BarDifficulty *= Config.FishDifficultyMultiplier;
@@ -67,12 +73,14 @@ namespace FishingAssistant
             if (BarDifficulty < 0) BarDifficulty = 0;
         }
 
+        /// <summary>Force fishing minigame alway perfect</summary>
         private void AlwayPerfectResult()
         {
             if (Config.AlwaysPerfect)
                 BarPerfect = true;
         }
 
+        /// <summary>Force fishing rod cast power to max</summary>
         private void MaxCastPower()
         {
             if (maxCastPower)

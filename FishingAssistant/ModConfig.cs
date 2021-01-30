@@ -32,10 +32,10 @@ namespace FishingAssistant
         public bool InstantCatchTreasure { get; set; } = false;
 
         /// <summary>Whether fishing tackles last forever.</summary>
-        public bool InfiniteTackle { get; set; } = true;
+        public bool InfiniteTackle { get; set; } = false;
 
         /// <summary>Whether fishing bait lasts forever.</summary>
-        public bool InfiniteBait { get; set; } = true;
+        public bool InfiniteBait { get; set; } = false;
 
         /// <summary>A multiplier applied to the fish difficulty. This can a number between 0 and 1 to lower difficulty, or more than 1 to increase it.</summary>
         public float FishDifficultyMultiplier { get; set; } = 1;
@@ -43,25 +43,25 @@ namespace FishingAssistant
         /// <summary>A value added to the fish difficulty. This can be less than 0 to decrease difficulty, or more than 0 to increase it.</summary>
         public float FishDifficultyAdditive { get; set; } = 0;
 
-        /// <summary></summary>
-        public bool AlwaysCatchDoubleFish { get; set; }
+        /// <summary>Make you catch double fish every time when use wild bait</summary>
+        public bool AlwaysCatchDoubleFish { get; set; } = false;
 
-        /// <summary></summary>
+        /// <summary>Position to display fish info when playing fishing minigame</summary>
         public string FishDisplayPosition { get; set; } = "UpperRight";
 
-        /// <summary></summary>
+        /// <summary>Show fish name with fish info</summary>
         public bool ShowFishName { get; set; } = true;
 
-        /// <summary></summary>
+        /// <summary>Show treasure with fish info</summary>
         public bool ShowTreasure { get; set; } = true;
 
-        /// <summary></summary>
+        /// <summary>Show fish info whether uncaught or not</summary>
         public bool ShowUncaughtFishSpecies { get; set; } = false;
 
-        /// <summary></summary>
+        /// <summary>Alway show fish info if current fish is legendary</summary>
         public bool AlwaysShowLegendaryFish { get; set; } = false;
 
-        public float treasureX;
-        public float treasureY;
+        /// <summary>Time to stop fishing</summary>
+        public int PauseFishingTime { get; set; } = 2400;
     }
 }

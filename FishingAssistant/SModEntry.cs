@@ -1,12 +1,30 @@
-﻿using StardewModdingAPI;
+﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.Menus;
 using System.Collections.Generic;
 
 namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
+        private bool modEnable;
+
+        private int playerStandingX;
+        private int playerStandingY;
+        private int playerFacingDirection;
+
+        private bool maxCastPower;
+        private bool autoHook;
+        private bool autoCatchTreasure;
+
+        private bool inFishingMiniGame;
+
+        private ClickableTextureComponent modEnableIcon;
+        private ClickableTextureComponent maxCastIcon;
+        private ClickableTextureComponent catchTreasureIcon;
+
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
@@ -16,7 +34,8 @@ namespace FishingAssistant
             helper.Events.Display.MenuChanged += OnMenuChanged;
             helper.Events.Display.RenderedActiveMenu += OnRenderMenu;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
-
+            helper.Events.Display.RenderingHud += OnRenderingHud;
+            helper.Events.GameLoop.TimeChanged += OnTimeChange;
 
             Monitor.Log("Initialized (press F5 to reload config)", LogLevel.Info);
         }
@@ -92,5 +111,41 @@ namespace FishingAssistant
         {
             return inFishingMiniGame && bobberBar != null;
         }
+
+        private string ConvertTime(int currentTime)
+        {
+            int time = currentTime;
+            string text = time >= 12 && time < 24 ? "PM" : "AM";
+            time = time > 12 && time <= 24 ? time -= 12 : time = time == 25 ? 1 : time;
+            return time + " " + text;
+        }
+
+        private void DrawIcon()
+        {
+            if (Game1.eventUp)
+                return;
+
+            if (modEnable)
+            {
+                Rectangle Icon = new Rectangle(20, 428, 10, 10);
+                modEnableIcon = new ClickableTextureComponent(new Rectangle(10, 10, 40, 40), Game1.mouseCursors, Icon, 2f);
+                modEnableIcon.draw(Game1.spriteBatch);
+            }
+
+            if (maxCastPower)
+            {
+                Rectangle Icon = new Rectangle(545, 1921, 53, 19);
+                maxCastIcon = new ClickableTextureComponent(new Rectangle(10, 50, 40, 40), Game1.mouseCursors, Icon, 1f);
+                maxCastIcon.draw(Game1.spriteBatch);
+            }
+
+            if (autoCatchTreasure)
+            {
+                Rectangle Icon = new Rectangle(137, 412, 10, 11);
+                catchTreasureIcon = new ClickableTextureComponent(new Rectangle(50, 10, 40, 40), Game1.mouseCursors, Icon, 2f);
+                catchTreasureIcon.draw(Game1.spriteBatch);
+            }
+        }
+
     }
 }

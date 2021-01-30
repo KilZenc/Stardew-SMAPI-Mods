@@ -28,9 +28,31 @@ namespace FishingAssistant
         private float scale = 0.7f;
         private int boxwidth;
         private int boxheight;
-        private int treasureSize;
-        private int treasureX = -40;
-        private int treasureY = -15;
+        private int treasureSpacing = 50;
+        private int treasureOffset = 8;
+
+        private void DrawFishInfo()
+        {
+            if (Game1.player == null || !Game1.player.IsLocalPlayer)
+                return;
+
+            if (Game1.activeClickableMenu is BobberBar bar && isCatching)
+            {
+                // stop drawing on fadeOut
+                if (BarFadeOut)
+                    return;
+
+                // figure out which fish is being caught
+                int newFishId = BarWhichFish;
+
+                // check if fish has changed somehow. If yes, re-make the fish sprite and its display text.
+                GetFishData(newFishId);
+
+                // call a function to position and draw the box
+                DrawFishDisplay(displayOrder, bar);
+            }
+        }
+
 
         private void GetFishData(int newFishId)
         {
@@ -67,11 +89,11 @@ namespace FishingAssistant
                 }
 
                 // determine width and height of display box
-                boxwidth = 170; boxheight = 100;
+                boxwidth = 160; boxheight = 100;
 
                 textSize = Game1.dialogueFont.MeasureString(textValue) * scale;
 
-                if (showText && showFish) { boxwidth = Math.Max(170, (2 * margin) + (int)textSize.X); }
+                if (showText && showFish) { boxwidth = Math.Max(160, (2 * margin) + (int)textSize.X); }
                 if (showText) { boxheight += (int)textSize.Y; }
             }
         }
@@ -146,7 +168,13 @@ namespace FishingAssistant
             // if showFish, center the fish x
             if (showFish)
             {
-                fishSprite.drawInMenu(Game1.spriteBatch, new Vector2(x + (boxwidth / 2) - (spriteSize / 2), y + margin), 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
+                Vector2 drawPos;
+                if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
+                    drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2) - (treasureSpacing / 2) + treasureOffset, y + margin);
+                else
+                    drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2), y + margin);
+
+                fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
 
                 // if showFish and showText, center the text x below the fish
                 if (showText)
@@ -158,10 +186,10 @@ namespace FishingAssistant
                 Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + (boxheight / 2) - ((int)textSize.Y / 2)), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
 
-            if (ShowTreasure && BarHasTreasure && !BarTreasureCaught)
+            if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
             {
                 treasureSprite = new Object(693, 1);
-                treasureSprite.drawInMenu(Game1.spriteBatch, new Vector2(x + (boxwidth / 2) - (spriteSize / 2) + Config.treasureX, y + margin + Config.treasureY), 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
+                treasureSprite.drawInMenu(Game1.spriteBatch, new Vector2(x + (boxwidth / 2) - (spriteSize / 2) + (treasureSpacing / 2) + treasureOffset, y + margin), 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
             }
         }
     }

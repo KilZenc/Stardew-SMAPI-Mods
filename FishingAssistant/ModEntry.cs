@@ -10,27 +10,7 @@ namespace FishingAssistant
     {
         private ModConfig Config;
 
-        private bool modEnable;
-        private int playerStandingX;
-        private int playerStandingY;
-        private int playerFacingDirection;
-
-        private bool inFishingMiniGame;
-
-        private bool maxCastPower;
-        private bool autoHook;
-        private bool autoCatchTreasure;
-
-        private int autoCastDelay = 30;
-        private int autoClosePopupDelay = 30;
-        private int autoLootDelay = 30;
-
-        private float catchStep = 0;
-        private bool catchingTreasure;
-
-
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
-        /// <param name="helper">Provides simplified APIs for writing mods.</param>
         public override void Entry(IModHelper helper)
         {
             // Initialize mod
@@ -38,12 +18,20 @@ namespace FishingAssistant
         }
 
         /// <summary>Raised after the game is launched, right before the first update tick.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
         private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
         {
             // read the Config for display position and get list priority for displayOrder
             ReloadConfig();
+        }
+
+        /// <summary>Raised after the in-game clock time changes.</summary>
+        private void OnTimeChange(object sender, TimeChangedEventArgs e)
+        {
+            if (e.NewTime == Config.PauseFishingTime)
+            {
+                modEnable = false;
+                Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
+            }
         }
 
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
@@ -52,12 +40,12 @@ namespace FishingAssistant
             if (!modEnable)
                 return;
 
-            // apply infinite bait/tackle
-            ApplyInfiniteBaitAndTackle(e);
-
             if (Game1.player?.CurrentTool is FishingRod rod)
             {
                 fishingRod = rod;
+
+                // apply infinite bait/tackle
+                ApplyInfiniteBaitAndTackle(e);
 
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
@@ -80,6 +68,7 @@ namespace FishingAssistant
                 //Force fishing minigame result to be perfect
                 AlwayPerfectResult();
 
+                //Auto play minigame
                 AutoPlayMiniGame();
             }
             else
@@ -105,28 +94,19 @@ namespace FishingAssistant
         }
 
         /// <summary>When a menu is open, raised after that menu is drawn to the sprite batch but before it's rendered to the screen.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
         private void OnRenderMenu(object sender, RenderedActiveMenuEventArgs e)
         {
-            if (Game1.player == null || !Game1.player.IsLocalPlayer)
-                return;
+            DrawFishInfo();
+        }
 
-            if (Game1.activeClickableMenu is BobberBar bar && isCatching)
-            {
-                // stop drawing on fadeOut
-                if (BarFadeOut)
-                    return;
-
-                // figure out which fish is being caught
-                int newFishId = BarWhichFish;
-
-                // check if fish has changed somehow. If yes, re-make the fish sprite and its display text.
-                GetFishData(newFishId);
-
-                // call a function to position and draw the box
-                DrawFishDisplay(displayOrder, bar);
-            }
+        /// <summary>
+        ///  Raised before drawing the HUD (item toolbar, clock, etc) to the screen. The vanilla
+        ///  HUD may be hidden at this point (e.g. because a menu is open). Content drawn
+        ///  to the sprite batch at this point will appear under the HUD.
+        /// </summary>
+        private void OnRenderingHud(object sender, RenderingHudEventArgs e)
+        {
+            DrawIcon();
         }
 
         /// <summary> Raised after the player presses a button on the keyboard, controller, or mouse. </summary>
@@ -168,6 +148,7 @@ namespace FishingAssistant
 
         private void OnFishingMiniGameEnd()
         {
+            //Reset varible value
             inFishingMiniGame = false;
             isCatching = false;
             catchingTreasure = false;

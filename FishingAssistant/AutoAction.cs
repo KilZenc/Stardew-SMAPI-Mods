@@ -10,6 +10,14 @@ namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
+        private int autoCastDelay = 30;
+        private int autoClosePopupDelay = 30;
+        private int autoLootDelay = 30;
+
+        private float catchStep = 0;
+        private bool catchingTreasure;
+
+        /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
         private void AutoCastFishingRod()
         {
             if (modEnable && CanCastFishingRod() && !Game1.isFestival())
@@ -18,7 +26,7 @@ namespace FishingAssistant
                     return;
 
                 //prevent player from exhausted
-                if (Game1.player.stamina <= 15)
+                if (Game1.player.stamina <= (8.0f + (Game1.player.fishingLevel * 0.1f)))
                 {
                     modEnable = false;
                     Game1.addHUDMessage(new HUDMessage("Player Have Low Energy", 3));
@@ -37,6 +45,7 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Auto hook fish when fish bite.</summary>
         private void AutoHook()
         {
             //apply auto hook if mod enable
@@ -51,6 +60,7 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Auto play fishing minigame.</summary>
         private void AutoPlayMiniGame()
         {
             if (!modEnable)
@@ -62,7 +72,7 @@ namespace FishingAssistant
 
             if (BarDistanceFromCatching >= 1.0f)
             {
-                SkipMiniGame();
+                EndMiniGame();
             }
             else if (autoCatchTreasure && BarHasTreasure && !BarTreasureCaught && (BarDistanceFromCatching > 0.85 || catchingTreasure))
             {
@@ -79,14 +89,15 @@ namespace FishingAssistant
             }
             fishPos += 20.0f;//center sprite
 
-            if (BarBobberPosition < barPosMin)
+            if (fishPos < barPosMin)
                 fishPos = barPosMin;
-            else if (BarBobberPosition > barPosMax)
+            else if (fishPos > barPosMax)
                 fishPos = barPosMax;
 
             BarPosition = fishPos - (BarHeight / 2);
         }
 
+        /// <summary>Auto close fish popup when fishing minigame finish</summary>
         private void AutoCloseFishPopup()
         {
             if (modEnable && IsRodShowingFish() && !Game1.isFestival())
@@ -98,7 +109,6 @@ namespace FishingAssistant
 
                 if (!IsRodTreasureCaught)
                 {
-                    fishingRod.doneFishing(Game1.player, true);
                     Game1.player.completelyStopAnimatingOrDoingAction();
 
                     Object @object = new Object(RodWhichFish, 1, false, -1, RodFishQuality);
@@ -144,6 +154,7 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Loot all item in treasure if treasure is caught during fishing minigame</summary>
         private void AutoLootTreasure()
         {
             if (!modEnable || Game1.isFestival())

@@ -243,6 +243,7 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Temporarily mothod for handle treasure catch error</summary>
         private void HandleTreasureCatchError()
         {
             catchStep = BarTreasureCatchLevel;
@@ -259,6 +260,8 @@ namespace FishingAssistant
             }
         }
 
+        /// <summary>Check if treasure chest is in bobber bar or not</summary>
+        /// <returns>True if treasure chest is ni bobber bar</returns>
         private bool IsTreasureInBar()
         {
             return BarTreasurePosition + 12.0 <= BarPosition - 32.0 + BarHeight && BarTreasurePosition - 16.0 >= BarPosition - 32.0;
