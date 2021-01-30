@@ -37,15 +37,6 @@ namespace FishingAssistant
             Initialize(helper);
         }
 
-        /// <summary>Raised after the game is launched, right before the first update tick.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
-        private void OnGameLaunched(object sender, GameLaunchedEventArgs e)
-        {
-            // read the Config for display position and get list priority for displayOrder
-            ReloadConfig();
-        }
-
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
@@ -104,31 +95,6 @@ namespace FishingAssistant
                 OnFishingMiniGameEnd();
         }
 
-        /// <summary>When a menu is open, raised after that menu is drawn to the sprite batch but before it's rendered to the screen.</summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event data.</param>
-        private void OnRenderMenu(object sender, RenderedActiveMenuEventArgs e)
-        {
-            if (Game1.player == null || !Game1.player.IsLocalPlayer)
-                return;
-
-            if (Game1.activeClickableMenu is BobberBar bar && isCatching)
-            {
-                // stop drawing on fadeOut
-                if (BarFadeOut)
-                    return;
-
-                // figure out which fish is being caught
-                int newFishId = BarWhichFish;
-
-                // check if fish has changed somehow. If yes, re-make the fish sprite and its display text.
-                GetFishData(newFishId);
-
-                // call a function to position and draw the box
-                DrawFishDisplay(displayOrder, bar);
-            }
-        }
-
         /// <summary> Raised after the player presses a button on the keyboard, controller, or mouse. </summary>
         private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
@@ -142,16 +108,13 @@ namespace FishingAssistant
             ToggleCatchTreasure(e);
 
             //Reload new config
-            if (e.Button == Config.ReloadConfigButton)
-                ReloadConfig();
+            ReloadConfig(e);
         }
 
         private void OnFishingMiniGameStart(BobberBar bar)
         {
             bobberBar = bar;
             inFishingMiniGame = true;
-            isCatching = true;
-            fishId = 0;
 
             //Overide fish difficulty
             OverrideFishDifficult();
@@ -169,7 +132,6 @@ namespace FishingAssistant
         private void OnFishingMiniGameEnd()
         {
             inFishingMiniGame = false;
-            isCatching = false;
             catchingTreasure = false;
             autoCastDelay = 30;
             autoClosePopupDelay = 30;
