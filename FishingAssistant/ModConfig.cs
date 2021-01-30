@@ -45,5 +45,23 @@ namespace FishingAssistant
 
         /// <summary></summary>
         public bool AlwaysCatchDoubleFish { get; set; }
+
+        /// <summary></summary>
+        public string FishDisplayPosition { get; set; } = "UpperRight";
+
+        /// <summary></summary>
+        public bool ShowFishName { get; set; } = true;
+
+        /// <summary></summary>
+        public bool ShowTreasure { get; set; } = true;
+
+        /// <summary></summary>
+        public bool ShowUncaughtFishSpecies { get; set; } = false;
+
+        /// <summary></summary>
+        public bool AlwaysShowLegendaryFish { get; set; } = false;
+
+        public float treasureX;
+        public float treasureY;
     }
 }

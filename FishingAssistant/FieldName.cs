@@ -9,6 +9,7 @@
         public static string caughtDoubleFish = "caughtDoubleFish";
         public static string difficulty = "difficulty";
         public static string distanceFromCatching = "distanceFromCatching";
+        public static string fadeOut = "fadeOut";
         public static string fishQuality = "fishQuality";
         public static string fishSize = "fishSize";
         public static string fromFishPond = "fromFishPond";
