@@ -213,7 +213,7 @@ namespace FishingAssistant
 
         private bool IsRodCanHook()
         {
-            return (IsRodNibbing && !IsRodReeling && !IsRodHit && !IsRodPullingOutOfWater && !IsRodFishCaught);
+            return IsRodNibbing && !IsRodReeling && !IsRodHit && !IsRodPullingOutOfWater && !IsRodFishCaught;
         }
 
         private bool IsRodShowingFish()

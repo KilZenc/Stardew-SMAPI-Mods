@@ -54,8 +54,7 @@ namespace FishingAssistant
                 AutoCastFishingRod();
 
                 // Force max cast power
-                if (maxCastPower)
-                    RodCastPower = 1.01f;
+                MaxCastPower();
 
                 // Make fish instantly bite
                 InstantFishBite();
@@ -70,8 +69,7 @@ namespace FishingAssistant
             if (IsFishingMiniGameReady())
             {
                 //Force fishing minigame result to be perfect
-                if (Config.AlwaysPerfect)
-                    BarPerfect = true;
+                AlwayPerfectResult();
 
                 AutoPlayMiniGame();
             }
@@ -119,25 +117,16 @@ namespace FishingAssistant
             inFishingMiniGame = true;
 
             //Overide fish difficulty
-            BarDifficulty *= Config.FishDifficultyMultiplier;
-            BarDifficulty += Config.FishDifficultyAdditive;
-            if (BarDifficulty < 0) BarDifficulty = 0;
+            OverrideFishDifficult();
 
             //Make treasure appear every time
-            if (Config.AlwaysFindTreasure)
-                BarHasTreasure = true;
+            AlwayFindTreasure();
 
             //Instantly catch fish when minigame start
-            if (Config.InstantCatchFish)
-            {
-                if (BarHasTreasure)
-                    BarTreasureCaught = true;
-                BarDistanceFromCatching = 1.0f;
-            }
+            InstantCatchFish();
 
             //Instantly catch treasure when treasure appear
-            if (Config.InstantCatchTreasure && (BarHasTreasure || Config.AlwaysFindTreasure))
-                BarTreasureCaught = true;
+            InstantCatchTreasure();
         }
 
         private void OnFishingMiniGameEnd()
