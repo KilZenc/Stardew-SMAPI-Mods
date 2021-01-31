@@ -27,9 +27,11 @@ namespace FishingAssistant
         /// <summary>Raised after the in-game clock time changes.</summary>
         private void OnTimeChange(object sender, TimeChangedEventArgs e)
         {
-            if (e.NewTime == Config.PauseFishingTime)
+            if (e.NewTime >= Config.PauseFishingTime && modEnable)
             {
                 modEnable = false;
+                maxCastPower = false;
+                autoCatchTreasure = false;
                 Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
             }
         }
@@ -40,12 +42,26 @@ namespace FishingAssistant
             if (!modEnable)
                 return;
 
+            // apply infinite bait/tackle
+            ApplyInfiniteBaitAndTackle(e);
+
+            if (IsFishingMiniGameReady())
+            {
+                //Force fishing minigame result to be perfect
+                AlwayPerfectResult();
+
+                //Auto play minigame
+                AutoPlayMiniGame();
+            }
+            else
+            {
+                //Auto loot item in treasure chest
+                AutoLootTreasure();
+            }
+
             if (Game1.player?.CurrentTool is FishingRod rod)
             {
                 fishingRod = rod;
-
-                // apply infinite bait/tackle
-                ApplyInfiniteBaitAndTackle(e);
 
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
@@ -61,20 +77,6 @@ namespace FishingAssistant
 
                 //Auto close fish popup
                 AutoCloseFishPopup();
-            }
-
-            if (IsFishingMiniGameReady())
-            {
-                //Force fishing minigame result to be perfect
-                AlwayPerfectResult();
-
-                //Auto play minigame
-                AutoPlayMiniGame();
-            }
-            else
-            {
-                //Auto loot item in treasure chest
-                AutoLootTreasure();
             }
         }
 

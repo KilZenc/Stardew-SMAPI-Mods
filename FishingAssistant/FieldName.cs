@@ -14,6 +14,7 @@
         public static string fishSize = "fishSize";
         public static string fromFishPond = "fromFishPond";
         public static string perfect = "perfect";
+        public static string itemCategory = "itemCategory";
         public static string treasure = "treasure";
         public static string treasureCatchLevel = "treasureCatchLevel";
         public static string treasureCaught = "treasureCaught";

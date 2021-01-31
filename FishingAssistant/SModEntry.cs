@@ -25,6 +25,12 @@ namespace FishingAssistant
         private ClickableTextureComponent maxCastIcon;
         private ClickableTextureComponent catchTreasureIcon;
 
+        public int startX = 10;
+        public int startY = 85;
+        public int xSpacing = 35;
+        public int ySpacing = 35;
+        public int alignTop = 0;
+
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
@@ -45,7 +51,19 @@ namespace FishingAssistant
             if (e.Button == Config.EnableModButton)
             {
                 modEnable = !modEnable;
-                if (modEnable) GetPlayerData();
+
+                if (modEnable)
+                {
+                    GetPlayerData();
+                    if (Game1.timeOfDay >= Config.PauseFishingTime)
+                    {
+                        modEnable = false;
+                        maxCastPower = false;
+                        autoCatchTreasure = false;
+                        Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
+                    }
+                }
+
                 Monitor.Log(string.Format("Mod enable {0}", modEnable), LogLevel.Info);
             }
         }
@@ -125,24 +143,35 @@ namespace FishingAssistant
             if (Game1.eventUp)
                 return;
 
+            /*bool alignTop = false;
+            Point playerGlobalPos = Game1.player.GetBoundingBox().Center;
+            Vector2 playerLocalVec = Game1.GlobalToLocal(globalPosition: new Vector2(playerGlobalPos.X, playerGlobalPos.Y), viewport: Game1.viewport);
+            if (!Game1.options.pinToolbarToggle)
+                alignTop = (playerLocalVec.Y > (float)(Game1.viewport.Height / 2 + 64));
+
+            if (alignTop)
+                this.alignTop = 0;
+            else
+                this.alignTop = Config.top;*/
+
             if (modEnable)
             {
                 Rectangle Icon = new Rectangle(20, 428, 10, 10);
-                modEnableIcon = new ClickableTextureComponent(new Rectangle(10, 10, 40, 40), Game1.mouseCursors, Icon, 2f);
+                modEnableIcon = new ClickableTextureComponent(new Rectangle(startX, startY + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 2f);
                 modEnableIcon.draw(Game1.spriteBatch);
             }
 
             if (maxCastPower)
             {
                 Rectangle Icon = new Rectangle(545, 1921, 53, 19);
-                maxCastIcon = new ClickableTextureComponent(new Rectangle(10, 50, 40, 40), Game1.mouseCursors, Icon, 1f);
+                maxCastIcon = new ClickableTextureComponent(new Rectangle(startX, startY + ySpacing + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 1f);
                 maxCastIcon.draw(Game1.spriteBatch);
             }
 
             if (autoCatchTreasure)
             {
                 Rectangle Icon = new Rectangle(137, 412, 10, 11);
-                catchTreasureIcon = new ClickableTextureComponent(new Rectangle(50, 10, 40, 40), Game1.mouseCursors, Icon, 2f);
+                catchTreasureIcon = new ClickableTextureComponent(new Rectangle(startX + xSpacing, startY + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 2f);
                 catchTreasureIcon.draw(Game1.spriteBatch);
             }
         }

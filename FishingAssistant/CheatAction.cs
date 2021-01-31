@@ -1,15 +1,19 @@
-﻿using StardewModdingAPI;
+﻿using Microsoft.Xna.Framework;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 
 namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
+        private SparklingText sparkleText;
+
         /// <summary>Make bait and tackle last long forever</summary>
         private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)
         {
-            if (!(Context.IsWorldReady && e.IsOneSecond))
+            if (!(Context.IsWorldReady && e.IsOneSecond && fishingRod != null))
                 return;
 
             if (Config.InfiniteBait && fishingRod.attachments?.Length > 0 && fishingRod.attachments[0] != null)
@@ -32,11 +36,19 @@ namespace FishingAssistant
             if (Game1.isFestival())
                 return;
 
-            int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].parentSheetIndex;
-            bool caughtDouble = Config.AlwaysCatchDoubleFish || (BarBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0);
+            if (BarPerfect)
+                sparkleText = new SparklingText(Game1.dialogueFont, Game1.content.LoadString("Strings\\UI:BobberBar_Perfect"), Color.Yellow, Color.White, rainbow: false, 0.1, 1500);
 
-            fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarTreasureCaught, BarPerfect, BarFromFishPond, caughtDouble);
-            Game1.exitActiveMenu();
+            if (bobberBar.readyToClose())
+            {
+                Game1.playSound("jingle1");
+
+                int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].parentSheetIndex;
+                bool caughtDouble = Config.AlwaysCatchDoubleFish || (!BarBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0);
+
+                fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarTreasureCaught, BarPerfect, BarFromFishPond, caughtDouble);
+                Game1.exitActiveMenu();
+            }
             Game1.setRichPresence("location", Game1.currentLocation.Name);
         }
 

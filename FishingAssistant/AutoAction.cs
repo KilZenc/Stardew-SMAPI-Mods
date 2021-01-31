@@ -2,6 +2,7 @@
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValley.Objects;
 using System.Collections.Generic;
 using System.Linq;
 using Object = StardewValley.Object;
@@ -105,50 +106,84 @@ namespace FishingAssistant
                 if (autoClosePopupDelay-- > 0)
                     return;
 
-                Game1.player.currentLocation.localSound("coin");
+                Farmer player = Game1.player;
 
+                player.currentLocation.localSound("coin");
                 if (!IsRodTreasureCaught)
                 {
-                    Game1.player.completelyStopAnimatingOrDoingAction();
-
-                    Object @object = new Object(RodWhichFish, 1, false, -1, RodFishQuality);
-                    if (RodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
-                        @object.questItem.Value = true;
-                    if (RodWhichFish == 79)
+                    Object item2 = null;
+                    if (RodItemCategory == "Object")
                     {
-                        @object = Game1.player.currentLocation.tryToCreateUnseenSecretNote(Game1.player);
-                        if (@object == null)
-                            return;
+                        item2 = new Object(RodWhichFish, 1, isRecipe: false, -1, RodFishQuality);
+                        if (RodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
+                        {
+                            item2.questItem.Value = true;
+                        }
+                        if (RodWhichFish == 79 || RodWhichFish == 842)
+                        {
+                            item2 = player.currentLocation.tryToCreateUnseenSecretNote(fishingRod.getLastFarmerToUse());
+                            if (item2 == null)
+                            {
+                                return;
+                            }
+                        }
+                        if (RodCaughtDoubleFish)
+                        {
+                            item2.Stack = 2;
+                        }
                     }
-                    if (RodCaughtDoubleFish)
-                        @object.Stack = 2;
-
-                    Game1.player.completelyStopAnimatingOrDoingAction();
-                    fishingRod.doneFishing(Game1.player, !RodFromFishPond);
-                    if (Game1.isFestival() || Game1.player.addItemToInventoryBool(@object, false))
-                        return;
-
-                    List<Item> objList = new List<Item>();
-                    objList.Add(@object);
-                    Game1.activeClickableMenu = new ItemGrabMenu(objList, null).setEssential(true);
+                    else if (RodItemCategory == "Furniture")
+                    {
+                        item2 = new Furniture(RodWhichFish, Vector2.Zero);
+                    }
+                    bool cachedFromFishPond = RodFromFishPond;
+                    fishingRod.getLastFarmerToUse().completelyStopAnimatingOrDoingAction();
+                    fishingRod.doneFishing(fishingRod.getLastFarmerToUse(), !cachedFromFishPond);
+                    if (!Game1.isFestival() && !cachedFromFishPond && RodItemCategory == "Object" && Game1.player.team.specialOrders != null)
+                    {
+                        foreach (SpecialOrder order2 in Game1.player.team.specialOrders)
+                        {
+                            if (order2.onFishCaught != null)
+                            {
+                                order2.onFishCaught(Game1.player, item2);
+                            }
+                        }
+                    }
+                    if (!Game1.isFestival() && !fishingRod.getLastFarmerToUse().addItemToInventoryBool(item2))
+                    {
+                        Game1.activeClickableMenu = new ItemGrabMenu(new List<Item> { item2 }, this).setEssential(essential: true);
+                    }
                 }
                 else
                 {
                     IsRodFishCaught = false;
                     IsRodShowingTreasure = true;
-                    Game1.player.UsingTool = true;
-                    int initialStack = 1;
+                    player.UsingTool = true;
+                    int stack = 1;
                     if (RodCaughtDoubleFish)
-                        initialStack = 2;
-                    bool inventoryBool = Game1.player.addItemToInventoryBool(new Object(RodWhichFish, initialStack, false, -1, RodFishQuality), false);
-                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, Game1.player.Position + new Vector2(-32f, -160f), false, false, (float)(Game1.player.getStandingY() / 10000.0 + 0.001), 0.0f, Color.White, 4f, 0.0f, 0.0f, 0.0f, false)
                     {
-                        motion = new Vector2(0.0f, -0.128f),
+                        stack = 2;
+                    }
+                    Object item = new Object(RodWhichFish, stack, isRecipe: false, -1, RodFishQuality);
+                    if (Game1.player.team.specialOrders != null)
+                    {
+                        foreach (SpecialOrder order in Game1.player.team.specialOrders)
+                        {
+                            if (order.onFishCaught != null)
+                            {
+                                order.onFishCaught(Game1.player, item);
+                            }
+                        }
+                    }
+                    bool hadroomForfish = fishingRod.getLastFarmerToUse().addItemToInventoryBool(item);
+                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, fishingRod.getLastFarmerToUse().Position + new Vector2(-32f, -160f), flicker: false, flipped: false, (float)fishingRod.getLastFarmerToUse().getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                    {
+                        motion = new Vector2(0f, -0.128f),
                         timeBasedMotion = true,
-                        endFunction = new TemporaryAnimatedSprite.endBehavior(fishingRod.openChestEndFunction),
-                        extraInfoForEndBehavior = inventoryBool ? 0 : 1,
-                        alpha = 0.0f,
-                        alphaFade = (-1.0f / 500.0f)
+                        endFunction = fishingRod.openChestEndFunction,
+                        extraInfoForEndBehavior = ((!hadroomForfish) ? 1 : 0),
+                        alpha = 0f,
+                        alphaFade = -0.002f
                     });
                 }
             }
@@ -160,12 +195,12 @@ namespace FishingAssistant
             if (!modEnable || Game1.isFestival())
                 return;
 
-            if (Game1.player.isInventoryFull())
+            /*if (Game1.player.isInventoryFull())
             {
                 modEnable = false;
                 Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
                 return;
-            }
+            }*/
 
             if (!(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
                 return;
@@ -192,8 +227,11 @@ namespace FishingAssistant
                         Item inventory = Game1.player.addItemToInventory(obj);
                         if (inventory != null)
                         {
-                            Game1.playSound("dwoop");
-                            Game1.createItemDebris(inventory, Game1.player.getStandingPosition(), Game1.player.facingDirection, null, -1);
+                            modEnable = false;
+                            Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
+                            return;
+                            //Game1.playSound("dwoop");
+                            //Game1.createItemDebris(inventory, Game1.player.getStandingPosition(), Game1.player.facingDirection, null, -1);
                         }
                         else
                             Game1.playSound("coin");

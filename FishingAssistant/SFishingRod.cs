@@ -178,6 +178,20 @@ namespace FishingAssistant
             }
         }
 
+        private string RodItemCategory
+        {
+            get
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                return Helper.Reflection.GetField<string>(fishingRod, FieldName.itemCategory, true).GetValue();
+            }
+            set
+            {
+                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
+                Helper.Reflection.GetField<string>(fishingRod, FieldName.itemCategory, true).SetValue(value);
+            }
+        }
+
         private float RodTimeUntilFishBite
         {
             get
