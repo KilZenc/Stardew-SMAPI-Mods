@@ -25,17 +25,17 @@ To further tweak the fishing mechanics, you need to edit the `Mod configuration 
 ## Remarks
 - This mod doesn't affect the achievements you can get through Steam, fished counts will still increment as normal when a fish is reeled.
 - The mod is designed to be compatible with the **Multiplayer/Coop mode** of the game. **This is still being tested**, May have problems playing the animation of the characters on other players.
-- Bug report are avialable at Nuxus mod page [link](https://www.nexusmods.com/stardewvalley/mods/5815?tab=bugs). Bug fixes are based upon availability, priority and problem level 
+- Bug report are available at Nthe exus mod page [link](https://www.nexusmods.com/stardewvalley/mods/5815?tab=bugs). Bug fixes are based upon availability, priority and problem level 
 
 ## Configuration
-The `configuration file` is located on the mod's folder under the StardewValley installation directory, and its automatically created the first time the Game is run with this mod installed.
+The `configuration file` is located on the mod's folder under the StardewValley installation directory, and it's automatically created the first time the game runs with this mod installed.
 
 ### EnableModButton 
 **Default value:** `F5`
 **Possible values:** See `Modding:Player Guide/Key Bindings` on Stardew valley wiki. [Here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings#Button_codes)
 
 ```
-A button for enable this mod, press again for disable.
+A button to enable this mod, press again for disable.
 ```
 
 ### CastPowerButton  
@@ -43,7 +43,7 @@ A button for enable this mod, press again for disable.
 **Possible values:** See `Modding:Player Guide/Key Bindings` on Stardew valley wiki. [Here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings#Button_codes)
 
 ```
-A button for force fishing ro cast power to max, press again for disable.
+A button for force fishing rod cast power to max, press again for disable.
 ```
 
 ### CatchTreasureButton   
@@ -51,7 +51,7 @@ A button for force fishing ro cast power to max, press again for disable.
 **Possible values:** See `Modding:Player Guide/Key Bindings` on Stardew valley wiki. [Here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings#Button_codes)
 
 ```
-A button for toggle catch or ignore treasure when treasure appeare.
+A button for toggle catch or ignore treasure when treasure appeared.
 ```
 
 ### ReloadConfigButton    
@@ -83,7 +83,7 @@ Causing you to find a treasure every time you fish.
 **Possible values:** `true | false`
 
 ```
-Fish will instantly bite when you throw fishing rod.
+Fish will instantly bite when you throw a fishing rod.
 ```
 
 ### InstantCatchFish       
@@ -155,7 +155,7 @@ Should mod show fish info while catching fish?
 **Possible values:** `"Top" | "UpperRight" | "UpperLeft" | "Bottom" | "LowerRight" | "LowerLeft"`
 
 ```
-Position to display fish info when playing fishing minigame.
+Position to display fish info when playing a fishing minigame.
 ```
 
 ### ShowFishName             
@@ -179,7 +179,7 @@ Show treasure icon with fish info.
 **Possible values:** `true | false`
 
 ```
-Show preview for all fish species, even ones you have never caught.
+Show a preview for all fish species, even ones you have never caught.
 ```
 
 ### AlwaysShowLegendaryFish                
@@ -187,7 +187,7 @@ Show preview for all fish species, even ones you have never caught.
 **Possible values:** `true | false`
 
 ```
-Show preview for legendary fish.
+Show a preview for legendary fish.
 ```
 
 ### PauseFishingTime                 
@@ -199,7 +199,7 @@ Time to stop fishing.
 ```
 
 ## Open-Source commitment
-This mod is **Open-Source**, that means its code is public, freely-available and covered by an open-source license.
+This mod is **Open-Source**, which means its code is public, freely-available, and covered by an open-source license.
 
 For more details about why OpenSourcing is important on StardewValley mods see the Open-Source Wiki entry on [Stardew Valley Wiki](https://stardewvalleywiki.com/Modding:Open_source).
 
