@@ -142,6 +142,14 @@ A value added to the fish difficulty.
 Make you catch double fish every time.
 ```
 
+### ModStatusDisplayPosition
+**Default value:** `Left`
+**Possible values:** `Left | Right`
+
+```
+Position of mod status info
+```
+
 ### DisplayFishInfo
 **Default value:** `true`
 **Possible values:** `true | false`
