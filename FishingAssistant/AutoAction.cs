@@ -195,13 +195,6 @@ namespace FishingAssistant
             if (!modEnable || Game1.isFestival())
                 return;
 
-            /*if (Game1.player.isInventoryFull())
-            {
-                modEnable = false;
-                Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
-                return;
-            }*/
-
             if (!(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
                 return;
 
@@ -230,8 +223,6 @@ namespace FishingAssistant
                             modEnable = false;
                             Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
                             return;
-                            //Game1.playSound("dwoop");
-                            //Game1.createItemDebris(inventory, Game1.player.getStandingPosition(), Game1.player.facingDirection, null, -1);
                         }
                         else
                             Game1.playSound("coin");

@@ -47,6 +47,9 @@ namespace FishingAssistant
         public bool AlwaysCatchDoubleFish { get; set; } = false;
 
         /// <summary>Position to display fish info when playing fishing minigame</summary>
+        public string ModStatusDisplayPosition { get; set; } = "Left";
+
+        /// <summary>Position to display fish info when playing fishing minigame</summary>
         public string FishDisplayPosition { get; set; } = "UpperRight";
 
         /// <summary>Show fish name with fish info</summary>

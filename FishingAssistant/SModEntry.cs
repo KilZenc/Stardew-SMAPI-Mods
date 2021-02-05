@@ -25,11 +25,11 @@ namespace FishingAssistant
         private ClickableTextureComponent maxCastIcon;
         private ClickableTextureComponent catchTreasureIcon;
 
-        public int startX = 10;
-        public int startY = 85;
-        public int xSpacing = 35;
-        public int ySpacing = 35;
-        public int alignTop = 0;
+        private int boxSize = 96;
+        private int iconSize = 40;
+        private int screenMargin = 8;
+        private int spacing = 2;
+        private int toolBarWidth = 0;
 
         private void Initialize(IModHelper helper)
         {
@@ -96,21 +96,27 @@ namespace FishingAssistant
                 case "Top":
                     displayOrder = new List<string>() { "Top", "UpperRight", "UpperLeft", "LowerRight" };
                     break;
+
                 case "UpperRight":
                     displayOrder = new List<string>() { "UpperRight", "UpperLeft", "LowerRight" };
                     break;
+
                 case "UpperLeft":
                     displayOrder = new List<string>() { "UpperLeft", "UpperRight", "LowerLeft" };
                     break;
+
                 case "Bottom":
                     displayOrder = new List<string>() { "Bottom", "LowerRight", "LowerLeft", "UpperRight" };
                     break;
+
                 case "LowerRight":
                     displayOrder = new List<string>() { "LowerRight", "LowerLeft", "UpperRight" };
                     break;
+
                 case "LowerLeft":
                     displayOrder = new List<string>() { "LowerLeft", "LowerRight", "UpperLeft" };
                     break;
+
                 default:
                     displayOrder = new List<string>() { "UpperRight", "UpperLeft", "LowerLeft" };
                     this.Monitor.Log($"Invalid config value {Config.FishDisplayPosition} for FishDisplayPosition. Valid entries include Top, Bottom, UpperRight, UpperLeft, LowerRight and LowerLeft.", LogLevel.Warn);
@@ -143,38 +149,83 @@ namespace FishingAssistant
             if (Game1.eventUp)
                 return;
 
-            /*bool alignTop = false;
+            bool alignTop = false;
             Point playerGlobalPos = Game1.player.GetBoundingBox().Center;
             Vector2 playerLocalVec = Game1.GlobalToLocal(globalPosition: new Vector2(playerGlobalPos.X, playerGlobalPos.Y), viewport: Game1.viewport);
+
+            float toolBarTransparency = 1;
+            for (int i = 0; i < Game1.onScreenMenus.Count; i++)
+            {
+                if (Game1.onScreenMenus[i] is Toolbar toolBar)
+                {
+                    toolBarTransparency = Helper.Reflection.GetField<float>(toolBar, "transparency", true).GetValue();
+                    toolBarWidth = toolBar.width / 2;
+                }
+            }
+
             if (!Game1.options.pinToolbarToggle)
                 alignTop = (playerLocalVec.Y > (float)(Game1.viewport.Height / 2 + 64));
 
+            var viewport = Game1.graphics.GraphicsDevice.Viewport;
+            int screenXPos = (int)viewport.Width / 2;
+            int screenYPos;
+
             if (alignTop)
-                this.alignTop = 0;
+                screenYPos = screenMargin;
             else
-                this.alignTop = Config.top;*/
+                screenYPos = (int)viewport.Height - screenMargin - boxSize;
 
-            if (modEnable)
+            int boxCenterY = screenYPos + boxSize / 2;
+            int boxCenterX = 0;
+            bool drawBox = false;
+
+            if (modEnable || maxCastPower || autoCatchTreasure)
             {
-                Rectangle Icon = new Rectangle(20, 428, 10, 10);
-                modEnableIcon = new ClickableTextureComponent(new Rectangle(startX, startY + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 2f);
-                modEnableIcon.draw(Game1.spriteBatch);
+                if (Game1.activeClickableMenu != null)
+                {
+                    IClickableMenu.drawTextureBox(Game1.spriteBatch, Game1.menuTexture, new Rectangle(0, 256, 60, 60), screenXPos - boxSize / 2, screenYPos, boxSize, boxSize, Color.White * toolBarTransparency, 1, drawShadow: false);
+                    boxCenterX = screenXPos;
+                }
+                else
+                {
+                    if (Config.ModStatusDisplayPosition == "Left")
+                    {
+                        IClickableMenu.drawTextureBox(Game1.spriteBatch, Game1.menuTexture, new Rectangle(0, 256, 60, 60), screenXPos - toolBarWidth - boxSize, screenYPos, boxSize, boxSize, Color.White * toolBarTransparency, drawShadow : false);
+                        boxCenterX = screenXPos - toolBarWidth - boxSize / 2;
+                    }
+                    else if (Config.ModStatusDisplayPosition == "Right")
+                    {
+                        IClickableMenu.drawTextureBox(Game1.spriteBatch, Game1.menuTexture, new Rectangle(0, 256, 60, 60), screenXPos + toolBarWidth, screenYPos, boxSize, boxSize, Color.White * toolBarTransparency, 1, drawShadow: false);
+                        boxCenterX = screenXPos + toolBarWidth + boxSize / 2;
+                    }
+                }
+                drawBox = true;
             }
 
-            if (maxCastPower)
-            {
-                Rectangle Icon = new Rectangle(545, 1921, 53, 19);
-                maxCastIcon = new ClickableTextureComponent(new Rectangle(startX, startY + ySpacing + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 1f);
-                maxCastIcon.draw(Game1.spriteBatch);
-            }
+            Rectangle Icon;
+            float iconTransparency = 1;
+            int x; int y;
 
-            if (autoCatchTreasure)
-            {
-                Rectangle Icon = new Rectangle(137, 412, 10, 11);
-                catchTreasureIcon = new ClickableTextureComponent(new Rectangle(startX + xSpacing, startY + this.alignTop, 40, 40), Game1.mouseCursors, Icon, 2f);
-                catchTreasureIcon.draw(Game1.spriteBatch);
-            }
+            iconTransparency = modEnable ? 1 : drawBox ? 0.2f : 0;
+            Icon = new Rectangle(20, 428, 10, 10);
+            x = boxCenterX - (boxSize / 4) - spacing;
+            y = boxCenterY - (boxSize / 4) - spacing;
+            modEnableIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 2f);
+            modEnableIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
+
+            iconTransparency = maxCastPower ? 1 : drawBox ? 0.2f : 0;
+            Icon = new Rectangle(545, 1921, 53, 19);
+            x = boxCenterX - (boxSize / 4);
+            y = boxCenterY + (boxSize / 4) - (iconSize / 2) + spacing;
+            maxCastIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 1f);
+            maxCastIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
+
+            iconTransparency = autoCatchTreasure ? 1 : drawBox ? 0.2f : 0;
+            Icon = new Rectangle(137, 412, 10, 11);
+            x = boxCenterX + (boxSize / 4) - (iconSize / 2) + spacing;
+            y = boxCenterY - (boxSize / 4) - spacing;
+            catchTreasureIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 2f);
+            catchTreasureIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
         }
-
     }
 }
