@@ -143,7 +143,7 @@ Make you catch double fish every time.
 ```
 
 ### DisplayFishInfo
-**Default value:** `false`
+**Default value:** `true`
 **Possible values:** `true | false`
 
 ```
