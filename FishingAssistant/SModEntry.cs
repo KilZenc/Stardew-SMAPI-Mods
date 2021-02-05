@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 using System.Collections.Generic;
 
 namespace FishingAssistant
@@ -55,13 +56,7 @@ namespace FishingAssistant
                 if (modEnable)
                 {
                     GetPlayerData();
-                    if (Game1.timeOfDay >= Config.PauseFishingTime)
-                    {
-                        modEnable = false;
-                        maxCastPower = false;
-                        autoCatchTreasure = false;
-                        Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
-                    }
+                    CheckCurrentTime();
                 }
 
                 Monitor.Log(string.Format("Mod enable {0}", modEnable), LogLevel.Info);
@@ -136,12 +131,31 @@ namespace FishingAssistant
             return inFishingMiniGame && bobberBar != null;
         }
 
+        private void CheckCurrentTime()
+        {
+            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable)
+            {
+                modEnable = false;
+                maxCastPower = false;
+                autoCatchTreasure = false;
+                Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
+            }
+        }
+
         private string ConvertTime(int currentTime)
         {
-            int time = currentTime;
-            string text = time >= 12 && time < 24 ? "PM" : "AM";
-            time = time > 12 && time <= 24 ? time -= 12 : time = time == 25 ? 1 : time;
-            return time + " " + text;
+            string sTime = currentTime.ToString();
+            if (sTime.Length == 3)
+                sTime = "0" + sTime;
+
+            string hour = sTime.Substring(0, 1) + sTime.Substring(1, 1);
+            string minute = sTime.Substring(2, 1) + sTime.Substring(3, 1);
+            hour = hour == "24" ? "00" : hour == "25" ? "01" : hour;
+
+            string formatedTime = string.Format("{0}:{1}", hour, minute);
+
+            DateTime parseTime = DateTime.Parse(formatedTime);
+            return parseTime.ToString("h:mm tt");
         }
 
         private void DrawIcon()
@@ -190,7 +204,7 @@ namespace FishingAssistant
                 {
                     if (Config.ModStatusDisplayPosition == "Left")
                     {
-                        IClickableMenu.drawTextureBox(Game1.spriteBatch, Game1.menuTexture, new Rectangle(0, 256, 60, 60), screenXPos - toolBarWidth - boxSize, screenYPos, boxSize, boxSize, Color.White * toolBarTransparency, drawShadow : false);
+                        IClickableMenu.drawTextureBox(Game1.spriteBatch, Game1.menuTexture, new Rectangle(0, 256, 60, 60), screenXPos - toolBarWidth - boxSize, screenYPos, boxSize, boxSize, Color.White * toolBarTransparency, drawShadow: false);
                         boxCenterX = screenXPos - toolBarWidth - boxSize / 2;
                     }
                     else if (Config.ModStatusDisplayPosition == "Right")

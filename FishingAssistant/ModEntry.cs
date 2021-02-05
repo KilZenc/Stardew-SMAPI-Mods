@@ -27,13 +27,7 @@ namespace FishingAssistant
         /// <summary>Raised after the in-game clock time changes.</summary>
         private void OnTimeChange(object sender, TimeChangedEventArgs e)
         {
-            if (e.NewTime >= Config.PauseFishingTime && modEnable)
-            {
-                modEnable = false;
-                maxCastPower = false;
-                autoCatchTreasure = false;
-                Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
-            }
+            CheckCurrentTime();
         }
 
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
