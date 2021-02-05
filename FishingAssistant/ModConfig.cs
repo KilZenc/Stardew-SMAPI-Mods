@@ -49,6 +49,9 @@ namespace FishingAssistant
         /// <summary>Position to display fish info when playing fishing minigame</summary>
         public string ModStatusDisplayPosition { get; set; } = "Left";
 
+        /// <summary>Should mod show fish info while catching fish?</summary>
+        public bool DisplayFishInfo { get; set; } = true;
+
         /// <summary>Position to display fish info when playing fishing minigame</summary>
         public string FishDisplayPosition { get; set; } = "UpperRight";
 

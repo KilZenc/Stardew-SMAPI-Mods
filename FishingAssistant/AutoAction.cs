@@ -11,38 +11,50 @@ namespace FishingAssistant
 {
     partial class ModEntry : Mod
     {
-        private int autoCastDelay = 30;
+        private int autoCastDelay = 60;
         private int autoClosePopupDelay = 30;
         private int autoLootDelay = 30;
 
         private float catchStep = 0;
         private bool catchingTreasure;
 
+        private enum ModState { Disable, Pause, Idle, Fishing, Loot}
+        private ModState modState;
+
         /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
         private void AutoCastFishingRod()
         {
             if (modEnable && CanCastFishingRod() && !Game1.isFestival())
             {
+                modState = ModState.Idle;
                 if (autoCastDelay-- > 0)
                     return;
+
+                autoCastDelay = 60;
+                modState = ModState.Fishing;
 
                 //prevent player from exhausted
                 if (Game1.player.stamina <= (8.0f + (Game1.player.fishingLevel * 0.1f)))
                 {
                     modEnable = false;
-                    Game1.addHUDMessage(new HUDMessage("Player Have Low Energy", 3));
+                    modState = ModState.Disable;
+                    Game1.playSound("coin");
+                    Game1.addHUDMessage(new HUDMessage("Player have low energy", 3));
                     return;
                 }
 
                 if (Game1.player.isInventoryFull())
                 {
                     modEnable = false;
-                    Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
+                    modState = ModState.Disable;
+                    Game1.playSound("coin");
+                    Game1.addHUDMessage(new HUDMessage("Player inventory is full", 3));
                     return;
                 }
 
                 Game1.player.faceDirection(playerFacingDirection);
                 fishingRod.beginUsing(Game1.currentLocation, playerStandingX, playerStandingY, Game1.player);
+                modState = ModState.Idle;
             }
         }
 
@@ -50,7 +62,7 @@ namespace FishingAssistant
         private void AutoHook()
         {
             //apply auto hook if mod enable
-            if (modEnable && IsRodBobberStillInAir)
+            if (modEnable && IsRodCasting)
                 autoHook = true;
 
             // auto hook fish when fish bite
@@ -66,6 +78,8 @@ namespace FishingAssistant
         {
             if (!modEnable)
                 return;
+
+            modState = ModState.Fishing;
 
             float fishPos = BarBobberPosition;
             float barPosMax = (568 - BarHeight / 2);
@@ -105,6 +119,9 @@ namespace FishingAssistant
             {
                 if (autoClosePopupDelay-- > 0)
                     return;
+
+                autoClosePopupDelay = 30;
+                modState = ModState.Fishing;
 
                 Farmer player = Game1.player;
 
@@ -186,6 +203,13 @@ namespace FishingAssistant
                         alphaFade = -0.002f
                     });
                 }
+
+                if (hasDisableRequest)
+                {
+                    hasDisableRequest = false;
+                    modEnable = false;
+                    modState = ModState.Disable;
+                }
             }
         }
 
@@ -203,8 +227,18 @@ namespace FishingAssistant
             if (autoLootDelay-- > 0)
                 return;
 
+            autoLootDelay = 30;
+            modState = ModState.Loot;
             if (actualInventory.Count == 0)
+            {
                 itemGrab.exitThisMenu(true);
+                if (hasDisableRequest)
+                {
+                    hasDisableRequest = false;
+                    modEnable = false;
+                    modState = ModState.Disable;
+                }
+            }
             else
             {
                 Item obj = ((IEnumerable<Item>)actualInventory).First();
@@ -221,7 +255,9 @@ namespace FishingAssistant
                         if (inventory != null)
                         {
                             modEnable = false;
-                            Game1.addHUDMessage(new HUDMessage("Player Inventory Full", 3));
+                            modState = ModState.Disable;
+                            Game1.playSound("coin");
+                            Game1.addHUDMessage(new HUDMessage("Player inventory is full", 3));
                             return;
                         }
                         else
@@ -230,6 +266,21 @@ namespace FishingAssistant
                 }
                 actualInventory.RemoveAt(0);
                 autoLootDelay = 10;
+            }
+        }
+
+        private void AutoStopFishingOnTime()
+        {
+            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable && (modState != ModState.Fishing || modState != ModState.Loot))
+            {
+                modEnable = false;
+                modState = ModState.Disable;
+
+                if (!Game1.IsMultiplayer)
+                    Game1.activeClickableMenu = new GameMenu();
+
+                Game1.playSound("coin");
+                Game1.addHUDMessage(new HUDMessage("Auto disable mod on " + ConvertTime(Game1.timeOfDay), 3));
             }
         }
     }

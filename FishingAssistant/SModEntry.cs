@@ -11,6 +11,7 @@ namespace FishingAssistant
     partial class ModEntry : Mod
     {
         private bool modEnable;
+        private bool hasDisableRequest;
 
         private int playerStandingX;
         private int playerStandingY;
@@ -44,22 +45,29 @@ namespace FishingAssistant
             helper.Events.Display.RenderingHud += OnRenderingHud;
             helper.Events.GameLoop.TimeChanged += OnTimeChange;
 
-            Monitor.Log("Initialized (press F5 to reload config)", LogLevel.Info);
+            Monitor.Log("Initialized (press F8 to reload config)", LogLevel.Info);
         }
 
         private void ToggleMod(ButtonPressedEventArgs e)
         {
             if (e.Button == Config.EnableModButton)
             {
+                if (modState == ModState.Fishing || modState == ModState.Loot)
+                {
+                    hasDisableRequest = true;
+                    Game1.playSound("coin");
+                    Game1.addHUDMessage(new HUDMessage("Mod will disable after task is finished", 2));
+                    return;
+                }
                 modEnable = !modEnable;
 
                 if (modEnable)
                 {
                     GetPlayerData();
-                    CheckCurrentTime();
+                    AutoStopFishingOnTime();
                 }
-
-                Monitor.Log(string.Format("Mod enable {0}", modEnable), LogLevel.Info);
+                else
+                    modState = ModState.Disable;
             }
         }
 
@@ -68,7 +76,6 @@ namespace FishingAssistant
             if (e.Button == Config.CastPowerButton)
             {
                 maxCastPower = !maxCastPower;
-                Monitor.Log(string.Format("Max cast power {0}", maxCastPower), LogLevel.Info);
             }
         }
 
@@ -77,7 +84,6 @@ namespace FishingAssistant
             if (e.Button == Config.CatchTreasureButton)
             {
                 autoCatchTreasure = !autoCatchTreasure;
-                Monitor.Log(string.Format("Catch treasure {0}", autoCatchTreasure), LogLevel.Info);
             }
         }
 
@@ -129,17 +135,6 @@ namespace FishingAssistant
         private bool IsFishingMiniGameReady()
         {
             return inFishingMiniGame && bobberBar != null;
-        }
-
-        private void CheckCurrentTime()
-        {
-            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable)
-            {
-                modEnable = false;
-                maxCastPower = false;
-                autoCatchTreasure = false;
-                Game1.addHUDMessage(new HUDMessage("Current time is " + ConvertTime(Game1.timeOfDay / 100), 3));
-            }
         }
 
         private string ConvertTime(int currentTime)

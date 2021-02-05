@@ -9,6 +9,7 @@ namespace FishingAssistant
     partial class ModEntry : Mod
     {
         private ModConfig Config;
+        private bool isPause;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
         public override void Entry(IModHelper helper)
@@ -27,7 +28,7 @@ namespace FishingAssistant
         /// <summary>Raised after the in-game clock time changes.</summary>
         private void OnTimeChange(object sender, TimeChangedEventArgs e)
         {
-            CheckCurrentTime();
+            AutoStopFishingOnTime();
         }
 
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
@@ -57,6 +58,13 @@ namespace FishingAssistant
             {
                 fishingRod = rod;
 
+                if (isPause)
+                {
+                    //Unpause mod status and get new player data
+                    isPause = false;
+                    GetPlayerData();
+                }
+
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
 
@@ -71,6 +79,15 @@ namespace FishingAssistant
 
                 //Auto close fish popup
                 AutoCloseFishPopup();
+            }
+            else
+            {
+                //Change mod status to pasue
+                isPause = true;
+                modState = ModState.Pause;
+                autoCastDelay = 60;
+                autoClosePopupDelay = 30;
+                autoLootDelay = 30;
             }
         }
 
@@ -148,9 +165,13 @@ namespace FishingAssistant
             inFishingMiniGame = false;
             isCatching = false;
             catchingTreasure = false;
-            autoCastDelay = 30;
-            autoClosePopupDelay = 30;
-            autoLootDelay = 30;
+
+            if (hasDisableRequest)
+            {
+                hasDisableRequest = false;
+                modEnable = false;
+                modState = ModState.Disable;
+            }
         }
     }
 }

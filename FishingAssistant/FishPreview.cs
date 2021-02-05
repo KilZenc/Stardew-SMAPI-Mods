@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewModdingAPI;
-using StardewModdingAPI.Events;
-using StardewModdingAPI.Utilities;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Tools;
+using System;
+using System.Collections.Generic;
 using Object = StardewValley.Object;
 
 namespace FishingAssistant
@@ -33,7 +31,7 @@ namespace FishingAssistant
 
         private void DrawFishInfo()
         {
-            if (Game1.player == null || !Game1.player.IsLocalPlayer)
+            if (Game1.player == null || !Game1.player.IsLocalPlayer || !Config.DisplayFishInfo)
                 return;
 
             if (Game1.activeClickableMenu is BobberBar bar && isCatching)
@@ -52,7 +50,6 @@ namespace FishingAssistant
                 DrawFishDisplay(displayOrder, bar);
             }
         }
-
 
         private void GetFishData(int newFishId)
         {
@@ -122,26 +119,32 @@ namespace FishingAssistant
                         x = bar.xPositionOnScreen + (bar.width / 2) - (boxwidth / 2) + xCenterOffset;
                         y = bar.yPositionOnScreen - boxheight + yTopOffset;
                         break;
+
                     case "UpperRight":
                         x = bar.xPositionOnScreen + bar.width + xRightOffset;
                         y = bar.yPositionOnScreen + yUpperOffset;
                         break;
+
                     case "UpperLeft":
                         x = bar.xPositionOnScreen - boxwidth + xLeftOffset;
                         y = bar.yPositionOnScreen + yUpperOffset;
                         break;
+
                     case "Bottom":
                         x = bar.xPositionOnScreen + (bar.width / 2) - (boxwidth / 2) + xCenterOffset;
                         y = bar.yPositionOnScreen + bar.height + yBottomOffset;
                         break;
+
                     case "LowerRight":
                         x = bar.xPositionOnScreen + bar.width + xRightOffset;
                         y = bar.yPositionOnScreen + bar.height - boxheight + yLowerOffset;
                         break;
+
                     case "LowerLeft":
                         x = bar.xPositionOnScreen - boxwidth + xLeftOffset;
                         y = bar.yPositionOnScreen + bar.height - boxheight + yLowerOffset;
                         break;
+
                     default:
                         // default to UpperRight position
                         x = bar.xPositionOnScreen + bar.width + xRightOffset;
@@ -165,27 +168,33 @@ namespace FishingAssistant
             // draw box of height and width at location
             IClickableMenu.drawTextureBox(Game1.spriteBatch, x, y, boxwidth, boxheight, Color.White);
 
-            // if showFish, center the fish x
+            //Calculate draw position for fish
+            Vector2 drawPos;
+            if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
+                drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2) - (treasureSpacing / 2) + treasureOffset, y + margin);
+            else
+                drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2), y + margin);
+
+            // if showFish, draw fish in normal color
             if (showFish)
             {
-                Vector2 drawPos;
-                if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
-                    drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2) - (treasureSpacing / 2) + treasureOffset, y + margin);
-                else
-                    drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2), y + margin);
-
                 fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
 
-                // if showFish and showText, center the text x below the fish
+                // if showText, center the text x below the fish
                 if (showText)
                     Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + spriteSize + margin), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
-            // else (if not showFish), center the text x&y
+            // else (if not showFish), draw fish in black color
             else
             {
-                Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + (boxheight / 2) - ((int)textSize.Y / 2)), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide, Color.Black * 0.75f, true);
+
+                // if showText, center the text x below the fish
+                if (showText)
+                    Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + spriteSize + margin), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
 
+            // if show treasure draw treasure with fish icon
             if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
             {
                 treasureSprite = new Object(693, 1);
