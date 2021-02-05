@@ -25,7 +25,7 @@ To further tweak the fishing mechanics, you need to edit the `Mod configuration 
 ## Remarks
 - This mod doesn't affect the achievements you can get through Steam, fished counts will still increment as normal when a fish is reeled.
 - The mod is designed to be compatible with the **Multiplayer/Coop mode** of the game. **This is still being tested**, May have problems playing the animation of the characters on other players.
-- Bug report are available at Nthe exus mod page [link](https://www.nexusmods.com/stardewvalley/mods/5815?tab=bugs). Bug fixes are based upon availability, priority and problem level 
+- Bug report are available at the Nexus mod page [link](https://www.nexusmods.com/stardewvalley/mods/5815?tab=bugs). Bug fixes are based upon availability, priority and problem level 
 
 ## Configuration
 The `configuration file` is located on the mod's folder under the StardewValley installation directory, and it's automatically created the first time the game runs with this mod installed.
@@ -99,7 +99,7 @@ Instantly catch fish when fish hooked.
 **Possible values:** `true | false`
 
 ```
-Instantly catch treasure when treasure appeare.
+Instantly catch treasure when treasure appeared.
 ```
 
 ### InfiniteTackle         
