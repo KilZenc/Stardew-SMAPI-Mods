@@ -139,7 +139,15 @@ A value added to the fish difficulty.
 **Possible values:** `true | false`
 
 ```
-Make you catch double fish every time
+Make you catch double fish every time.
+```
+
+### DisplayFishInfo
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Should mod show fish info while catching fish?
 ```
 
 ### FishDisplayPosition             
