@@ -1,9 +1,6 @@
 ## Fishing Assistant
 Simple ```Stardew Valley Mod``` which allows you to ```automatically catching fish``` and customize fishing mechanics by making it easier or harder even cheating it. this mod comes with additional features like fish and treasure preview, auto-stop fishing at night or low stamina, and more to come.
 
-## Requirements
-[SMAPI - Stardew Modding API](https://www.nexusmods.com/stardewvalley/mods/2400)
-
 ## Feature
 List of currently available mod features
 - Automation mode (cast fishing rod, hook fish, play mini-games, loot treasure).
@@ -11,6 +8,24 @@ List of currently available mod features
 - Auto-stop fishing at night (time can be changed in the config file).
 - Preview current fish and show you if this round has a treasure.
 - Configurable cheat in a config file.
+
+## Requirements
+SMAPI - Stardew Modding API. [SMAPI Homepage](https://smapi.io/) | [Nexus](https://www.nexusmods.com/stardewvalley/mods/2400)
+
+## Installation
+
+- Decompress the downloaded zip file.
+- Move the `FishingAssistant` folder to the `Mods` directory of your StardewValley installation. If you dont have a `Mods` directory, please ensure you have already downloaded and installed **SMAPI** from the [SMAPI Homepage](https://smapi.io/)| [Nexus](https://www.nexusmods.com/stardewvalley/mods/2400) and have launched the game at least once after its installation.
+
+## Usage
+When first run, the mod includes a default configuration that disable all cheat. You can enable this mod in-game by pressing `F5` button on keyboard. Force cast power to max by pressing `F6` button on keyboard. Catch or ignore treasure by pressing `F7` button on keyboard and reload the new configuration value by pressing `F8` button on keyboard.
+
+To further tweak the fishing mechanics, you need to edit the `Mod configuration file` located in the `mod's` directory. This file is created automatically once the game has been launched at least once with the mod installed. Please refer to the **Configuration** section for details on how to further tweak the mod.
+
+## Remarks
+- This mod doesn't affect the achievements you can get through Steam, fished counts will still increment as normal when a fish is reeled.
+- The mod is designed to be compatible with the **Multiplayer/Coop mode** of the game. **This is still being tested**, May have problems playing the animation of the characters on other players.
+- Bug report are avialable at Nuxus mod page [link](https://www.nexusmods.com/stardewvalley/mods/5815?tab=bugs). Bug fixes are based upon availability, priority and problem level 
 
 ## Configuration
 The `configuration file` is located on the mod's folder under the StardewValley installation directory, and its automatically created the first time the Game is run with this mod installed.
