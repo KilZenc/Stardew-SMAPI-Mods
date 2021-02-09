@@ -31,7 +31,7 @@ namespace FishingAssistant
             AutoStopFishingOnTime();
         }
 
-        /// <summary>Raised before the game ends the current day. 
+        /// <summary>Raised before the game ends the current day.
         /// This happens before it starts setting up the next day and before StardewModdingAPI.Events.IGameLoopEvents.Saving.</summary>
         private void OnDayEnded(object sender, DayEndingEventArgs e)
         {

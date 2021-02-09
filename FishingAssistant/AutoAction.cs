@@ -18,7 +18,8 @@ namespace FishingAssistant
         private float treasureCatchStep = 0;
         private bool catchingTreasure;
 
-        private enum ModState { Disable, Pause, Idle, Fishing, Loot}
+        private enum ModState { Disable, Pause, Idle, Fishing, Loot }
+
         private ModState modState;
 
         /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
@@ -82,7 +83,7 @@ namespace FishingAssistant
             modState = ModState.Fishing;
 
             float fishPos = BarBobberPosition;
-            float barPosMax = (568 - BarHeight / 2);
+            float barPosMax = 568 - (BarHeight / 2);
             float barPosMin = (BarHeight / 2);
 
             if (BarDistanceFromCatching >= 1.0f)
@@ -102,14 +103,13 @@ namespace FishingAssistant
                 catchingTreasure = false;
                 fishPos = BarBobberPosition;
             }
-            fishPos += 20.0f;//center sprite
 
             if (fishPos < barPosMin)
                 fishPos = barPosMin;
             else if (fishPos > barPosMax)
                 fishPos = barPosMax;
 
-            BarPosition = fishPos - (BarHeight / 2);
+            BarPosition = fishPos - (BarHeight / 2) + 25;
         }
 
         /// <summary>Auto close fish popup when fishing minigame finish</summary>
@@ -280,7 +280,7 @@ namespace FishingAssistant
 
                 if (!Game1.IsMultiplayer)
                     Game1.activeClickableMenu = new GameMenu();
-           }
+            }
         }
     }
 }
