@@ -40,7 +40,7 @@ namespace FishingAssistant
                     modEnable = false;
                     modState = ModState.Disable;
                     Game1.playSound("coin");
-                    Game1.addHUDMessage(new HUDMessage("Player have low energy", 3));
+                    AddHUDMessage(3, KeyHelper.hud_message_low_stamina);
                     return;
                 }
 
@@ -49,7 +49,7 @@ namespace FishingAssistant
                     modEnable = false;
                     modState = ModState.Disable;
                     Game1.playSound("coin");
-                    Game1.addHUDMessage(new HUDMessage("Player inventory is full", 3));
+                    AddHUDMessage(3, KeyHelper.hud_message_inventory_full);
                     return;
                 }
 
@@ -257,7 +257,7 @@ namespace FishingAssistant
                             modEnable = false;
                             modState = ModState.Disable;
                             Game1.playSound("coin");
-                            Game1.addHUDMessage(new HUDMessage("Player inventory is full", 3));
+                            AddHUDMessage(3, KeyHelper.hud_message_inventory_full);
                             return;
                         }
                         else
@@ -274,7 +274,7 @@ namespace FishingAssistant
             if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable && !isForceEnable)
             {
                 Game1.playSound("coin");
-                Game1.addHUDMessage(new HUDMessage("Auto disable mod on " + ConvertTime(Game1.timeOfDay), 3));
+                AddHUDMessage(3, KeyHelper.hud_message_auto_disable, ConvertTime(Game1.timeOfDay));
 
                 ToggleMod();
 

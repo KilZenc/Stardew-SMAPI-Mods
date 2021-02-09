@@ -141,12 +141,12 @@ namespace FishingAssistant
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<bool>(fishingRod, FieldName.caughtDoubleFish, true).GetValue();
+                return Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.caughtDoubleFish, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<bool>(fishingRod, FieldName.caughtDoubleFish, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.caughtDoubleFish, true).SetValue(value);
             }
         }
 
@@ -155,12 +155,12 @@ namespace FishingAssistant
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, FieldName.fishQuality, true).GetValue();
+                return Helper.Reflection.GetField<int>(fishingRod, KeyHelper.fishQuality, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, FieldName.fishQuality, true).SetValue(value);
+                Helper.Reflection.GetField<int>(fishingRod, KeyHelper.fishQuality, true).SetValue(value);
             }
         }
 
@@ -169,12 +169,12 @@ namespace FishingAssistant
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<bool>(fishingRod, FieldName.fromFishPond, true).GetValue();
+                return Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.fromFishPond, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<bool>(fishingRod, FieldName.fromFishPond, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.fromFishPond, true).SetValue(value);
             }
         }
 
@@ -183,12 +183,12 @@ namespace FishingAssistant
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<string>(fishingRod, FieldName.itemCategory, true).GetValue();
+                return Helper.Reflection.GetField<string>(fishingRod, KeyHelper.itemCategory, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<string>(fishingRod, FieldName.itemCategory, true).SetValue(value);
+                Helper.Reflection.GetField<string>(fishingRod, KeyHelper.itemCategory, true).SetValue(value);
             }
         }
 
@@ -211,12 +211,12 @@ namespace FishingAssistant
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, FieldName.whichFish, true).GetValue();
+                return Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, FieldName.whichFish, true).SetValue(value);
+                Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).SetValue(value);
             }
         }
 

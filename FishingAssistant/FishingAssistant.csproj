@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheatAction.cs" />
-    <Compile Include="FieldName.cs" />
+    <Compile Include="KeyHelper.cs" />
     <Compile Include="FishPreview.cs" />
     <Compile Include="SBobberBar.cs" />
     <Compile Include="SFishingRod.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="SModEntry.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="i18n\default.json" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace FishingAssistant
     partial class ModEntry : Mod
     {
         private ModConfig Config;
+        private ITranslationHelper translationHelper;
         private bool isPause;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
@@ -33,9 +34,11 @@ namespace FishingAssistant
 
         /// <summary>Raised before the game ends the current day.
         /// This happens before it starts setting up the next day and before StardewModdingAPI.Events.IGameLoopEvents.Saving.</summary>
-        private void OnDayEnded(object sender, DayEndingEventArgs e)
+        private void OnDayStarted(object sender, DayStartedEventArgs e)
         {
-            if (isForceEnable) isForceEnable = false;
+            isForceEnable = false;
+            hasEnableRequest = false;
+            hasDisableRequest = false;
         }
 
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>

@@ -15,12 +15,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.bobberPosition, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.bobberPosition, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.bobberPosition, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.bobberPosition, true).SetValue(value);
             }
         }
 
@@ -29,12 +29,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.bossFish, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.bossFish, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.bossFish, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.bossFish, true).SetValue(value);
             }
         }
 
@@ -43,12 +43,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.difficulty, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.difficulty, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.difficulty, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.difficulty, true).SetValue(value);
             }
         }
 
@@ -57,12 +57,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.distanceFromCatching, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.distanceFromCatching, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.distanceFromCatching, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.distanceFromCatching, true).SetValue(value);
             }
         }
 
@@ -71,12 +71,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.fadeOut, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.fadeOut, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.fadeOut, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.fadeOut, true).SetValue(value);
             }
         }
 
@@ -85,12 +85,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<int>(bobberBar, FieldName.fishQuality, true).GetValue();
+                return Helper.Reflection.GetField<int>(bobberBar, KeyHelper.fishQuality, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<int>(bobberBar, FieldName.fishQuality, true).SetValue(value);
+                Helper.Reflection.GetField<int>(bobberBar, KeyHelper.fishQuality, true).SetValue(value);
             }
         }
 
@@ -99,12 +99,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<int>(bobberBar, FieldName.fishSize, true).GetValue();
+                return Helper.Reflection.GetField<int>(bobberBar, KeyHelper.fishSize, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<int>(bobberBar, FieldName.fishSize, true).SetValue(value);
+                Helper.Reflection.GetField<int>(bobberBar, KeyHelper.fishSize, true).SetValue(value);
             }
         }
 
@@ -113,12 +113,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.fromFishPond, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.fromFishPond, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.fromFishPond, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.fromFishPond, true).SetValue(value);
             }
         }
 
@@ -127,12 +127,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.treasure, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.treasure, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.treasure, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.treasure, true).SetValue(value);
             }
         }
 
@@ -141,12 +141,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<int>(bobberBar, FieldName.bobberBarHeight, true).GetValue();
+                return Helper.Reflection.GetField<int>(bobberBar, KeyHelper.bobberBarHeight, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<int>(bobberBar, FieldName.bobberBarHeight, true).SetValue(value);
+                Helper.Reflection.GetField<int>(bobberBar, KeyHelper.bobberBarHeight, true).SetValue(value);
             }
         }
 
@@ -155,12 +155,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.perfect, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.perfect, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.perfect, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.perfect, true).SetValue(value);
             }
         }
 
@@ -169,12 +169,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.bobberBarPos, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.bobberBarPos, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.bobberBarPos, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.bobberBarPos, true).SetValue(value);
             }
         }
 
@@ -183,12 +183,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.treasureCatchLevel, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.treasureCatchLevel, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.treasureCatchLevel, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.treasureCatchLevel, true).SetValue(value);
             }
         }
 
@@ -197,12 +197,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<bool>(bobberBar, FieldName.treasureCaught, true).GetValue();
+                return Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.treasureCaught, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<bool>(bobberBar, FieldName.treasureCaught, true).SetValue(value);
+                Helper.Reflection.GetField<bool>(bobberBar, KeyHelper.treasureCaught, true).SetValue(value);
             }
         }
 
@@ -211,12 +211,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<float>(bobberBar, FieldName.treasurePosition, true).GetValue();
+                return Helper.Reflection.GetField<float>(bobberBar, KeyHelper.treasurePosition, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<float>(bobberBar, FieldName.treasurePosition, true).SetValue(value);
+                Helper.Reflection.GetField<float>(bobberBar, KeyHelper.treasurePosition, true).SetValue(value);
             }
         }
 
@@ -225,7 +225,7 @@ namespace FishingAssistant
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<Vector2>(bobberBar, FieldName.treasureShake, true).SetValue(value);
+                Helper.Reflection.GetField<Vector2>(bobberBar, KeyHelper.treasureShake, true).SetValue(value);
             }
         }
 
@@ -234,12 +234,12 @@ namespace FishingAssistant
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<int>(bobberBar, FieldName.whichFish, true).GetValue();
+                return Helper.Reflection.GetField<int>(bobberBar, KeyHelper.whichFish, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<int>(bobberBar, FieldName.whichFish, true).SetValue(value);
+                Helper.Reflection.GetField<int>(bobberBar, KeyHelper.whichFish, true).SetValue(value);
             }
         }
 

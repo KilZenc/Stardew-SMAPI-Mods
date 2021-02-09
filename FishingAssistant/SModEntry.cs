@@ -4,6 +4,7 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace FishingAssistant
@@ -35,9 +36,14 @@ namespace FishingAssistant
         private int spacing = 2;
         private int toolBarWidth = 0;
 
+
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
+            translationHelper = helper.Translation;
+
+            if (!translationHelper.GetTranslations().Any())
+                Monitor.Log("There was an error in locating translation files. Please try re-installing this mod to fix this.", LogLevel.Error);
 
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
@@ -46,7 +52,7 @@ namespace FishingAssistant
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.Display.RenderingHud += OnRenderingHud;
             helper.Events.GameLoop.TimeChanged += OnTimeChange;
-            helper.Events.GameLoop.DayEnding += OnDayEnded;
+            helper.Events.GameLoop.DayStarted += OnDayStarted;
 
             Monitor.Log("Initialized (press F8 to reload config)", LogLevel.Info);
         }
@@ -59,27 +65,33 @@ namespace FishingAssistant
 
         private void ToggleMod()
         {
-            if (modState == ModState.Fishing || modState == ModState.Loot)
+            if (modEnable)
             {
-                hasDisableRequest = true;
-                Game1.playSound("coin");
-                Game1.addHUDMessage(new HUDMessage("Mod will disable after task is finished", 2));
-                return;
-            }
-
-            if (!modEnable && Game1.timeOfDay >= Config.PauseFishingTime)
-            {
-                if (hasEnableRequest)
+                isForceEnable = false;
+                if (modState == ModState.Fishing || modState == ModState.Loot)
                 {
-                    hasEnableRequest = false;
-                    isForceEnable = true;
-                }
-                else
-                {
-                    hasEnableRequest = true;
+                    hasDisableRequest = true;
                     Game1.playSound("coin");
-                    Game1.addHUDMessage(new HUDMessage(string.Format("Pressed {0} again to force enable.", Config.EnableModButton.ToString()), 2));
+                    AddHUDMessage(2, KeyHelper.hud_message_request_disable);
                     return;
+                }
+            }
+            else
+            {
+                if (Game1.timeOfDay >= Config.PauseFishingTime)
+                {
+                    if (hasEnableRequest)
+                    {
+                        hasEnableRequest = false;
+                        isForceEnable = true;
+                    }
+                    else
+                    {
+                        hasEnableRequest = true;
+                        Game1.playSound("coin");
+                        AddHUDMessage(2, KeyHelper.hud_message_force_enable, Config.EnableModButton.ToString());
+                        return;
+                    }
                 }
             }
 
@@ -87,8 +99,8 @@ namespace FishingAssistant
 
             if (Game1.isFestival())
             {
-                string status = modEnable ? "Enable" : "Disable";
-                Game1.addHUDMessage(new HUDMessage(status + " Fishing Assistant", 2));
+                string status = modEnable ? TranslatedString(KeyHelper.mod_status_enable) : TranslatedString(KeyHelper.mod_status_disable);
+                AddHUDMessage(2, KeyHelper.hud_message_mod_toggle, status);
             }
 
             if (modEnable) GetPlayerData();
@@ -100,8 +112,8 @@ namespace FishingAssistant
             if (e.Button == Config.CastPowerButton)
             {
                 maxCastPower = !maxCastPower;
-                if (Game1.isFestival())
-                    Game1.addHUDMessage(new HUDMessage("Max cast power is set to " + maxCastPower, 2));
+                if (Game1.isFestival()) 
+                    AddHUDMessage(2, KeyHelper.hud_message_cast_power, maxCastPower);
             }
         }
 
@@ -110,8 +122,8 @@ namespace FishingAssistant
             if (e.Button == Config.CatchTreasureButton)
             {
                 autoCatchTreasure = !autoCatchTreasure;
-                if (Game1.isFestival())
-                    Game1.addHUDMessage(new HUDMessage("Catch treasure is set to " + autoCatchTreasure, 2));
+                if (Game1.isFestival()) 
+                    AddHUDMessage(2, KeyHelper.hud_message_catch_treasure, autoCatchTreasure);
             }
         }
 
@@ -179,6 +191,16 @@ namespace FishingAssistant
 
             DateTime parseTime = DateTime.Parse(formatedTime);
             return parseTime.ToString("h:mm tt");
+        }
+
+        private void AddHUDMessage(int whatType, string key, params object[] args)
+        {
+            Game1.addHUDMessage(new HUDMessage(TranslatedString(key, args), whatType));
+        }
+
+        private string TranslatedString(string key, params object[] args)
+        {
+            return string.Format(translationHelper.Get(key), args);
         }
 
         private void DrawIcon()

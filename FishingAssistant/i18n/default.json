@@ -1,0 +1,15 @@
+﻿{
+	//General
+		"mod_status_enable" : "Enable",
+		"mod_status_disable" : "Disable",
+
+	//HUD messages
+		"hud_message_mod_toggle" : "{0} Fishing Assistant",
+		"hud_message_request_disable" : "Mod will disable after task is finished",
+		"hud_message_force_enable" : "Pressed {0} again to force enable",
+		"hud_message_cast_power" : "Max cast power is set to {0}",
+		"hud_message_catch_treasure" : "Catch treasure is set to  {0}",
+		"hud_message_low_stamina" : "Player have low energy",
+		"hud_message_inventory_full" : "Player inventory is full",
+		"hud_message_auto_disable" : "Auto disable mod on {0}",
+}
