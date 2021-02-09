@@ -15,7 +15,7 @@ namespace FishingAssistant
         private int autoClosePopupDelay = 30;
         private int autoLootDelay = 30;
 
-        private float catchStep = 0;
+        private float treasureCatchStep = 0;
         private bool catchingTreasure;
 
         private enum ModState { Disable, Pause, Idle, Fishing, Loot}

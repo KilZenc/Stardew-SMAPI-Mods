@@ -13,7 +13,7 @@ namespace FishingAssistant
     partial class ModEntry : Mod
     {
         private bool isCatching = false;
-        private int fishId = 0;
+        private int fishPreviewFishId = 0;
         private Object fishSprite;
         private Object treasureSprite;
         private bool showFish;
@@ -53,19 +53,19 @@ namespace FishingAssistant
 
         private void GetFishData(int newFishId)
         {
-            if (newFishId != fishId) // catching a new fish OR the fish species has changed mid-cast
+            if (newFishId != fishPreviewFishId) // catching a new fish OR the fish species has changed mid-cast
             {
-                fishId = newFishId;
-                Monitor.Log($"Currently catching: {fishId}", LogLevel.Trace);
+                fishPreviewFishId = newFishId;
+                Monitor.Log($"Currently catching: {fishPreviewFishId}", LogLevel.Trace);
 
                 // save fish object to use in drawing // check for errors?
-                fishSprite = new Object(fishId, 1);
+                fishSprite = new Object(fishPreviewFishId, 1);
 
                 // determine if species has been caught before
-                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(fishId) && Game1.player.fishCaught[fishId][0] > 0;
+                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(fishPreviewFishId) && Game1.player.fishCaught[fishPreviewFishId][0] > 0;
 
                 // is it a legendary fish?
-                bool isLegendary = Helper.Reflection.GetMethod(typeof(FishingRod), "isFishBossFish").Invoke<bool>(fishId);
+                bool isLegendary = Helper.Reflection.GetMethod(typeof(FishingRod), "isFishBossFish").Invoke<bool>(fishPreviewFishId);
                 Monitor.Log($"Catching legendary fish? {isLegendary}", LogLevel.Trace);
 
                 // determine value of showFish value

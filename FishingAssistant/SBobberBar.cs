@@ -246,17 +246,17 @@ namespace FishingAssistant
         /// <summary>Temporarily mothod for handle treasure catch error</summary>
         private void HandleTreasureCatchError()
         {
-            catchStep = BarTreasureCatchLevel;
+            treasureCatchStep = BarTreasureCatchLevel;
             Vector2 shakeValue = new Vector2(Game1.random.Next(-2, 3), Game1.random.Next(-2, 3));
 
-            BarTreasureCatchLevel = catchStep + 0.0135f * 2;
+            BarTreasureCatchLevel = treasureCatchStep + 0.0135f * 2;
             BarTreasureShake = shakeValue;
 
             if (BarTreasureCatchLevel >= 1.0)
             {
                 Game1.playSound("newArtifact");
                 BarTreasureCaught = true;
-                catchStep = 0;
+                treasureCatchStep = 0;
             }
         }
 

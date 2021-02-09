@@ -165,11 +165,6 @@ namespace FishingAssistant
             return inFishingMiniGame && bobberBar != null;
         }
 
-        private bool IsModOnTask()
-        {
-            return this.modState == ModState.Fishing || this.modState == ModState.Loot;
-        }
-
         private string ConvertTime(int currentTime)
         {
             string sTime = currentTime.ToString();
