@@ -12,6 +12,8 @@ namespace FishingAssistant
     {
         private bool modEnable;
         private bool hasDisableRequest;
+        private bool hasEnableRequest;
+        private bool isForceEnable;
 
         private int playerStandingX;
         private int playerStandingY;
@@ -44,46 +46,72 @@ namespace FishingAssistant
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.Display.RenderingHud += OnRenderingHud;
             helper.Events.GameLoop.TimeChanged += OnTimeChange;
+            helper.Events.GameLoop.DayEnding += OnDayEnded;
 
             Monitor.Log("Initialized (press F8 to reload config)", LogLevel.Info);
         }
 
-        private void ToggleMod(ButtonPressedEventArgs e)
+        private void OnEnableModButtonPressed(ButtonPressedEventArgs e)
         {
             if (e.Button == Config.EnableModButton)
-            {
-                if (modState == ModState.Fishing || modState == ModState.Loot)
-                {
-                    hasDisableRequest = true;
-                    Game1.playSound("coin");
-                    Game1.addHUDMessage(new HUDMessage("Mod will disable after task is finished", 2));
-                    return;
-                }
-                modEnable = !modEnable;
-
-                if (modEnable)
-                {
-                    GetPlayerData();
-                    AutoStopFishingOnTime();
-                }
-                else
-                    modState = ModState.Disable;
-            }
+                ToggleMod();
         }
 
-        private void ToggleMaxCastPower(ButtonPressedEventArgs e)
+        private void ToggleMod()
+        {
+            if (modState == ModState.Fishing || modState == ModState.Loot)
+            {
+                hasDisableRequest = true;
+                Game1.playSound("coin");
+                Game1.addHUDMessage(new HUDMessage("Mod will disable after task is finished", 2));
+                return;
+            }
+
+            if (!modEnable && Game1.timeOfDay >= Config.PauseFishingTime)
+            {
+                if (hasEnableRequest)
+                {
+                    hasEnableRequest = false;
+                    isForceEnable = true;
+                }
+                else
+                {
+                    hasEnableRequest = true;
+                    Game1.playSound("coin");
+                    Game1.addHUDMessage(new HUDMessage(string.Format("Pressed {0} again to force enable.", Config.EnableModButton.ToString()), 2));
+                    return;
+                }
+            }
+
+            modEnable = isForceEnable || !modEnable;
+
+            if (Game1.isFestival())
+            {
+                string status = modEnable ? "Enable" : "Disable";
+                Game1.addHUDMessage(new HUDMessage(status + " Fishing Assistant", 2));
+            }
+
+            if (modEnable) GetPlayerData();
+            else modState = ModState.Disable;
+        }
+
+        private void OnCastPowerButtonPressed(ButtonPressedEventArgs e)
         {
             if (e.Button == Config.CastPowerButton)
             {
                 maxCastPower = !maxCastPower;
+                if (Game1.isFestival())
+                    Game1.addHUDMessage(new HUDMessage("Max cast power is set to " + maxCastPower, 2));
             }
         }
 
-        private void ToggleCatchTreasure(ButtonPressedEventArgs e)
+        private void OnCatchTreasureButtonPressed(ButtonPressedEventArgs e)
         {
             if (e.Button == Config.CatchTreasureButton)
             {
                 autoCatchTreasure = !autoCatchTreasure;
+                if (Game1.isFestival())
+                    Game1.addHUDMessage(new HUDMessage("Catch treasure is set to " + autoCatchTreasure, 2));
             }
         }
 
@@ -135,6 +163,11 @@ namespace FishingAssistant
         private bool IsFishingMiniGameReady()
         {
             return inFishingMiniGame && bobberBar != null;
+        }
+
+        private bool IsModOnTask()
+        {
+            return this.modState == ModState.Fishing || this.modState == ModState.Loot;
         }
 
         private string ConvertTime(int currentTime)

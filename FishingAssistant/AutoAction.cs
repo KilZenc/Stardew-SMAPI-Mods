@@ -271,17 +271,16 @@ namespace FishingAssistant
 
         private void AutoStopFishingOnTime()
         {
-            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable && (modState != ModState.Fishing || modState != ModState.Loot))
+            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable && !isForceEnable)
             {
-                modEnable = false;
-                modState = ModState.Disable;
+                Game1.playSound("coin");
+                Game1.addHUDMessage(new HUDMessage("Auto disable mod on " + ConvertTime(Game1.timeOfDay), 3));
+
+                ToggleMod();
 
                 if (!Game1.IsMultiplayer)
                     Game1.activeClickableMenu = new GameMenu();
-
-                Game1.playSound("coin");
-                Game1.addHUDMessage(new HUDMessage("Auto disable mod on " + ConvertTime(Game1.timeOfDay), 3));
-            }
+           }
         }
     }
 }

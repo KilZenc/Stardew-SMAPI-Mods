@@ -31,6 +31,13 @@ namespace FishingAssistant
             AutoStopFishingOnTime();
         }
 
+        /// <summary>Raised before the game ends the current day. 
+        /// This happens before it starts setting up the next day and before StardewModdingAPI.Events.IGameLoopEvents.Saving.</summary>
+        private void OnDayEnded(object sender, DayEndingEventArgs e)
+        {
+            if (isForceEnable) isForceEnable = false;
+        }
+
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
@@ -126,13 +133,13 @@ namespace FishingAssistant
         private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
             //Enable or disable mod
-            ToggleMod(e);
+            OnEnableModButtonPressed(e);
 
             //Toggle cast power to max or free
-            ToggleMaxCastPower(e);
+            OnCastPowerButtonPressed(e);
 
             //Toggle catch or ignore treasure when play fishing minigame
-            ToggleCatchTreasure(e);
+            OnCatchTreasureButtonPressed(e);
 
             //Reload new config
             if (e.Button == Config.ReloadConfigButton)
