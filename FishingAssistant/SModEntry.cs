@@ -203,39 +203,44 @@ namespace FishingAssistant
             return string.Format(translationHelper.Get(key), args);
         }
 
-        private void DrawIcon()
+        private void DrawModStatus()
         {
-            if (Game1.eventUp)
-                return;
+            if (Game1.eventUp) return;
 
-            bool alignTop = false;
-            Point playerGlobalPos = Game1.player.GetBoundingBox().Center;
-            Vector2 playerLocalVec = Game1.GlobalToLocal(globalPosition: new Vector2(playerGlobalPos.X, playerGlobalPos.Y), viewport: Game1.viewport);
+            CalculateModPosition(out float toolBarTransparency, out int screenXPos, out int screenYPos, out int boxCenterY, out int boxCenterX);
 
-            float toolBarTransparency = 1;
-            for (int i = 0; i < Game1.onScreenMenus.Count; i++)
+            bool drawBox = DrawModStatusBox(toolBarTransparency, screenXPos, screenYPos, ref boxCenterX);
+
+            DrawStatusIcon(toolBarTransparency, boxCenterY, boxCenterX, drawBox);
+        }
+
+        private void DrawStatusIcon(float toolBarTransparency, int boxCenterY, int boxCenterX, bool drawBox)
+        {
+            DrawIcon(modEnable, new Rectangle(20, 428, 10, 10),
+                boxCenterX - (boxSize / 4) - spacing,
+                boxCenterY - (boxSize / 4) - spacing,
+                modEnableIcon, 2f);
+
+            DrawIcon(maxCastPower, new Rectangle(545, 1921, 53, 19),
+                boxCenterX - (boxSize / 4),
+                boxCenterY + (boxSize / 4) - (iconSize / 2) + spacing,
+                maxCastIcon, 1f);
+
+            DrawIcon(autoCatchTreasure, new Rectangle(137, 412, 10, 11),
+                boxCenterX + (boxSize / 4) - (iconSize / 2) + spacing,
+                boxCenterY - (boxSize / 4) - spacing,
+                catchTreasureIcon, 2f);
+
+            void DrawIcon(bool value, Rectangle source, int x, int y, ClickableTextureComponent icon, float scale)
             {
-                if (Game1.onScreenMenus[i] is Toolbar toolBar)
-                {
-                    toolBarTransparency = Helper.Reflection.GetField<float>(toolBar, "transparency", true).GetValue();
-                    toolBarWidth = toolBar.width / 2;
-                }
+                float iconTransparency = value ? 1 : drawBox ? 0.2f : 0;
+                icon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, source, scale);
+                icon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
             }
+        }
 
-            if (!Game1.options.pinToolbarToggle)
-                alignTop = (playerLocalVec.Y > (float)(Game1.viewport.Height / 2 + 64));
-
-            var viewport = Game1.graphics.GraphicsDevice.Viewport;
-            int screenXPos = (int)viewport.Width / 2;
-            int screenYPos;
-
-            if (alignTop)
-                screenYPos = screenMargin;
-            else
-                screenYPos = (int)viewport.Height - screenMargin - boxSize;
-
-            int boxCenterY = screenYPos + boxSize / 2;
-            int boxCenterX = 0;
+        private bool DrawModStatusBox(float toolBarTransparency, int screenXPos, int screenYPos, ref int boxCenterX)
+        {
             bool drawBox = false;
 
             if (modEnable || maxCastPower || autoCatchTreasure)
@@ -261,30 +266,38 @@ namespace FishingAssistant
                 drawBox = true;
             }
 
-            Rectangle Icon;
-            float iconTransparency = 1;
-            int x; int y;
+            return drawBox;
+        }
 
-            iconTransparency = modEnable ? 1 : drawBox ? 0.2f : 0;
-            Icon = new Rectangle(20, 428, 10, 10);
-            x = boxCenterX - (boxSize / 4) - spacing;
-            y = boxCenterY - (boxSize / 4) - spacing;
-            modEnableIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 2f);
-            modEnableIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
+        private void CalculateModPosition(out float toolBarTransparency, out int screenXPos, out int screenYPos, out int boxCenterY, out int boxCenterX)
+        {
+            bool alignTop = false;
+            Point playerGlobalPos = Game1.player.GetBoundingBox().Center;
+            Vector2 playerLocalVec = Game1.GlobalToLocal(globalPosition: new Vector2(playerGlobalPos.X, playerGlobalPos.Y), viewport: Game1.viewport);
 
-            iconTransparency = maxCastPower ? 1 : drawBox ? 0.2f : 0;
-            Icon = new Rectangle(545, 1921, 53, 19);
-            x = boxCenterX - (boxSize / 4);
-            y = boxCenterY + (boxSize / 4) - (iconSize / 2) + spacing;
-            maxCastIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 1f);
-            maxCastIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
+            toolBarTransparency = 1;
+            for (int i = 0; i < Game1.onScreenMenus.Count; i++)
+            {
+                if (Game1.onScreenMenus[i] is Toolbar toolBar)
+                {
+                    toolBarTransparency = Helper.Reflection.GetField<float>(toolBar, "transparency", true).GetValue();
+                    toolBarWidth = toolBar.width / 2;
+                    break;
+                }
+            }
 
-            iconTransparency = autoCatchTreasure ? 1 : drawBox ? 0.2f : 0;
-            Icon = new Rectangle(137, 412, 10, 11);
-            x = boxCenterX + (boxSize / 4) - (iconSize / 2) + spacing;
-            y = boxCenterY - (boxSize / 4) - spacing;
-            catchTreasureIcon = new ClickableTextureComponent(new Rectangle(x, y, iconSize, iconSize), Game1.mouseCursors, Icon, 2f);
-            catchTreasureIcon.draw(Game1.spriteBatch, Color.White * toolBarTransparency * iconTransparency, 0);
+            if (!Game1.options.pinToolbarToggle)
+                alignTop = playerLocalVec.Y > (float)(Game1.viewport.Height / 2 + 64);
+
+            var viewport = Game1.graphics.GraphicsDevice.Viewport;
+            screenXPos = (int)viewport.Width / 2;
+            if (alignTop)
+                screenYPos = screenMargin;
+            else
+                screenYPos = (int)viewport.Height - screenMargin - boxSize;
+
+            boxCenterY = screenYPos + boxSize / 2;
+            boxCenterX = 0;
         }
     }
 }

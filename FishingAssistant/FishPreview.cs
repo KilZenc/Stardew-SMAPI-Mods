@@ -175,24 +175,15 @@ namespace FishingAssistant
             else
                 drawPos = new Vector2(x + (boxwidth / 2) - (spriteSize / 2), y + margin);
 
-            // if showFish, draw fish in normal color
-            if (showFish)
-            {
+           
+            if (showFish)  // if showFish, draw fish in normal color
                 fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
+            else               // else (if not showFish), draw fish in black color
+                fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide, Color.Black * 0.8f, true);
 
-                // if showText, center the text x below the fish
-                if (showText)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + spriteSize + margin), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-            }
-            // else (if not showFish), draw fish in black color
-            else
-            {
-                fishSprite.drawInMenu(Game1.spriteBatch, drawPos, 1.0f, 1.0f, 1.0f, StackDrawType.Hide, Color.Black * 0.75f, true);
+            if (showText) // if showText, center the text x below the fish
+                Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + spriteSize + margin), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
 
-                // if showText, center the text x below the fish
-                if (showText)
-                    Game1.spriteBatch.DrawString(Game1.dialogueFont, textValue, new Vector2(x + (boxwidth / 2) - ((int)textSize.X / 2), y + spriteSize + margin), Color.Black, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
-            }
 
             // if show treasure draw treasure with fish icon
             if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)

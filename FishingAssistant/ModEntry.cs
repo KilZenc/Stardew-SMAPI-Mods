@@ -129,7 +129,7 @@ namespace FishingAssistant
         /// </summary>
         private void OnRenderingHud(object sender, RenderingHudEventArgs e)
         {
-            DrawIcon();
+            DrawModStatus();
         }
 
         /// <summary> Raised after the player presses a button on the keyboard, controller, or mouse. </summary>
