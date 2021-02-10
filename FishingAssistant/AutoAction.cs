@@ -103,13 +103,14 @@ namespace FishingAssistant
                 catchingTreasure = false;
                 fishPos = BarBobberPosition;
             }
+            fishPos += 25;
 
             if (fishPos < barPosMin)
                 fishPos = barPosMin;
             else if (fishPos > barPosMax)
                 fishPos = barPosMax;
 
-            BarPosition = fishPos - (BarHeight / 2) + 25;
+            BarPosition = fishPos - (BarHeight / 2);
         }
 
         /// <summary>Auto close fish popup when fishing minigame finish</summary>
