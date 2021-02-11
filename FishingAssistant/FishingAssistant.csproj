@@ -36,6 +36,12 @@
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.Build.Utilities.v4.0" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Pathoschild.Stardew.ModTranslationClassBuilder, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <HintPath>packages\Pathoschild.Stardew.ModTranslationClassBuilder.1.0.0\lib\net452\Pathoschild.Stardew.ModTranslationClassBuilder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
@@ -49,20 +55,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheatAction.cs" />
-    <Compile Include="KeyHelper.cs" />
+    <Compile Include="I18n.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>I18n.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Framework\KeyHelper.cs" />
     <Compile Include="FishPreview.cs" />
-    <Compile Include="SBobberBar.cs" />
-    <Compile Include="SFishingRod.cs" />
+    <Compile Include="Framework\SBobberBar.cs" />
+    <Compile Include="Framework\SFishingRod.cs" />
     <Compile Include="AutoAction.cs" />
     <Compile Include="ModConfig.cs" />
     <Compile Include="ModEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SModEntry.cs" />
+    <Compile Include="Framework\SModEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="i18n\default.json" />
     <None Include="manifest.json" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="I18n.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>I18n.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

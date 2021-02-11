@@ -4,7 +4,6 @@ using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace FishingAssistant
@@ -36,14 +35,10 @@ namespace FishingAssistant
         private int spacing = 2;
         private int toolBarWidth = 0;
 
-
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
-            translationHelper = helper.Translation;
-
-            if (!translationHelper.GetTranslations().Any())
-                Monitor.Log("There was an error in locating translation files. Please try re-installing this mod to fix this.", LogLevel.Error);
+            I18n.Init(helper.Translation);
 
             helper.Events.GameLoop.GameLaunched += OnGameLaunched;
             helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
@@ -72,7 +67,7 @@ namespace FishingAssistant
                 {
                     hasDisableRequest = true;
                     Game1.playSound("coin");
-                    AddHUDMessage(2, KeyHelper.hud_message_request_disable);
+                    AddHUDMessage(2, I18n.HudMessageRequestDisable());
                     return;
                 }
             }
@@ -89,7 +84,7 @@ namespace FishingAssistant
                     {
                         hasEnableRequest = true;
                         Game1.playSound("coin");
-                        AddHUDMessage(2, KeyHelper.hud_message_force_enable, Config.EnableModButton.ToString());
+                        AddHUDMessage(2, I18n.HudMessageForceEnable(), Config.EnableModButton.ToString());
                         return;
                     }
                 }
@@ -99,8 +94,8 @@ namespace FishingAssistant
 
             if (Game1.isFestival())
             {
-                string status = modEnable ? TranslatedString(KeyHelper.mod_status_enable) : TranslatedString(KeyHelper.mod_status_disable);
-                AddHUDMessage(2, KeyHelper.hud_message_mod_toggle, status);
+                string status = modEnable ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
+                AddHUDMessage(2, I18n.HudMessageModToggle(), status);
             }
 
             if (modEnable) GetPlayerData();
@@ -112,8 +107,11 @@ namespace FishingAssistant
             if (e.Button == Config.CastPowerButton)
             {
                 maxCastPower = !maxCastPower;
-                if (Game1.isFestival()) 
-                    AddHUDMessage(2, KeyHelper.hud_message_cast_power, maxCastPower);
+                if (Game1.isFestival())
+                {
+                    string status = maxCastPower ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
+                    AddHUDMessage(2, I18n.HudMessageCastPower(), status);
+                }
             }
         }
 
@@ -122,8 +120,11 @@ namespace FishingAssistant
             if (e.Button == Config.CatchTreasureButton)
             {
                 autoCatchTreasure = !autoCatchTreasure;
-                if (Game1.isFestival()) 
-                    AddHUDMessage(2, KeyHelper.hud_message_catch_treasure, autoCatchTreasure);
+                if (Game1.isFestival())
+                {
+                    string status = autoCatchTreasure ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
+                    AddHUDMessage(2, I18n.HudMessageCatchTreasure(), status);
+                }
             }
         }
 
@@ -195,12 +196,7 @@ namespace FishingAssistant
 
         private void AddHUDMessage(int whatType, string key, params object[] args)
         {
-            Game1.addHUDMessage(new HUDMessage(TranslatedString(key, args), whatType));
-        }
-
-        private string TranslatedString(string key, params object[] args)
-        {
-            return string.Format(translationHelper.Get(key), args);
+            Game1.addHUDMessage(new HUDMessage(string.Format(key, args), whatType));
         }
 
         private void DrawModStatus()

@@ -9,7 +9,6 @@ namespace FishingAssistant
     partial class ModEntry : Mod
     {
         private ModConfig Config;
-        private ITranslationHelper translationHelper;
         private bool isPause;
 
         /// <summary>The mod entry point, called after the mod is first loaded.</summary>
