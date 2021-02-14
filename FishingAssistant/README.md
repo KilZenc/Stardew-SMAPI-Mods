@@ -54,12 +54,12 @@ A button for force fishing rod cast power to max, press again for disable.
 A button for toggle catch or ignore treasure when treasure appeared.
 ```
 
-### ReloadConfigButton    
+### OpenMenuButton    
 **Default value:** `F8`
 **Possible values:** See `Modding:Player Guide/Key Bindings` on Stardew valley wiki. [Here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings#Button_codes)
 
 ```
-A button for reloading the new configuration value.
+A button for open in-game config menu.
 ```
 
 ### AlwaysPerfect     
@@ -158,7 +158,7 @@ Position of mod status info
 Should mod show fish info while catching fish?
 ```
 
-### FishDisplayPosition             
+### FishInfoDisplayPosition             
 **Default value:** `"UpperRight"`
 **Possible values:** `"Top" | "UpperRight" | "UpperLeft" | "Bottom" | "LowerRight" | "LowerLeft"`
 
@@ -196,6 +196,14 @@ Show a preview for all fish species, even ones you have never caught.
 
 ```
 Show a preview for legendary fish.
+```
+
+### EnableAutoPauseFishing                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod auto pause fishing on night.
 ```
 
 ### PauseFishingTime                 
