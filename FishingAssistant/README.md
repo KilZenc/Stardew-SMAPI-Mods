@@ -207,8 +207,8 @@ Should mod auto pause fishing on night.
 ```
 
 ### PauseFishingTime                 
-**Default value:** `2400`
-**Possible values:** `front two-digit represent as an hour in-game.`
+**Default value:** `24`
+**Possible values:** `6 - 25`
 
 ```
 Time to stop fishing.
