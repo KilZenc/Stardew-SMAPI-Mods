@@ -4,6 +4,9 @@ namespace FishingAssistant
 {
     internal class ModConfig
     {
+        /// <summary>The default values.</summary>
+        public static ModConfig Defaults { get; } = new ModConfig();
+
         /// <summary>Button for toggle max or free fishing rod cast power</summary>
         public SButton EnableModButton { get; set; } = SButton.F5;
 
@@ -14,7 +17,7 @@ namespace FishingAssistant
         public SButton CatchTreasureButton { get; set; } = SButton.F7;
 
         /// <summary>Button for roload config file</summary>
-        public SButton ReloadConfigButton { get; set; } = SButton.F8;
+        public SButton OpenMenuButton { get; set; } = SButton.F8;
 
         /// <summary>Whether the game should consider every catch to be perfectly executed, even if it wasn't.</summary>
         public bool AlwaysPerfect { get; set; } = false;
@@ -47,13 +50,13 @@ namespace FishingAssistant
         public bool AlwaysCatchDoubleFish { get; set; } = false;
 
         /// <summary>Position to display fish info when playing fishing minigame</summary>
-        public string ModStatusDisplayPosition { get; set; } = "Left";
+        public string ModStatusDisplayPosition { get; set; } = "Right";
 
         /// <summary>Should mod show fish info while catching fish?</summary>
         public bool DisplayFishInfo { get; set; } = true;
 
         /// <summary>Position to display fish info when playing fishing minigame</summary>
-        public string FishDisplayPosition { get; set; } = "UpperRight";
+        public string FishInfoDisplayPosition { get; set; } = "UpperRight";
 
         /// <summary>Show fish name with fish info</summary>
         public bool ShowFishName { get; set; } = true;
@@ -67,7 +70,10 @@ namespace FishingAssistant
         /// <summary>Alway show fish info if current fish is legendary</summary>
         public bool AlwaysShowLegendaryFish { get; set; } = false;
 
+        /// <summary>Whether to pause fishing on given time</summary>
+        public bool EnableAutoPauseFishing { get; set; } = true;
+
         /// <summary>Time to stop fishing</summary>
-        public int PauseFishingTime { get; set; } = 2400;
+        public int PauseFishingTime { get; set; } = 24;
     }
 }

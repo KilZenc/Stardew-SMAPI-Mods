@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FishingAssistant.Menu;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -35,6 +36,12 @@ namespace FishingAssistant
         private int spacing = 2;
         private int toolBarWidth = 0;
 
+        public bool IsForceEnable { get => isForceEnable; set => isForceEnable = value; }
+
+        public List<string> ModDisplayPosition = new List<string> { "Left", "Right" };
+        public List<string> FishInfoDisplayPosition = new List<string> { "Top", "UpperRight", "UpperLeft", "Bottom", "LowerRight", "LowerLeft" };
+
+
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
@@ -67,13 +74,13 @@ namespace FishingAssistant
                 {
                     hasDisableRequest = true;
                     Game1.playSound("coin");
-                    AddHUDMessage(2, I18n.HudMessageRequestDisable());
+                    AddHUDMessage(2, I18n.Hud_Message_Request_Disable());
                     return;
                 }
             }
             else
             {
-                if (Game1.timeOfDay >= Config.PauseFishingTime)
+                if (Game1.timeOfDay >= Config.PauseFishingTime * 100 && Config.EnableAutoPauseFishing)
                 {
                     if (hasEnableRequest)
                     {
@@ -84,7 +91,7 @@ namespace FishingAssistant
                     {
                         hasEnableRequest = true;
                         Game1.playSound("coin");
-                        AddHUDMessage(2, I18n.HudMessageForceEnable(), Config.EnableModButton.ToString());
+                        AddHUDMessage(2, I18n.Hud_Message_Force_Enable(), Config.EnableModButton.ToString());
                         return;
                     }
                 }
@@ -94,8 +101,8 @@ namespace FishingAssistant
 
             if (Game1.isFestival())
             {
-                string status = modEnable ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
-                AddHUDMessage(2, I18n.HudMessageModToggle(), status);
+                string status = modEnable ? I18n.Mod_Status_Enable() : I18n.Mod_Status_Disable();
+                AddHUDMessage(2, I18n.Hud_Message_Mod_Toggle(), status);
             }
 
             if (modEnable) GetPlayerData();
@@ -109,8 +116,8 @@ namespace FishingAssistant
                 maxCastPower = !maxCastPower;
                 if (Game1.isFestival())
                 {
-                    string status = maxCastPower ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
-                    AddHUDMessage(2, I18n.HudMessageCastPower(), status);
+                    string status = maxCastPower ? I18n.Mod_Status_Enable() : I18n.Mod_Status_Disable();
+                    AddHUDMessage(2, I18n.Hud_Message_Cast_Power(), status);
                 }
             }
         }
@@ -122,18 +129,26 @@ namespace FishingAssistant
                 autoCatchTreasure = !autoCatchTreasure;
                 if (Game1.isFestival())
                 {
-                    string status = autoCatchTreasure ? I18n.ModStatusEnable() : I18n.ModStatusDisable();
-                    AddHUDMessage(2, I18n.HudMessageCatchTreasure(), status);
+                    string status = autoCatchTreasure ? I18n.Mod_Status_Enable() : I18n.Mod_Status_Disable();
+                    AddHUDMessage(2, I18n.Hud_Message_Catch_Treasure(), status);
                 }
+            }
+        }
+
+        private void OnToggleMenuButtonPressed(ButtonPressedEventArgs e)
+        {
+            if (e.Button == Config.OpenMenuButton && !(Game1.activeClickableMenu is FishingAssistantMenu))
+            {
+                Game1.activeClickableMenu = new FishingAssistantMenu(this, Config);
             }
         }
 
         private void ReloadConfig()
         {
             Config = Helper.ReadConfig<ModConfig>();
-            Monitor.Log("Config reloaded", LogLevel.Info);
+            AddHUDMessage(2, I18n.Hud_Message_Config_Saved());
 
-            switch (Config.FishDisplayPosition)
+            switch (Config.FishInfoDisplayPosition)
             {
                 case "Top":
                     displayOrder = new List<string>() { "Top", "UpperRight", "UpperLeft", "LowerRight" };
@@ -149,8 +164,8 @@ namespace FishingAssistant
 
                 case "Bottom":
                     displayOrder = new List<string>() { "Bottom", "LowerRight", "LowerLeft", "UpperRight" };
-                    break;
 
+                    break;
                 case "LowerRight":
                     displayOrder = new List<string>() { "LowerRight", "LowerLeft", "UpperRight" };
                     break;
@@ -161,7 +176,7 @@ namespace FishingAssistant
 
                 default:
                     displayOrder = new List<string>() { "UpperRight", "UpperLeft", "LowerLeft" };
-                    this.Monitor.Log($"Invalid config value {Config.FishDisplayPosition} for FishDisplayPosition. Valid entries include Top, Bottom, UpperRight, UpperLeft, LowerRight and LowerLeft.", LogLevel.Warn);
+                    this.Monitor.Log($"Invalid config value {Config.FishInfoDisplayPosition} for FishDisplayPosition. Valid entries include Top, Bottom, UpperRight, UpperLeft, LowerRight and LowerLeft.", LogLevel.Warn);
                     break;
             }
         }
@@ -294,6 +309,11 @@ namespace FishingAssistant
 
             boxCenterY = screenYPos + boxSize / 2;
             boxCenterX = 0;
+        }
+
+        public int GetCurrentListValue(string currentValue, List<string> list)
+        {
+            return list.FindIndex(value => currentValue == value);
         }
     }
 }

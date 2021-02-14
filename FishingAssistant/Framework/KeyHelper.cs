@@ -1,4 +1,4 @@
-﻿namespace FishingAssistant
+﻿namespace FishingAssistant.Framework
 {
     internal static class KeyHelper
     {

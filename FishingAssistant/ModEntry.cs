@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿using FishingAssistant.Menu;
+using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
@@ -103,6 +104,13 @@ namespace FishingAssistant
         /// <summary>  Raised after a game menu is opened, closed, or replaced. </summary>
         private void OnMenuChanged(object sender, MenuChangedEventArgs e)
         {
+            //Save config value
+            if (e.OldMenu is FishingAssistantMenu)
+            {
+                Helper.WriteConfig(Config);
+                ReloadConfig();
+            }
+
             if (!modEnable)
                 return;
 
@@ -143,9 +151,8 @@ namespace FishingAssistant
             //Toggle catch or ignore treasure when play fishing minigame
             OnCatchTreasureButtonPressed(e);
 
-            //Reload new config
-            if (e.Button == Config.ReloadConfigButton)
-                ReloadConfig();
+            //Open in-game mod menu
+            OnToggleMenuButtonPressed(e);
         }
 
         private void OnFishingMiniGameStart(BobberBar bar)

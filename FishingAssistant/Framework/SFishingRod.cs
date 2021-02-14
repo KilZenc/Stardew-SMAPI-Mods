@@ -1,4 +1,5 @@
-﻿using StardewModdingAPI;
+﻿using FishingAssistant.Framework;
+using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Tools;
 using System;

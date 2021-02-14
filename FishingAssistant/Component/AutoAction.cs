@@ -40,7 +40,7 @@ namespace FishingAssistant
                     modEnable = false;
                     modState = ModState.Disable;
                     Game1.playSound("coin");
-                    AddHUDMessage(3, I18n.HudMessageLowStamina());
+                    AddHUDMessage(3, I18n.Hud_Message_Low_Stamina());
                     return;
                 }
 
@@ -49,7 +49,7 @@ namespace FishingAssistant
                     modEnable = false;
                     modState = ModState.Disable;
                     Game1.playSound("coin");
-                    AddHUDMessage(3, I18n.HudMessageInventoryFull());
+                    AddHUDMessage(3, I18n.Hud_Message_Inventory_Full());
                     return;
                 }
 
@@ -258,7 +258,7 @@ namespace FishingAssistant
                             modEnable = false;
                             modState = ModState.Disable;
                             Game1.playSound("coin");
-                            AddHUDMessage(3, I18n.HudMessageInventoryFull());
+                            AddHUDMessage(3, I18n.Hud_Message_Inventory_Full());
                             return;
                         }
                         else
@@ -272,10 +272,10 @@ namespace FishingAssistant
 
         private void AutoStopFishingOnTime()
         {
-            if (Game1.timeOfDay >= Config.PauseFishingTime && modEnable && !isForceEnable)
+            if (Game1.timeOfDay >= Config.PauseFishingTime * 100 && modEnable && !isForceEnable && Config.EnableAutoPauseFishing)
             {
                 Game1.playSound("coin");
-                AddHUDMessage(3, I18n.HudMessageAutoDisable(), ConvertTime(Game1.timeOfDay));
+                AddHUDMessage(3, I18n.Hud_Message_Auto_Disable(), Game1.getTimeOfDayString(Game1.timeOfDay));
 
                 ToggleMod();
 
