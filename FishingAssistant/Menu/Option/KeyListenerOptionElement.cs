@@ -49,7 +49,7 @@ namespace FishingAssistant.Menu.Option
           : base(label, -1, -1, slotWidth + 1, 11 * Game1.pixelZoom)
         {
             Value = value;
-            PressNewKeyLabel = I18n.Config_Menu_PressNewKey();
+            PressNewKeyLabel = I18n.Menu_Config_PressNewKey();
             SetValue = setValue;
             SetButtonBounds = new Rectangle(slotWidth - 28 * Game1.pixelZoom, -1 + Game1.pixelZoom * 3, 21 * Game1.pixelZoom, 11 * Game1.pixelZoom);
             ClearToButton = clearToButton;

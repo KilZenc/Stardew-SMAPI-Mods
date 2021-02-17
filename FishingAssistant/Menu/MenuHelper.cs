@@ -7,6 +7,22 @@ namespace FishingAssistant.Menu
 {
     static class MenuHelper
     {
+		public static string GetLocalizationString(string value)
+		{
+			switch (value)
+			{
+				case "Left": return I18n.General_Position_Left();
+				case "Right": return I18n.General_Position_Right();
+				case "Top": return I18n.General_Position_Top();
+				case "Bottom": return I18n.General_Position_Bottom();
+				case "UpperRight": return I18n.General_Position_UpperLeft();
+				case "UpperLeft": return I18n.General_Position_UpperRight();
+				case "LowerRight": return I18n.General_Position_LowerLeft();
+				case "LowerLeft": return I18n.General_Position_LowerRight();
+				default: return "";
+			}
+		}
+
 		/// <summary>Draw a button texture fir the given text to the screen.</summary>
 		/// <param name="x">The X position at which to draw.</param>
 		/// <param name="y">The Y position at which to draw.</param>

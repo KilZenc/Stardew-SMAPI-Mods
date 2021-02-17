@@ -90,61 +90,61 @@ namespace FishingAssistant.Menu
 			this.Options.Clear();
 
 			#region Control
-			this.Options.Add(new OptionsElement(I18n.Config_Menu_Header_Control()));
+			this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Control()));
 
 			if (this.IsAndroid)
-				this.AddDescription(I18n.Config_Menu_AndroidConfigNote());
+				this.AddDescription(I18n.Menu_Config_Description_AndroidConfigNote());
 
 			this.Options.Add(new KeyListenerOptionElement(
-				label: I18n.Config_Menu_Button_Toggle_Mod(),
+				label: I18n.Menu_Config_Button_Toggle_Mod(),
 				value: Config.EnableModButton,
 				setValue: key => Config.EnableModButton = key,
 				slotWidth: OptionSlots[0].bounds.Width,
 				clearToButton: SButton.F5));
 
 			this.Options.Add(new KeyListenerOptionElement(
-				label: I18n.Config_Menu_Button_Max_Cast_Power(),
+				label: I18n.Menu_Config_Button_Max_Cast_Power(),
 				value: Config.CastPowerButton,
 				setValue: key => Config.CastPowerButton = key,
 				slotWidth: OptionSlots[0].bounds.Width,
 				clearToButton: SButton.F6));
 
 			this.Options.Add(new KeyListenerOptionElement(
-				label: I18n.Config_Menu_Button_Catch_Treasure(),
+				label: I18n.Menu_Config_Button_Catch_Treasure(),
 				value: Config.CatchTreasureButton,
 				setValue: key => Config.CatchTreasureButton = key,
 				slotWidth: OptionSlots[0].bounds.Width,
 				clearToButton: SButton.F7));
 
 			this.Options.Add(new KeyListenerOptionElement(
-				label: I18n.Config_Menu_Button_Open_Menu(),
+				label: I18n.Menu_Config_Button_Open_Menu(),
 				value: Config.OpenMenuButton,
 				setValue: key => Config.OpenMenuButton = key,
 				slotWidth: OptionSlots[0].bounds.Width,
 				clearToButton: SButton.F8));
 
 			this.Options.Add(new ButtonOptionElement(
-				label: I18n.Config_Menu_Reset_Control(),
+				label: I18n.Menu_Config_Reset_Control(),
 				toggle: this.ResetControls,
 				slotWidth: OptionSlots[0].bounds.Width));
 			#endregion
 
 			#region General
-			this.Options.Add(new OptionsElement(I18n.Config_Menu_Header_General()));
+			this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_General()));
 			this.Options.Add(new SliderOptionElement(
-				label: I18n.Config_Menu_Mod_Status_Position(),
+				label: I18n.Menu_Config_Label_Mod_Status_Position(),
 				value: Mod.GetCurrentListValue(Config.ModStatusDisplayPosition, Mod.ModDisplayPosition),
 				maxValue: Mod.ModDisplayPosition.Count - 1,
 				setValue: value => Config.ModStatusDisplayPosition = Mod.ModDisplayPosition[value],
-				format: value => Mod.ModDisplayPosition[value]));
+				format: value => MenuHelper.GetLocalizationString(Mod.ModDisplayPosition[value])));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Enable_Auto_Pause_Fishing(),
+				label: I18n.Menu_Config_Label_Enable_Auto_Pause_Fishing(),
 				value: Config.EnableAutoPauseFishing,
 				setValue: value => Config.EnableAutoPauseFishing = value));
 
 			this.Options.Add(new SliderOptionElement(
-				label: I18n.Config_Menu_Pause_Fishing_Time(),
+				label: I18n.Menu_Config_Label_Pause_Fishing_Time(),
 				value: Config.PauseFishingTime,
 				minValue: 6, maxValue: 25,
 				setValue: value => Config.PauseFishingTime = value,
@@ -154,97 +154,97 @@ namespace FishingAssistant.Menu
 			#endregion
 			
 			#region Fishing Rod
-			this.Options.Add(new OptionsElement(I18n.Config_Menu_Header_Fishing_Rod()));
+			this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Fishing_Rod()));
 			this.Options.Add(new CheckboxOptionElement(
-				label : I18n.Config_Menu_Label_Infinite_Bait(), 
+				label : I18n.Menu_Config_Label_Infinite_Bait(), 
 				value : Config.InfiniteBait,
 				setValue: value => Config.InfiniteBait = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Infinite_Tackle(),
+				label: I18n.Menu_Config_Label_Infinite_Tackle(),
 				value: Config.InfiniteTackle,
 				setValue: value => Config.InfiniteTackle = value));
 #endregion
 
 			#region Mini-game
-			this.Options.Add(new OptionsElement(I18n.Config_Menu_Header_MiniGame()));
+			this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_MiniGame()));
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Always_Perfect(),
+				label: I18n.Menu_Config_Label_Always_Perfect(),
 				value: Config.AlwaysPerfect,
 				setValue: value => Config.AlwaysPerfect = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Always_Catch_Double(),
+				label: I18n.Menu_Config_Label_Always_Catch_Double(),
 				value: Config.AlwaysCatchDoubleFish,
 				setValue: value => Config.AlwaysCatchDoubleFish = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Always_Treasure(),
+				label: I18n.Menu_Config_Label_Always_Treasure(),
 				value: Config.AlwaysFindTreasure,
 				setValue: value => Config.AlwaysFindTreasure = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Instant_Fishbite(),
+				label: I18n.Menu_Config_Label_Instant_Fishbite(),
 				value: Config.InstantFishBite,
 				setValue: value => Config.InstantFishBite = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Instant_Catch_Fish(),
+				label: I18n.Menu_Config_Label_Instant_Catch_Fish(),
 				value: Config.InstantCatchFish,
 				setValue: value => Config.InstantCatchFish = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Instant_Catch_Treasure(),
+				label: I18n.Menu_Config_Label_Instant_Catch_Treasure(),
 				value: Config.InstantCatchTreasure,
 				setValue: value => Config.InstantCatchTreasure = value));
 
 			this.Options.Add(new SliderOptionElement(
-				label: I18n.Config_Menu_Label_Fish_Difficulty_Multiplier(),
+				label: I18n.Menu_Config_Label_Fish_Difficulty_Multiplier(),
 				value: (int)Config.FishDifficultyMultiplier * 10,
 				minValue: 0,
 				maxValue: 20,
 				setValue: value => Config.FishDifficultyMultiplier = (float)value / 10,
 				format: value => ((float)value / 10).ToString()));
 
-			AddDescription(I18n.Config_Menu_Description_Fish_Difficulty());
+			AddDescription(I18n.Menu_Config_Description_Fish_Difficulty());
 
 			this.Options.Add(new SliderOptionElement(
-				label: I18n.Config_Menu_Label_Fish_Difficulty_Additive(),
+				label: I18n.Menu_Config_Label_Fish_Difficulty_Additive(),
 				value: (int)Config.FishDifficultyAdditive * 10,
 				minValue: -10,
 				maxValue: 10,
 				setValue: value => Config.FishDifficultyAdditive = (float)value,
 				format: value => ((float)value).ToString()));
 
-			AddDescription(I18n.Config_Menu_Description_Fish_Difficulty());
+			AddDescription(I18n.Menu_Config_Description_Fish_Difficulty());
 			#endregion
 
 			#region Fish info
-			this.Options.Add(new OptionsElement(I18n.Config_Menu_Header_Fish_Info()));
+			this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Fish_Info()));
 			this.Options.Add(new SliderOptionElement(
-				label: I18n.Config_Menu_Label_Fishinfo_Display_Position(),
+				label: I18n.Menu_Config_Label_Fishinfo_Display_Position(),
 				value: Mod.GetCurrentListValue(Config.FishInfoDisplayPosition, Mod.FishInfoDisplayPosition),
 				maxValue: Mod.FishInfoDisplayPosition.Count - 1,
 				setValue: value => Config.FishInfoDisplayPosition = Mod.FishInfoDisplayPosition[value],
-				format: value => Mod.FishInfoDisplayPosition[value]));
+				format: value => MenuHelper.GetLocalizationString(Mod.FishInfoDisplayPosition[value])));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Show_Fish_Name(),
+				label: I18n.Menu_Config_Label_Show_Fish_Name(),
 				value: Config.ShowFishName,
 				setValue: value => Config.ShowFishName = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Show_Treasure(),
+				label: I18n.Menu_Config_Label_Show_Treasure(),
 				value: Config.ShowTreasure,
 				setValue: value => Config.ShowTreasure = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Show_Uncaught_Fish(),
+				label: I18n.Menu_Config_Label_Show_Uncaught_Fish(),
 				value: Config.ShowUncaughtFishSpecies,
 				setValue: value => Config.ShowUncaughtFishSpecies = value));
 
 			this.Options.Add(new CheckboxOptionElement(
-				label: I18n.Config_Menu_Label_Show_Legendaly_Fish(),
+				label: I18n.Menu_Config_Label_Show_Legendaly_Fish(),
 				value: Config.AlwaysShowLegendaryFish,
 				setValue: value => Config.AlwaysShowLegendaryFish = value));
 			#endregion
