@@ -1,0 +1,54 @@
+{
+	//General
+	"mod.name" : "Fishing Assistant",
+	"mod.status.enable" : "Включен",
+	"mod.status.disable" : "Отключен",
+
+	//HUD messages
+	"hud.message.mod.toggle" : "{0} Fishing Assistant.",
+	"hud.message.cast.power" : "{0} Макс. сила броска.",
+	"hud.message.catch.treasure" : "{0} Ловли сундука.",
+	"hud.message.request.disable" : "Мод будет отключен, когда завершится задание.",
+	"hud.message.force.enable" : "Нажмите снова {0} для принудительного включения.",
+	"hud.message.low.stamina" : "Мало энергии.",
+	"hud.message.inventory.full" : "Полный багаж.",
+	"hud.message.auto.disable" : "{0} - автоматически отключить мод",
+	"hud.message.config.saved" : "Новые настройки сохранены",
+
+	//Config Menu
+	"config.menu.header.control": "Управление",
+	"config.menu.button.toggle.mod": "Сменить кнопку запуска мода",
+	"config.menu.button.max.cast.power": "Кнопка макс. броска",
+	"config.menu.button.catch.treasure": "Кнопка ловли сундуков",
+	"config.menu.button.open.menu": "Кнопка открытия меню",
+	"config.menu.reset.control": "Сбросить настройки",
+	"config.menu.press-new-key": "Нажмите на новую клавишу...",
+
+	"config.menu.header.general": "Общее",
+	"config.menu.mod.status.position": "Расположение статуса мода",
+	"config.menu.enable.auto.pause.fishing": "Включить авто-паузу во время рыбалки",
+	"config.menu.pause.fishing.time": "Пауза во время рыбалки",
+
+	"config.menu.header.fishing.rod": "Рыбная удочка",
+	"config.menu.label.infinite.bait": "Бесконечная наживка",
+	"config.menu.label.infinite.tackle": "Бесконечные снасти",
+
+	"config.menu.header.mini-game": "Мини-игра рыбалки",
+	"config.menu.label.always.perfect": "Всегда безупречно",
+	"config.menu.label.always.catch.double": "Всегда ловить по две рыбы",
+	"config.menu.label.always.treasure": "Всегда находить сундук",
+	"config.menu.label.instant.fishbite": "Мгновенный клев рыбы",
+	"config.menu.label.instant.catch.fish": "Мгновенная ловля рыбы",
+	"config.menu.label.instant.catch.treasure": "Мгновенная ловля сундука",
+	"config.menu.label.fish.difficulty.multiplier": "Множитель сложности рыбы",
+	"config.menu.label.fish.difficulty.additive": "Добавка к сложности рыбы",
+	"config.menu.description.fish.difficulty": "Значение, отличимое от этого, можно изменить в config.json.",
+	"config.menu.description.android-config-note": "Вы можете изменить кнопки на экране в config.json для модов Fishing Assistant и Virtual Keyboard.",
+
+	"config.menu.header.fish.info": "Информация о Рыбалке",
+	"config.menu.label.fishinfo.display.position": "Расположение информации об рыбе",
+	"config.menu.label.show.fish.name": "Показывать название рыбы",
+	"config.menu.label.show.treasure": "Показывать сундук",
+	"config.menu.label.show.uncaught.fish": "Показывать непойманную рыбу",
+	"config.menu.label.show.legendaly.fish": "Показывать легендарную рыбу",
+}
