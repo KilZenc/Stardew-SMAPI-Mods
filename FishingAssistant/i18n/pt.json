@@ -3,6 +3,14 @@
 	"mod.name" : "Fishing Assistant",
 	"mod.status.enable" : "Ativado",
 	"mod.status.disable" : "Desativado",
+	"general.position.left" : "Esquerda",
+	"general.position.right" : "Direita",
+	"general.position.top" : "Acima",
+	"general.position.bottom" : "Abaixo",
+	"general.position.upper-right" : "Acima, à direita",
+	"general.position.upper-left" : "Acima, à esquerda",
+	"general.position.lower-right" : "Abaixo, à direita",
+	"general.position.lower-left" : "Abaixo, à esquerda",
  
 	//HUD messages
 	"hud.message.mod.toggle" : "{0} Fishing Assistant - Assistente de Pesca.",

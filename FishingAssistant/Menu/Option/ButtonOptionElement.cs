@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 
 namespace FishingAssistant.Menu.Option
 {
@@ -12,6 +12,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Fields
         *********/
+
         /// <summary>The action to perform when the button is toggled (or <c>null</c> to handle it manually).</summary>
         private readonly Action Toggle;
 
@@ -21,10 +22,10 @@ namespace FishingAssistant.Menu.Option
         /// <summary>The button area in screen pixels.</summary>
         private Rectangle SetButtonBounds;
 
-
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The field label.</param>
         /// <param name="slotWidth">The field width.</param>

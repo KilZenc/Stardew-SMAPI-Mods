@@ -9,7 +9,7 @@ using Object = StardewValley.Object;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private int autoCastDelay = 60;
         private int autoClosePopupDelay = 30;

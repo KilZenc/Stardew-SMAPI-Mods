@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 
 namespace FishingAssistant.Menu.Option
 {
@@ -14,6 +14,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Fields
         *********/
+
         /// <summary>The current key binding.</summary>
         private SButton Value;
 
@@ -35,10 +36,10 @@ namespace FishingAssistant.Menu.Option
         private string ListenerMessage;
         private bool Listening;
 
-
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The field label.</param>
         /// <param name="slotWidth">The field width.</param>

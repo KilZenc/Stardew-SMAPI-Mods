@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 
 namespace FishingAssistant.Menu.Option
 {
@@ -12,6 +12,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Fields
         *********/
+
         /// <summary>The field label.</summary>
         private readonly string Label;
 
@@ -42,10 +43,10 @@ namespace FishingAssistant.Menu.Option
         /// <summary>The pixel width of the slider area.</summary>
         private int PixelWidth => this.bounds.Width - 10 * Game1.pixelZoom;
 
-
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The field label.</param>
         /// <param name="value">The initial value.</param>
@@ -123,10 +124,10 @@ namespace FishingAssistant.Menu.Option
             spriteBatch.Draw(Game1.mouseCursors, new Vector2(slotX + this.bounds.X + sliderOffsetX, slotY + this.bounds.Y), OptionsSlider.sliderButtonRect, Color.White, 0.0f, Vector2.Zero, Game1.pixelZoom, SpriteEffects.None, 0.9f);
         }
 
-
         /*********
         ** Private methods
         *********/
+
         /// <summary>Get the <see cref="Value"/>'s fractional position, as a value between 0 (<see cref="MinValue"/>) and 1 (<see cref="MaxValue"/>).</summary>
         private float GetRangePosition()
         {
@@ -136,6 +137,7 @@ namespace FishingAssistant.Menu.Option
         /****
         ** Math helpers
         ****/
+
         /// <summary>Get a value's fractional position within a range, as a value between 0 (<paramref name="minValue"/>) and 1 (<paramref name="maxValue"/>).</summary>
         /// <param name="value">The value within the range.</param>
         /// <param name="minValue">The minimum value.</param>

@@ -10,7 +10,7 @@ using Object = StardewValley.Object;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private bool isCatching = false;
         private int fishPreviewFishId = 0;

@@ -4,12 +4,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private bool modEnable;
         private bool hasDisableRequest;
@@ -40,7 +39,6 @@ namespace FishingAssistant
 
         public List<string> ModDisplayPosition = new List<string> { "Left", "Right" };
         public List<string> FishInfoDisplayPosition = new List<string> { "Top", "UpperRight", "UpperLeft", "Bottom", "LowerRight", "LowerLeft" };
-
 
         private void Initialize(IModHelper helper)
         {
@@ -166,6 +164,7 @@ namespace FishingAssistant
                     displayOrder = new List<string>() { "Bottom", "LowerRight", "LowerLeft", "UpperRight" };
 
                     break;
+
                 case "LowerRight":
                     displayOrder = new List<string>() { "LowerRight", "LowerLeft", "UpperRight" };
                     break;

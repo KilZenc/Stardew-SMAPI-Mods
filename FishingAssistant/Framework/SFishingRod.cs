@@ -6,7 +6,7 @@ using System;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private FishingRod fishingRod;
 

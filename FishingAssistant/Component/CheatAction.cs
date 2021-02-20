@@ -4,7 +4,7 @@ using StardewValley;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         /// <summary>Make bait and tackle last long forever</summary>
         private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)

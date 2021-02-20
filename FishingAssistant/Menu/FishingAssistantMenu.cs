@@ -140,7 +140,7 @@ namespace FishingAssistant.Menu
                 value: Mod.GetCurrentListValue(Config.ModStatusDisplayPosition, Mod.ModDisplayPosition),
                 maxValue: Mod.ModDisplayPosition.Count - 1,
                 setValue: value => Config.ModStatusDisplayPosition = Mod.ModDisplayPosition[value],
-                format: value => MenuHelper.GetLocalizationString(Mod.ModDisplayPosition[value])));
+                format: value => MenuHelper.GetLocalizationPosition(Mod.ModDisplayPosition[value])));
 
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Enable_Auto_Pause_Fishing(),
@@ -236,7 +236,7 @@ namespace FishingAssistant.Menu
                 value: Mod.GetCurrentListValue(Config.FishInfoDisplayPosition, Mod.FishInfoDisplayPosition),
                 maxValue: Mod.FishInfoDisplayPosition.Count - 1,
                 setValue: value => Config.FishInfoDisplayPosition = Mod.FishInfoDisplayPosition[value],
-                format: value => MenuHelper.GetLocalizationString(Mod.FishInfoDisplayPosition[value])));
+                format: value => MenuHelper.GetLocalizationPosition(Mod.FishInfoDisplayPosition[value])));
 
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Show_Fish_Name(),
