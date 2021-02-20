@@ -162,6 +162,16 @@ namespace FishingAssistant.Menu
 
             this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Fishing_Rod()));
             this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Auto_Attach_Bait(),
+                value: Config.AutoAttachBait,
+                setValue: value => Config.AutoAttachBait = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Auto_Attach_Tackle(),
+                value: Config.AutoAttachTackles,
+                setValue: value => Config.AutoAttachTackles = value));
+
+            this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Infinite_Bait(),
                 value: Config.InfiniteBait,
                 setValue: value => Config.InfiniteBait = value));

@@ -75,6 +75,8 @@ namespace FishingAssistant
                     GetPlayerData();
                 }
 
+                AutoAttachBaitAndTackles();
+
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
 

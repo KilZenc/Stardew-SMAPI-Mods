@@ -22,6 +22,8 @@
 	"hud.message.inventory.full" : "Inventory full.",
 	"hud.message.auto.disable" : "Auto disable mod on {0}",
 	"hud.message.config.saved" : "Saving new config",
+	"hud.message.auto.attach.bait" : "Auto attach bait : {0}",
+	"hud.message.auto.attach.tackle" : "Auto attach tackle : {0}",
 
 	//Config Menu
 	"menu.config.header.control": "Control",
@@ -38,6 +40,8 @@
 	"menu.config.label.pause.fishing.time": "Pause fishing time",
 
 	"menu.config.header.fishing.rod": "Fishing rod",
+	"menu.config.label.auto.attach.bait": "Auto attach bait",
+	"menu.config.label.auto.attach.tackle": "Auto attach tackle",
 	"menu.config.label.infinite.bait": "Infinite bait",
 	"menu.config.label.infinite.tackle": "Infinite tackle",
 

@@ -148,6 +148,18 @@ namespace FishingAssistant
             return I18n.GetByKey("hud.message.config.saved");
         }
 
+        /// <summary>Get a translation equivalent to "Auto attach bait : {0}".</summary>
+        public static string Hud_Message_Auto_Attach_Bait()
+        {
+            return I18n.GetByKey("hud.message.auto.attach.bait");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto attach tackle : {0}".</summary>
+        public static string Hud_Message_Auto_Attach_Tackle()
+        {
+            return I18n.GetByKey("hud.message.auto.attach.tackle");
+        }
+
         /// <summary>Get a translation equivalent to "Control".</summary>
         public static string Menu_Config_Header_Control()
         {
@@ -218,6 +230,18 @@ namespace FishingAssistant
         public static string Menu_Config_Header_Fishing_Rod()
         {
             return I18n.GetByKey("menu.config.header.fishing.rod");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto attach bait".</summary>
+        public static string Menu_Config_Label_Auto_Attach_Bait()
+        {
+            return I18n.GetByKey("menu.config.label.auto.attach.bait");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto attach tackle".</summary>
+        public static string Menu_Config_Label_Auto_Attach_Tackle()
+        {
+            return I18n.GetByKey("menu.config.label.auto.attach.tackle");
         }
 
         /// <summary>Get a translation equivalent to "Infinite bait".</summary>

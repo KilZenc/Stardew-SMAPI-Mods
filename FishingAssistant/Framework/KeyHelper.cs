@@ -2,7 +2,6 @@
 {
     internal static class KeyHelper
     {
-        //Field name
         public static string bobberBarHeight = "bobberBarHeight";
         public static string bobberBarPos = "bobberBarPos";
         public static string bobberPosition = "bobberPosition";
