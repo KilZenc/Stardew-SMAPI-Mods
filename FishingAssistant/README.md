@@ -102,6 +102,22 @@ Instantly catch fish when fish hooked.
 Instantly catch treasure when treasure appeared.
 ```
 
+### AutoAttachBait         
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Should mod auto attach bait for you.
+```
+
+### AutoAttachTackles         
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Should mod auto attach tackle for you.
+```
+
 ### InfiniteTackle         
 **Default value:** `false`
 **Possible values:** `true | false`
