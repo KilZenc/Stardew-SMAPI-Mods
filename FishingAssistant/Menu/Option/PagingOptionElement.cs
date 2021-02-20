@@ -8,67 +8,82 @@ using System.Collections.Generic;
 
 namespace FishingAssistant.Menu.Option
 {
+    //Still not available to use
     internal class PagingOptionElement : BaseOptionsElement
     {
-        public static bool snapZoomPlus;
-        public static bool snapZoomMinus;
-        public static Rectangle minusButtonSource = new Rectangle(177, 345, 7, 8);
-        public static Rectangle plusButtonSource = new Rectangle(184, 345, 7, 8);
-        private Rectangle minusButton;
-        private Rectangle plusButton;
-        public List<string> DisplayOptions;
-        public List<string> Options;
-        private int txtSize;
-        public int selected;
-        private Action<int> SetValue;
+        private readonly List<string> options = new List<string>();
 
-        public PagingOptionElement(string label, List<string> options, Action<int> setValue, int x = -1, int y = -1)
-            : base(label, x, y, 28, 28)
+        private readonly List<string> displayOptions = new List<string>();
+
+        private readonly Action<string> SetValue;
+
+        private int selected;
+
+        private static bool snapNext;
+
+        private static bool snapPrevious;
+
+        private Rectangle previousButton;
+
+        private Rectangle nextButton;
+
+        private static Rectangle previousButtonSource = new Rectangle(352, 495, 12, 11);
+
+        private static Rectangle nextButtonSource = new Rectangle(365, 495, 12, 11);
+
+        private Rectangle displayTxt;
+
+        public PagingOptionElement(string label, List<string> options, Action<string> setValue, int x = -1, int y = -1)
+            : base(label, x, y, 7 * Game1.pixelZoom, 7 * Game1.pixelZoom)
         {
-            this.label = label;
-            this.Options = options;
-            DisplayOptions = new List<string>();
+            base.label = label;
+            this.options = options;
+            this.displayOptions = options;
             this.SetValue = setValue;
 
-            if (x == -1) x = 32;
-            if (y == -1) y = 16;
+            if (x == -1) { x = 32; }
+            if (y == -1) { y = 16; }
 
-            txtSize = (int)Game1.dialogueFont.MeasureString(options[0]).X + 56;
-            foreach (var displayOption in options)
+            int margin = 14;
+            int width = 48;
+            int hight = 44;
+
+            int txtSize = (int)Game1.dialogueFont.MeasureString(options[0]).X;
+            foreach (string displayOption in displayOptions)
             {
-                txtSize = Math.Max((int)Game1.dialogueFont.MeasureString(displayOption).X + 56, txtSize);
-                DisplayOptions.Add(displayOption);
+                txtSize = Math.Max((int)Game1.dialogueFont.MeasureString(displayOption).X, txtSize);
             }
 
-            bounds = new Rectangle(x, y, (int)(1.5 * txtSize), 32);
-            minusButton = new Rectangle(x, 16, 28, 32);
-            plusButton = new Rectangle(bounds.Right - 96, 16, 28, 32);
+            base.bounds = new Rectangle(x, y, txtSize + (width * 2) + (margin * 2), hight);
+            this.previousButton = new Rectangle(x, y, width, hight);
+            this.displayTxt = new Rectangle(x + previousButton.Width + margin, y, txtSize, hight);
+            this.nextButton = new Rectangle(x + previousButton.Width + (margin * 2) + txtSize, y, width, hight);
         }
 
         public override void receiveLeftClick(int x, int y)
         {
-            if (!greyedOut && Options.Count > 0)
+            if (!base.greyedOut && this.options.Count > 0)
             {
-                var num = selected;
-                if (minusButton.Contains(x, y) && selected != 0)
+                if (this.previousButton.Contains(x, y) && this.selected != 0)
                 {
-                    selected--;
-                    snapZoomMinus = true;
+                    this.selected--;
+                    snapPrevious = true;
                     Game1.playSound("drumkit6");
                 }
-                else if (plusButton.Contains(x, y) && selected != Options.Count - 1)
+                else if (this.nextButton.Contains(x, y) && this.selected != this.options.Count - 1)
                 {
-                    selected++;
-                    snapZoomPlus = true;
+                    this.selected++;
+                    snapNext = true;
                     Game1.playSound("drumkit6");
                 }
 
-                if (selected < 0)
-                    selected = 0;
-                else if (selected >= Options.Count) selected = Options.Count - 1;
+                if (this.selected < 0)
+                    this.selected = 0;
+                else if (this.selected >= this.options.Count)
+                    this.selected = this.options.Count - 1;
+
+                SetValue(options[selected]);
             }
-
-            SetValue(selected);
         }
 
         public override void receiveKeyPress(Keys key)
@@ -77,38 +92,36 @@ namespace FishingAssistant.Menu.Option
             if (Game1.options.snappyMenus && Game1.options.gamepadControls)
             {
                 if (Game1.options.doesInputListContain(Game1.options.moveRightButton, key))
-                    receiveLeftClick(plusButton.Center.X, plusButton.Center.Y);
+                {
+                    this.receiveLeftClick(this.nextButton.Center.X, this.nextButton.Center.Y);
+                }
                 else if (Game1.options.doesInputListContain(Game1.options.moveLeftButton, key))
-                    receiveLeftClick(minusButton.Center.X, minusButton.Center.Y);
+                {
+                    this.receiveLeftClick(this.previousButton.Center.X, this.previousButton.Center.Y);
+                }
             }
         }
 
         public override void draw(SpriteBatch b, int slotX, int slotY, IClickableMenu context = null)
         {
-            b.Draw(Game1.mouseCursors, new Vector2(slotX + minusButton.X, slotY + minusButton.Y), minusButtonSource,
-                Color.White * (greyedOut ? 0.33f : 1f) * (selected == 0 ? 0.5f : 1f), 0f, Vector2.Zero, 4f, SpriteEffects.None,
-                0.4f);
-            b.DrawString(Game1.dialogueFont,
-                selected < DisplayOptions.Count && selected != -1 ? DisplayOptions[selected] : "",
-                new Vector2((int)(txtSize / 2) + slotX, slotY + minusButton.Y), Game1.textColor * (greyedOut ? 0.33f : 1f));
-            b.Draw(Game1.mouseCursors, new Vector2(slotX + plusButton.X, slotY + plusButton.Y), plusButtonSource,
-                Color.White * (greyedOut ? 0.33f : 1f) * (selected == DisplayOptions.Count - 1 ? 0.5f : 1f), 0f, Vector2.Zero,
-                4f, SpriteEffects.None, 0.4f);
+            b.Draw(Game1.mouseCursors, new Vector2(slotX + this.previousButton.X, slotY + this.previousButton.Y), previousButtonSource, Color.White * (base.greyedOut ? 0.33f : 1f) * ((this.selected == 0) ? 0.5f : 1f), 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
+            b.DrawString(Game1.dialogueFont, (this.selected < this.displayOptions.Count && this.selected != -1) ? this.displayOptions[this.selected] : "", new Vector2(slotX + this.displayTxt.X, slotY + this.displayTxt.Y), Game1.textColor);
+            b.Draw(Game1.mouseCursors, new Vector2(slotX + this.nextButton.X, slotY + this.nextButton.Y), nextButtonSource, Color.White * (base.greyedOut ? 0.33f : 1f) * ((this.selected == this.displayOptions.Count - 1) ? 0.5f : 1f), 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.4f);
+
             if (!Game1.options.snappyMenus && Game1.options.gamepadControls)
             {
-                if (snapZoomMinus)
+                if (snapPrevious)
                 {
-                    Game1.setMousePosition(slotX + minusButton.Center.X, slotY + minusButton.Center.Y);
-                    snapZoomMinus = false;
+                    Game1.setMousePosition(slotX + this.previousButton.Center.X, slotY + this.previousButton.Center.Y);
+                    snapPrevious = false;
                 }
-                else if (snapZoomPlus)
+                else if (snapNext)
                 {
-                    Game1.setMousePosition(slotX + plusButton.Center.X, slotY + plusButton.Center.Y);
-                    snapZoomPlus = false;
+                    Game1.setMousePosition(slotX + this.nextButton.Center.X, slotY + this.nextButton.Center.Y);
+                    snapNext = false;
                 }
             }
-
-            base.draw(b, slotX, slotY, context);
+            Utility.drawTextWithShadow(b, label, Game1.dialogueFont, new Vector2(slotX + nextButton.X + nextButton.Width + 4 + GetOffsetX(), slotY + this.bounds.Y), Game1.textColor);
         }
     }
 }
