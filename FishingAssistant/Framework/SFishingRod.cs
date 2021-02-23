@@ -6,7 +6,7 @@ using System;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private FishingRod fishingRod;
 
@@ -223,7 +223,7 @@ namespace FishingAssistant
 
         /// <summary>Is player able to cast fishing rod</summary>
         /// <returns>True if player can cast fishing rod</returns>
-        private bool CanCastFishingRod()
+        private bool RodIsNotInUse()
         {
             return Context.CanPlayerMove && Game1.activeClickableMenu == null && !fishingRod.inUse();
         }

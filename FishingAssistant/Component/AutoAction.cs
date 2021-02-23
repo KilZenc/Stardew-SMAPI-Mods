@@ -3,13 +3,14 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Object = StardewValley.Object;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private int autoCastDelay = 60;
         private int autoClosePopupDelay = 30;
@@ -22,10 +23,75 @@ namespace FishingAssistant
 
         private ModState modState;
 
+        private void AutoAttachBaitAndTackles()
+        {
+            if (modEnable && RodIsNotInUse() && !Game1.isFestival() && (Config.AutoAttachBait || Config.AutoAttachTackles))
+            {
+                IList<Item> items = Game1.player.Items;
+
+                if (Config.AutoAttachBait)
+                {
+                    // Check the bait slot.
+                    // Case where there is already bait attached.
+                    // We stack the same type of bait onto the existing bait attached to the fishing rod.
+                    if (fishingRod.attachments[0] != null && fishingRod.attachments[0].Stack != fishingRod.attachments[0].maximumStackSize())
+                    {
+                        foreach (Item item in items)
+                        {
+                            // Category value for bait is -21.
+                            // Source: https://github.com/veywrn/StardewValley/blob/master/StardewValley/Item.cs
+                            if (item?.Category == -21 && item.Name.Equals(fishingRod.attachments[0].Name))
+                            {
+                                int stackAdd = Math.Min(fishingRod.attachments[0].getRemainingStackSpace(), item.Stack);
+                                fishingRod.attachments[0].Stack += stackAdd;
+                                item.Stack -= stackAdd;
+
+                                if (item.Stack == 0)
+                                    Game1.player.removeItemFromInventory(item);
+
+                                AddHUDMessage(2, I18n.Hud_Message_Auto_Attach_Bait(), item.Name);
+                            }
+                        }
+                    }
+                    // Case where there is no bait attached.
+                    // We simply attach the first instance of bait we see in the inventory onto the fishing rod.
+                    else if (fishingRod.attachments[0] == null)
+                    {
+                        foreach (Item item in items)
+                        {
+                            if (item?.Category == -21)
+                            {
+                                fishingRod.attachments[0] = (Object)item;
+                                Game1.player.removeItemFromInventory(item);
+                                AddHUDMessage(2, I18n.Hud_Message_Auto_Attach_Bait(), item.Name);
+                                break;
+                            }
+                        }
+                    }
+                }
+                // Check the tackle slot.
+                if (Config.AutoAttachTackles && fishingRod.attachments[1] == null)
+                {
+                    foreach (Item item in items)
+                    {
+                        // Category value for tackle is -22.
+                        // Source: https://github.com/veywrn/StardewValley/blob/master/StardewValley/Item.cs
+                        if (item?.Category == -22)
+                        {
+                            fishingRod.attachments[1] = (Object)item;
+                            Game1.player.removeItemFromInventory(item);
+                            AddHUDMessage(2, I18n.Hud_Message_Auto_Attach_Tackle(), item.Name);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
         private void AutoCastFishingRod()
         {
-            if (modEnable && CanCastFishingRod() && !Game1.isFestival())
+            if (modEnable && RodIsNotInUse() && !Game1.isFestival())
             {
                 modState = ModState.Idle;
                 if (autoCastDelay-- > 0)

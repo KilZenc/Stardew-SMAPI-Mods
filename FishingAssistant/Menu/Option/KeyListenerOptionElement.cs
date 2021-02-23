@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 
 namespace FishingAssistant.Menu.Option
 {
@@ -14,6 +14,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Fields
         *********/
+
         /// <summary>The current key binding.</summary>
         private SButton Value;
 
@@ -35,10 +36,10 @@ namespace FishingAssistant.Menu.Option
         private string ListenerMessage;
         private bool Listening;
 
-
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The field label.</param>
         /// <param name="slotWidth">The field width.</param>
@@ -49,7 +50,7 @@ namespace FishingAssistant.Menu.Option
           : base(label, -1, -1, slotWidth + 1, 11 * Game1.pixelZoom)
         {
             Value = value;
-            PressNewKeyLabel = I18n.Config_Menu_PressNewKey();
+            PressNewKeyLabel = I18n.Menu_Config_PressNewKey();
             SetValue = setValue;
             SetButtonBounds = new Rectangle(slotWidth - 28 * Game1.pixelZoom, -1 + Game1.pixelZoom * 3, 21 * Game1.pixelZoom, 11 * Game1.pixelZoom);
             ClearToButton = clearToButton;

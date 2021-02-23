@@ -4,12 +4,11 @@ using StardewModdingAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
 
 namespace FishingAssistant
 {
-    partial class ModEntry : Mod
+    internal partial class ModEntry : Mod
     {
         private bool modEnable;
         private bool hasDisableRequest;
@@ -41,7 +40,6 @@ namespace FishingAssistant
         public List<string> ModDisplayPosition = new List<string> { "Left", "Right" };
         public List<string> FishInfoDisplayPosition = new List<string> { "Top", "UpperRight", "UpperLeft", "Bottom", "LowerRight", "LowerLeft" };
 
-
         private void Initialize(IModHelper helper)
         {
             Config = helper.ReadConfig<ModConfig>();
@@ -53,7 +51,7 @@ namespace FishingAssistant
             helper.Events.Display.RenderedActiveMenu += OnRenderMenu;
             helper.Events.Input.ButtonPressed += OnButtonPressed;
             helper.Events.Display.RenderingHud += OnRenderingHud;
-            helper.Events.GameLoop.TimeChanged += OnTimeChange;
+            helper.Events.GameLoop.TimeChanged += OnTimeChanged;
             helper.Events.GameLoop.DayStarted += OnDayStarted;
 
             Monitor.Log("Initialized (press F8 to reload config)", LogLevel.Info);
@@ -166,6 +164,7 @@ namespace FishingAssistant
                     displayOrder = new List<string>() { "Bottom", "LowerRight", "LowerLeft", "UpperRight" };
 
                     break;
+
                 case "LowerRight":
                     displayOrder = new List<string>() { "LowerRight", "LowerLeft", "UpperRight" };
                     break;
@@ -193,24 +192,9 @@ namespace FishingAssistant
             return inFishingMiniGame && bobberBar != null;
         }
 
-        private string ConvertTime(int currentTime)
-        {
-            string sTime = currentTime.ToString();
-            if (sTime.Length == 3)
-                sTime = "0" + sTime;
-
-            string hour = sTime.Substring(0, 1) + sTime.Substring(1, 1);
-            string minute = sTime.Substring(2, 1) + sTime.Substring(3, 1);
-            hour = hour == "24" ? "00" : hour == "25" ? "01" : hour;
-
-            string formatedTime = string.Format("{0}:{1}", hour, minute);
-
-            DateTime parseTime = DateTime.Parse(formatedTime);
-            return parseTime.ToString("h:mm tt");
-        }
-
         private void AddHUDMessage(int whatType, string key, params object[] args)
         {
+            if (!Context.IsWorldReady) return;
             Game1.addHUDMessage(new HUDMessage(string.Format(key, args), whatType));
         }
 

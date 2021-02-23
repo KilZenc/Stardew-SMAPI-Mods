@@ -11,6 +11,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The checkbox label.</param>
         public DescriptionElement(string label)
@@ -27,5 +28,4 @@ namespace FishingAssistant.Menu.Option
             spriteBatch.DrawString(Game1.smallFont, this.label, new Vector2(slotX + this.bounds.X, slotY + this.bounds.Y + yOffset), Color.Black);
         }
     }
-
 }

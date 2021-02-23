@@ -34,6 +34,12 @@ namespace FishingAssistant
         /// <summary>Whether to catch treasure instantly.</summary>
         public bool InstantCatchTreasure { get; set; } = false;
 
+        /// <summary>Shold mod auto attach bait if possible.</summary>
+        public bool AutoAttachBait { get; set; } = false;
+
+        /// <summary>Shold mod auto attach bait if possible.</summary>
+        public bool AutoAttachTackles { get; set; } = false;
+
         /// <summary>Whether fishing tackles last forever.</summary>
         public bool InfiniteTackle { get; set; } = false;
 

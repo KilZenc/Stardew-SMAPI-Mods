@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using System;
 
 namespace FishingAssistant.Menu.Option
 {
@@ -12,20 +12,21 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Fields
         *********/
+
         /// <summary>A callback to invoke when the value changes.</summary>
         private readonly Action<bool> SetValue;
-
 
         /*********
         ** Accessors
         *********/
+
         /// <summary>Whether the checkbox is currently checked.</summary>
         public bool IsChecked { get; private set; }
-
 
         /*********
         ** Public methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The checkbox label.</param>
         /// <param name="value">The initial value to set.</param>

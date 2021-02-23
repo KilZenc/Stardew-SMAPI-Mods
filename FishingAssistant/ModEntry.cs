@@ -27,7 +27,7 @@ namespace FishingAssistant
         }
 
         /// <summary>Raised after the in-game clock time changes.</summary>
-        private void OnTimeChange(object sender, TimeChangedEventArgs e)
+        private void OnTimeChanged(object sender, TimeChangedEventArgs e)
         {
             AutoStopFishingOnTime();
         }
@@ -44,7 +44,7 @@ namespace FishingAssistant
         /// <summary> Raised after the game state is updated (≈60 times per second). </summary>
         private void OnUpdateTicked(object sender, UpdateTickedEventArgs e)
         {
-            if (!modEnable)
+            if (!modEnable || !Context.IsWorldReady)
                 return;
 
             // apply infinite bait/tackle
@@ -74,6 +74,8 @@ namespace FishingAssistant
                     isPause = false;
                     GetPlayerData();
                 }
+
+                AutoAttachBaitAndTackles();
 
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
@@ -142,6 +144,8 @@ namespace FishingAssistant
         /// <summary> Raised after the player presses a button on the keyboard, controller, or mouse. </summary>
         private void OnButtonPressed(object sender, ButtonPressedEventArgs e)
         {
+            if (!Context.IsWorldReady) return;
+
             //Enable or disable mod
             OnEnableModButtonPressed(e);
 

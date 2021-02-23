@@ -9,6 +9,7 @@ namespace FishingAssistant.Menu.Option
         /*********
         ** Protected methods
         *********/
+
         /// <summary>Construct an instance.</summary>
         /// <param name="label">The element label.</param>
         protected BaseOptionsElement(string label)
