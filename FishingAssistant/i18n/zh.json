@@ -3,6 +3,14 @@
 	"mod.name" : "钓鱼助手",
 	"mod.status.enable" : "启用",
 	"mod.status.disable" : "禁用",
+	"general.position.left" : "左侧",
+	"general.position.right" : "右侧",
+	"general.position.top" : "顶部",
+	"general.position.bottom" : "底部",
+	"general.position.upper-right" : "右上角",
+	"general.position.upper-left" : "左上角",
+	"general.position.lower-right" : "右下角",
+	"general.position.lower-left" : "左下角",	
 
 	//HUD messages
 	"hud.message.mod.toggle" : "{0} 钓鱼助手。",
@@ -14,7 +22,9 @@
 	"hud.message.inventory.full" : "物品栏已满。",
 	"hud.message.auto.disable" : "在 {0} 自动禁用模组",
 	"hud.message.config.saved" : "正在保存新配置",
-
+	"hud.message.auto.attach.bait" : "自动安装鱼饵：{0}",
+	"hud.message.auto.attach.tackle" : "自动安装钓具：{0}",
+	
 	//Config Menu
 	"menu.config.header.control": "控制",
 	"menu.config.button.toggle.mod": "开关模组按钮",
@@ -30,6 +40,8 @@
 	"menu.config.label.pause.fishing.time": "暂停钓鱼时间",
 
 	"menu.config.header.fishing.rod": "鱼竿",
+	"menu.config.label.auto.attach.bait": "自动安装鱼饵",
+	"menu.config.label.auto.attach.tackle": "自动安装钓具",
 	"menu.config.label.infinite.bait": "无限鱼饵",
 	"menu.config.label.infinite.tackle": "无限钓具",
 
