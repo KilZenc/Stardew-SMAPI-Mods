@@ -48,7 +48,7 @@ namespace FishingAssistant
                 return;
 
             // apply infinite bait/tackle
-            ApplyInfiniteBaitAndTackle(e);
+            ApplyInfiniteBaitAndTackle();
 
             if (IsFishingMiniGameReady())
             {

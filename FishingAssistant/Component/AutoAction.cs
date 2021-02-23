@@ -29,7 +29,7 @@ namespace FishingAssistant
             {
                 IList<Item> items = Game1.player.Items;
 
-                if (Config.AutoAttachBait)
+                if (Config.AutoAttachBait && fishingRod.upgradeLevel >= 2)
                 {
                     // Check the bait slot.
                     // Case where there is already bait attached.
@@ -70,7 +70,7 @@ namespace FishingAssistant
                     }
                 }
                 // Check the tackle slot.
-                if (Config.AutoAttachTackles && fishingRod.attachments[1] == null)
+                if (Config.AutoAttachTackles && fishingRod.attachments[1] == null && fishingRod.upgradeLevel == 3)
                 {
                     foreach (Item item in items)
                     {
