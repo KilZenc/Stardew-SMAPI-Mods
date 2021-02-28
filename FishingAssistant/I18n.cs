@@ -274,6 +274,36 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.label.infinite.tackle");
         }
 
+        /// <summary>Get a translation equivalent to "Add Auto-Hook enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_AutoHook()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.auto-hook");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Efficient enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Efficient()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.efficient");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Master enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Master()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.master");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Preserving enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Preserving()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.preserving");
+        }
+
+        /// <summary>Get a translation equivalent to "Only add enchantment when held".</summary>
+        public static string Menu_Config_Label_Enchantment_WhenHeld()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.when-held");
+        }
+
         /// <summary>Get a translation equivalent to "Fishing mini-game".</summary>
         public static string Menu_Config_Header_MiniGame()
         {

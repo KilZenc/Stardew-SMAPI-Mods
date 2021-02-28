@@ -196,6 +196,31 @@ namespace FishingAssistant.Menu
                 value: Config.InfiniteTackle,
                 setValue: value => Config.InfiniteTackle = value));
 
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_AutoHook(),
+                value: Config.AddAutoHookEnchantment,
+                setValue: value => Config.AddAutoHookEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Efficient(),
+                value: Config.AddEfficientEnchantment,
+                setValue: value => Config.AddEfficientEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Master(),
+                value: Config.AddMasterEnchantment,
+                setValue: value => Config.AddMasterEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Preserving(),
+                value: Config.AddPreservingEnchantment,
+                setValue: value => Config.AddPreservingEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_WhenHeld(),
+                value: Config.OnlyAddEnchantmentWhenHeld,
+                setValue: value => Config.OnlyAddEnchantmentWhenHeld = value));
+
             #endregion Fishing Rod
 
             #region Mini-game

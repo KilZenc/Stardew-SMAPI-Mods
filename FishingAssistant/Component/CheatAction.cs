@@ -6,6 +6,21 @@ namespace FishingAssistant
 {
     internal partial class ModEntry : Mod
     {
+        private void AddEnchantment()
+        {
+            if (Config.AddAutoHookEnchantment && !fishingRod.hasEnchantmentOfType<AutoHookEnchantment>())
+                fishingRod.enchantments.Add(new AutoHookEnchantment());
+
+            if (Config.AddEfficientEnchantment && !fishingRod.hasEnchantmentOfType<EfficientToolEnchantment>())
+                fishingRod.enchantments.Add(new EfficientToolEnchantment());
+
+            if (Config.AddMasterEnchantment && !fishingRod.hasEnchantmentOfType<MasterEnchantment>())
+                fishingRod.enchantments.Add(new MasterEnchantment());
+
+            if (Config.AddPreservingEnchantment && !fishingRod.hasEnchantmentOfType<PreservingEnchantment>())
+                fishingRod.enchantments.Add(new PreservingEnchantment());
+        }
+
         /// <summary>Make bait and tackle last long forever</summary>
         private void ApplyInfiniteBaitAndTackle()
         {

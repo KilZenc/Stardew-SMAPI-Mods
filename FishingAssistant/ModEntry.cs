@@ -47,7 +47,7 @@ namespace FishingAssistant
             if (!modEnable || !Context.IsWorldReady)
                 return;
 
-            // apply infinite bait/tackle
+            // Apply infinite bait/tackle
             ApplyInfiniteBaitAndTackle();
 
             if (IsFishingMiniGameReady())
@@ -74,6 +74,8 @@ namespace FishingAssistant
                     isPause = false;
                     GetPlayerData();
                 }
+
+                AddEnchantment();
 
                 AutoEatFood(ignoreCondition: false);
 
@@ -103,6 +105,9 @@ namespace FishingAssistant
                 autoCastDelay = 60;
                 autoClosePopupDelay = 30;
                 autoLootDelay = 30;
+
+                if (Config.OnlyAddEnchantmentWhenHeld)
+                    fishingRod.ClearEnchantments();
             }
         }
 
