@@ -12,7 +12,7 @@ namespace FishingAssistant
 {
     internal partial class ModEntry : Mod
     {
-        private int defaultAutoCastDelay = 10;
+        private int defaultAutoCastDelay = 60;
         private int defaultAutoClosePopupDelay = 30;
         private int defaultAutoLootDelay = 30;
 

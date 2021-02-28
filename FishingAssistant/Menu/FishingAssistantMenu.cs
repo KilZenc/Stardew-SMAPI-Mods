@@ -165,9 +165,7 @@ namespace FishingAssistant.Menu
                 label: I18n.Menu_Config_Label_Energy_To_Eat_Food(),
                 value: Config.EnergyPrecentToEat / 5,
                 minValue: 0, maxValue: 19,
-                setValue: value => {
-                    Config.EnergyPrecentToEat = value * 5;
-                    Mod.autoEatWhenLowEnergy = value == 0;},
+                setValue: value => Config.EnergyPrecentToEat = value * 5,
                 disabled: () => !Config.EnableAutoEatFood,
                 format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
 
