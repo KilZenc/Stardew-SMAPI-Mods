@@ -12,9 +12,13 @@ namespace FishingAssistant
 {
     internal partial class ModEntry : Mod
     {
-        private int autoCastDelay = 60;
-        private int autoClosePopupDelay = 30;
-        private int autoLootDelay = 30;
+        private int defaultAutoCastDelay = 10;
+        private int defaultAutoClosePopupDelay = 30;
+        private int defaultAutoLootDelay = 30;
+
+        private int autoCastDelay;
+        private int autoClosePopupDelay;
+        private int autoLootDelay;
 
         private float treasureCatchStep = 0;
         private bool catchingTreasure;
@@ -125,11 +129,11 @@ namespace FishingAssistant
                 if (autoCastDelay-- > 0)
                     return;
 
-                autoCastDelay = 60;
+                autoCastDelay = defaultAutoCastDelay;
                 modState = ModState.Fishing;
 
                 //prevent player from exhausted
-                if (Game1.player.stamina <= (8.0f + (Game1.player.fishingLevel * 0.1f)))
+                if (Game1.player.stamina <= (8.0f - (Game1.player.fishingLevel * 0.1f)))
                 {
                     if (autoEatWhenLowEnergy)
                     {
@@ -218,7 +222,7 @@ namespace FishingAssistant
                 if (autoClosePopupDelay-- > 0)
                     return;
 
-                autoClosePopupDelay = 30;
+                autoClosePopupDelay = defaultAutoClosePopupDelay;
                 modState = ModState.Fishing;
 
                 Farmer player = Game1.player;
@@ -322,7 +326,7 @@ namespace FishingAssistant
             if (autoLootDelay-- > 0)
                 return;
 
-            autoLootDelay = 30;
+            autoLootDelay = defaultAutoLootDelay;
             modState = ModState.Loot;
             if (actualInventory.Count == 0)
             {
