@@ -81,5 +81,11 @@ namespace FishingAssistant
 
         /// <summary>Time to stop fishing</summary>
         public int PauseFishingTime { get; set; } = 24;
+
+        /// <summary>Whether to eat some food if need</summary>
+        public bool EnableAutoEatFood { get; set; } = false;
+
+        /// <summary>Amount of energy in percent to find food to eat</summary>
+        public int EnergyPrecentToEat { get; set; } = 0;
     }
 }

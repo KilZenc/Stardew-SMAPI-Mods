@@ -75,6 +75,9 @@ namespace FishingAssistant
                     GetPlayerData();
                 }
 
+                AutoEatFood(ignoreCondition: false);
+
+                // Find bait and tackle add attach to fishing rod
                 AutoAttachBaitAndTackles();
 
                 // Cast fishing rod if possible

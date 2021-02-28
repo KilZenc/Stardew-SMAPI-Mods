@@ -214,16 +214,34 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.label.mod.status.position");
         }
 
-        /// <summary>Get a translation equivalent to "Enable auto pause fishing".</summary>
-        public static string Menu_Config_Label_Enable_Auto_Pause_Fishing()
+        /// <summary>Get a translation equivalent to "Auto pause fishing".</summary>
+        public static string Menu_Config_Label_Auto_Pause_Fishing()
         {
-            return I18n.GetByKey("menu.config.label.enable.auto.pause.fishing");
+            return I18n.GetByKey("menu.config.label.auto.pause.fishing");
         }
 
         /// <summary>Get a translation equivalent to "Pause fishing time".</summary>
         public static string Menu_Config_Label_Pause_Fishing_Time()
         {
             return I18n.GetByKey("menu.config.label.pause.fishing.time");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto eat food".</summary>
+        public static string Menu_Config_Label_Auto_Eat_Food()
+        {
+            return I18n.GetByKey("menu.config.label.auto.eat.food");
+        }
+
+        /// <summary>Get a translation equivalent to "Energy to eat".</summary>
+        public static string Menu_Config_Label_Energy_To_Eat_Food()
+        {
+            return I18n.GetByKey("menu.config.label.energy.to.eat.food");
+        }
+
+        /// <summary>Get a translation equivalent to "When low energy".</summary>
+        public static string Menu_Config_Etc_WhenLowEnergy()
+        {
+            return I18n.GetByKey("menu.config.etc.when-low-energy");
         }
 
         /// <summary>Get a translation equivalent to "Fishing rod".</summary>

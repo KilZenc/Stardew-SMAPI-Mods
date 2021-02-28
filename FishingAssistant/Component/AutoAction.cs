@@ -19,13 +19,41 @@ namespace FishingAssistant
         private float treasureCatchStep = 0;
         private bool catchingTreasure;
 
+        public bool autoEatWhenLowEnergy;
+
         private enum ModState { Disable, Pause, Idle, Fishing, Loot }
 
         private ModState modState;
 
+        public void AutoEatFood(bool ignoreCondition)
+        {
+            if (!Game1.player.isEating && RodIsNotInUse() && (ignoreCondition || Game1.player.Stamina <= Game1.player.MaxStamina * ((float)Config.EnergyPrecentToEat / 100)))
+            {
+                Object bestItem = null;
+                foreach (Object item in Game1.player.Items.OfType<Object>())
+                {
+                    if (item.Edibility <= 0 || item.Category == -4)
+                        continue;
+
+                    if (bestItem == null || bestItem.Edibility / bestItem.salePrice() < item.Edibility / item.salePrice())
+                        bestItem = item;
+                }
+
+                if (bestItem == null)
+                    return;
+
+                Game1.player.eatObject(bestItem);
+                bestItem.Stack--;
+                if (bestItem.Stack == 0)
+                    Game1.player.removeItemFromInventory(bestItem);
+
+                AddHUDMessage(2, $"Auto eat : {bestItem.DisplayName}");
+            }
+        }
+
         private void AutoAttachBaitAndTackles()
         {
-            if (modEnable && RodIsNotInUse() && !Game1.isFestival() && (Config.AutoAttachBait || Config.AutoAttachTackles))
+            if (RodIsNotInUse() && !Game1.isFestival() && (Config.AutoAttachBait || Config.AutoAttachTackles))
             {
                 IList<Item> items = Game1.player.Items;
 
@@ -91,7 +119,7 @@ namespace FishingAssistant
         /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
         private void AutoCastFishingRod()
         {
-            if (modEnable && RodIsNotInUse() && !Game1.isFestival())
+            if (RodIsNotInUse() && !Game1.isFestival())
             {
                 modState = ModState.Idle;
                 if (autoCastDelay-- > 0)
@@ -103,10 +131,16 @@ namespace FishingAssistant
                 //prevent player from exhausted
                 if (Game1.player.stamina <= (8.0f + (Game1.player.fishingLevel * 0.1f)))
                 {
+                    if (autoEatWhenLowEnergy)
+                    {
+                        AutoEatFood(ignoreCondition: true);
+                        return;
+                    }
+
+                    AddHUDMessage(3, I18n.Hud_Message_Low_Stamina());
                     modEnable = false;
                     modState = ModState.Disable;
                     Game1.playSound("coin");
-                    AddHUDMessage(3, I18n.Hud_Message_Low_Stamina());
                     return;
                 }
 
@@ -129,7 +163,7 @@ namespace FishingAssistant
         private void AutoHook()
         {
             //apply auto hook if mod enable
-            if (modEnable && IsRodCasting)
+            if (IsRodCasting)
                 autoHook = true;
 
             // auto hook fish when fish bite
@@ -143,9 +177,6 @@ namespace FishingAssistant
         /// <summary>Auto play fishing minigame.</summary>
         private void AutoPlayMiniGame()
         {
-            if (!modEnable)
-                return;
-
             modState = ModState.Fishing;
 
             float fishPos = BarBobberPosition;
@@ -182,7 +213,7 @@ namespace FishingAssistant
         /// <summary>Auto close fish popup when fishing minigame finish</summary>
         private void AutoCloseFishPopup()
         {
-            if (modEnable && IsRodShowingFish() && !Game1.isFestival())
+            if (IsRodShowingFish() && !Game1.isFestival())
             {
                 if (autoClosePopupDelay-- > 0)
                     return;
@@ -283,10 +314,7 @@ namespace FishingAssistant
         /// <summary>Loot all item in treasure if treasure is caught during fishing minigame</summary>
         private void AutoLootTreasure()
         {
-            if (!modEnable || Game1.isFestival())
-                return;
-
-            if (!(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
+            if (Game1.isFestival() || !(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
                 return;
 
             IList<Item> actualInventory = itemGrab.ItemsToGrabMenu.actualInventory;

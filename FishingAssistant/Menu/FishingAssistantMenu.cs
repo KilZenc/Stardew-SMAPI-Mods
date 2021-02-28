@@ -143,7 +143,7 @@ namespace FishingAssistant.Menu
                 format: value => MenuHelper.GetLocalizationPosition(Mod.ModDisplayPosition[value])));
 
             this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Enable_Auto_Pause_Fishing(),
+                label: I18n.Menu_Config_Label_Auto_Pause_Fishing(),
                 value: Config.EnableAutoPauseFishing,
                 setValue: value => Config.EnableAutoPauseFishing = value));
 
@@ -155,6 +155,21 @@ namespace FishingAssistant.Menu
                 setValueBool: value => Mod.IsForceEnable = value,
                 disabled: () => !Config.EnableAutoPauseFishing,
                 format: value => Game1.getTimeOfDayString(value * 100)));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Auto_Eat_Food(),
+                value: Config.EnableAutoEatFood,
+                setValue: value => Config.EnableAutoEatFood = value));
+
+            this.Options.Add(new SliderOptionElement(
+                label: I18n.Menu_Config_Label_Energy_To_Eat_Food(),
+                value: Config.EnergyPrecentToEat / 5,
+                minValue: 0, maxValue: 19,
+                setValue: value => {
+                    Config.EnergyPrecentToEat = value * 5;
+                    Mod.autoEatWhenLowEnergy = value == 0;},
+                disabled: () => !Config.EnableAutoEatFood,
+                format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
 
             #endregion General
 
