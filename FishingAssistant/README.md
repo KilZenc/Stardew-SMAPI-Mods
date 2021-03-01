@@ -230,6 +230,70 @@ Should mod auto pause fishing on night.
 Time to stop fishing.
 ```
 
+### EnableAutoEatFood                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Whether to eat some food if need.
+```
+
+### EnergyPrecentToEat                 
+**Default value:** `0`
+**Possible values:** `0 - 95`
+
+```
+Amount of energy in percent to find food to eat.
+```
+
+### AllowEatingFish                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Allow to eat fish that you caught.
+```
+
+### AddAutoHookEnchantment                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Add Auto-Hook enchantment to fishing rod.
+```
+
+### AddEfficientEnchantment                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Add Efficient enchantment to fishing rod.
+```
+
+### AddMasterEnchantment                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Add Master enchantment to fishing rod.
+```
+
+### AddPreservingEnchantment                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Add Preserving enchantment to fishing rod.
+```
+
+### OnlyAddEnchantmentWhenHeld                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Remove all enchantment when fishing rod is switching out.
+```
+
 ## Open-Source commitment
 This mod is **Open-Source**, which means its code is public, freely-available, and covered by an open-source license.
 
