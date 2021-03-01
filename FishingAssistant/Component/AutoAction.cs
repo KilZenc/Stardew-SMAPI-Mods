@@ -3,6 +3,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
+using StardewValley.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace FishingAssistant
                 Object bestItem = null;
                 foreach (Object item in Game1.player.Items.OfType<Object>())
                 {
-                    if (item.Edibility <= 0 || item.Category == -4)
+                    if (item.Edibility <= 0 || (item.Category == -4 && !Config.AllowEatingFish))
                         continue;
 
                     if (bestItem == null || bestItem.Edibility / bestItem.salePrice() < item.Edibility / item.salePrice())
@@ -166,6 +167,10 @@ namespace FishingAssistant
         /// <summary>Auto hook fish when fish bite.</summary>
         private void AutoHook()
         {
+            //Do nothing if fishing rod already had auto hook enchantment
+            if (fishingRod.hasEnchantmentOfType<AutoHookEnchantment>())
+                return;
+
             //apply auto hook if mod enable
             if (IsRodCasting)
                 autoHook = true;
@@ -174,7 +179,10 @@ namespace FishingAssistant
             if (autoHook && IsRodCanHook() && !Game1.isFestival())
             {
                 autoHook = false;
-                fishingRod.DoFunction(Game1.player.currentLocation, 1, 1, 1, Game1.player);
+                fishingRod.timePerBobberBob = 1f;
+                fishingRod.timeUntilFishingNibbleDone = FishingRod.maxTimeToNibble;
+                fishingRod.DoFunction(Game1.player.currentLocation, (int)fishingRod.bobber.X, (int)fishingRod.bobber.Y, 1, Game1.player);
+                Rumble.rumble(0.95f, 200f);
             }
         }
 

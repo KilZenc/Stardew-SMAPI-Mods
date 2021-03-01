@@ -40,6 +40,8 @@
 	"menu.config.label.pause.fishing.time": "Pause fishing time",
 	"menu.config.label.auto.eat.food": "Auto eat food",
 	"menu.config.label.energy.to.eat.food": "Energy to eat",
+	"menu.config.label.allow.eat.fish": "Allow eating fish",
+	"menu.config.etc.allow.eat.fish.warning": "Be careful, the legendary fish may be eaten.",
 	"menu.config.etc.when-low-energy": "When low energy",
 
 	"menu.config.header.fishing.rod": "Fishing rod",

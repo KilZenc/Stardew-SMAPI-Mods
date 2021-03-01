@@ -238,6 +238,18 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.label.energy.to.eat.food");
         }
 
+        /// <summary>Get a translation equivalent to "Allow eating fish".</summary>
+        public static string Menu_Config_Label_Allow_Eat_Fish()
+        {
+            return I18n.GetByKey("menu.config.label.allow.eat.fish");
+        }
+
+        /// <summary>Get a translation equivalent to "Be careful, the legendary fish may be eaten.".</summary>
+        public static string Menu_Config_Etc_Allow_Eat_Fish_Warning()
+        {
+            return I18n.GetByKey("menu.config.etc.allow.eat.fish.warning");
+        }
+
         /// <summary>Get a translation equivalent to "When low energy".</summary>
         public static string Menu_Config_Etc_WhenLowEnergy()
         {

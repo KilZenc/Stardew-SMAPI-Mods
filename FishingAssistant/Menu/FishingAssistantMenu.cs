@@ -169,6 +169,13 @@ namespace FishingAssistant.Menu
                 disabled: () => !Config.EnableAutoEatFood,
                 format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
 
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Allow_Eat_Fish(),
+                value: Config.AllowEatingFish,
+                setValue: value => Config.AllowEatingFish = value));
+
+            this.AddDescription(I18n.Menu_Config_Etc_Allow_Eat_Fish_Warning());
+
             #endregion General
 
             #region Fishing Rod

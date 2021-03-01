@@ -88,6 +88,9 @@ namespace FishingAssistant
         /// <summary>Amount of energy in percent to find food to eat</summary>
         public int EnergyPrecentToEat { get; set; } = 0;
 
+        /// <summary>Allow to eat fish that you caught</summary>
+        public bool AllowEatingFish { get; set; } = false;
+
         /// <summary>Add auto-Hook enchantment to fishing rod</summary>
         public bool AddAutoHookEnchantment = false;
 
