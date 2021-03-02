@@ -81,5 +81,29 @@ namespace FishingAssistant
 
         /// <summary>Time to stop fishing</summary>
         public int PauseFishingTime { get; set; } = 24;
+
+        /// <summary>Whether to eat some food if need</summary>
+        public bool EnableAutoEatFood { get; set; } = false;
+
+        /// <summary>Amount of energy in percent to find food to eat</summary>
+        public int EnergyPrecentToEat { get; set; } = 0;
+
+        /// <summary>Allow to eat fish that you caught</summary>
+        public bool AllowEatingFish { get; set; } = false;
+
+        /// <summary>Add auto-Hook enchantment to fishing rod</summary>
+        public bool AddAutoHookEnchantment = false;
+
+        /// <summary>Add Efficient enchantment to fishing rod</summary>
+        public bool AddEfficientEnchantment = false;
+
+        /// <summary>Add Master enchantment to fishing rod</summary>
+        public bool AddMasterEnchantment = false;
+
+        /// <summary>Add Preserving enchantment to fishing rod</summary>
+        public bool AddPreservingEnchantment = false;
+
+        /// <summary>Add Preserving enchantment to fishing rod</summary>
+        public bool OnlyAddEnchantmentWhenHeld = false;
     }
 }

@@ -214,16 +214,46 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.label.mod.status.position");
         }
 
-        /// <summary>Get a translation equivalent to "Enable auto pause fishing".</summary>
-        public static string Menu_Config_Label_Enable_Auto_Pause_Fishing()
+        /// <summary>Get a translation equivalent to "Auto pause fishing".</summary>
+        public static string Menu_Config_Label_Auto_Pause_Fishing()
         {
-            return I18n.GetByKey("menu.config.label.enable.auto.pause.fishing");
+            return I18n.GetByKey("menu.config.label.auto.pause.fishing");
         }
 
         /// <summary>Get a translation equivalent to "Pause fishing time".</summary>
         public static string Menu_Config_Label_Pause_Fishing_Time()
         {
             return I18n.GetByKey("menu.config.label.pause.fishing.time");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto eat food".</summary>
+        public static string Menu_Config_Label_Auto_Eat_Food()
+        {
+            return I18n.GetByKey("menu.config.label.auto.eat.food");
+        }
+
+        /// <summary>Get a translation equivalent to "Energy to eat".</summary>
+        public static string Menu_Config_Label_Energy_To_Eat_Food()
+        {
+            return I18n.GetByKey("menu.config.label.energy.to.eat.food");
+        }
+
+        /// <summary>Get a translation equivalent to "Allow eating fish".</summary>
+        public static string Menu_Config_Label_Allow_Eat_Fish()
+        {
+            return I18n.GetByKey("menu.config.label.allow.eat.fish");
+        }
+
+        /// <summary>Get a translation equivalent to "Be careful, the legendary fish may be eaten.".</summary>
+        public static string Menu_Config_Etc_Allow_Eat_Fish_Warning()
+        {
+            return I18n.GetByKey("menu.config.etc.allow.eat.fish.warning");
+        }
+
+        /// <summary>Get a translation equivalent to "When low energy".</summary>
+        public static string Menu_Config_Etc_WhenLowEnergy()
+        {
+            return I18n.GetByKey("menu.config.etc.when-low-energy");
         }
 
         /// <summary>Get a translation equivalent to "Fishing rod".</summary>
@@ -254,6 +284,36 @@ namespace FishingAssistant
         public static string Menu_Config_Label_Infinite_Tackle()
         {
             return I18n.GetByKey("menu.config.label.infinite.tackle");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Auto-Hook enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_AutoHook()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.auto-hook");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Efficient enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Efficient()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.efficient");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Master enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Master()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.master");
+        }
+
+        /// <summary>Get a translation equivalent to "Add Preserving enchantment".</summary>
+        public static string Menu_Config_Label_Enchantment_Preserving()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.preserving");
+        }
+
+        /// <summary>Get a translation equivalent to "Only add enchantment when held".</summary>
+        public static string Menu_Config_Label_Enchantment_WhenHeld()
+        {
+            return I18n.GetByKey("menu.config.label.enchantment.when-held");
         }
 
         /// <summary>Get a translation equivalent to "Fishing mini-game".</summary>

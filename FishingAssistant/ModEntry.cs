@@ -47,8 +47,8 @@ namespace FishingAssistant
             if (!modEnable || !Context.IsWorldReady)
                 return;
 
-            // apply infinite bait/tackle
-            ApplyInfiniteBaitAndTackle(e);
+            // Apply infinite bait/tackle
+            ApplyInfiniteBaitAndTackle();
 
             if (IsFishingMiniGameReady())
             {
@@ -75,6 +75,11 @@ namespace FishingAssistant
                     GetPlayerData();
                 }
 
+                AddEnchantment();
+
+                AutoEatFood(ignoreCondition: false);
+
+                // Find bait and tackle add attach to fishing rod
                 AutoAttachBaitAndTackles();
 
                 // Cast fishing rod if possible
@@ -97,9 +102,12 @@ namespace FishingAssistant
                 //Change mod status to pasue
                 isPause = true;
                 modState = ModState.Pause;
-                autoCastDelay = 60;
-                autoClosePopupDelay = 30;
-                autoLootDelay = 30;
+                autoCastDelay = defaultAutoCastDelay;
+                autoClosePopupDelay = defaultAutoClosePopupDelay;
+                autoLootDelay = defaultAutoLootDelay;
+
+                if (Config.OnlyAddEnchantmentWhenHeld)
+                    fishingRod.ClearEnchantments();
             }
         }
 

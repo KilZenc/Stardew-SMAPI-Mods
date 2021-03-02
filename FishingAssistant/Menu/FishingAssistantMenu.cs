@@ -143,7 +143,7 @@ namespace FishingAssistant.Menu
                 format: value => MenuHelper.GetLocalizationPosition(Mod.ModDisplayPosition[value])));
 
             this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Enable_Auto_Pause_Fishing(),
+                label: I18n.Menu_Config_Label_Auto_Pause_Fishing(),
                 value: Config.EnableAutoPauseFishing,
                 setValue: value => Config.EnableAutoPauseFishing = value));
 
@@ -155,6 +155,26 @@ namespace FishingAssistant.Menu
                 setValueBool: value => Mod.IsForceEnable = value,
                 disabled: () => !Config.EnableAutoPauseFishing,
                 format: value => Game1.getTimeOfDayString(value * 100)));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Auto_Eat_Food(),
+                value: Config.EnableAutoEatFood,
+                setValue: value => Config.EnableAutoEatFood = value));
+
+            this.Options.Add(new SliderOptionElement(
+                label: I18n.Menu_Config_Label_Energy_To_Eat_Food(),
+                value: Config.EnergyPrecentToEat / 5,
+                minValue: 0, maxValue: 19,
+                setValue: value => Config.EnergyPrecentToEat = value * 5,
+                disabled: () => !Config.EnableAutoEatFood,
+                format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Allow_Eat_Fish(),
+                value: Config.AllowEatingFish,
+                setValue: value => Config.AllowEatingFish = value));
+
+            this.AddDescription(I18n.Menu_Config_Etc_Allow_Eat_Fish_Warning());
 
             #endregion General
 
@@ -180,6 +200,31 @@ namespace FishingAssistant.Menu
                 label: I18n.Menu_Config_Label_Infinite_Tackle(),
                 value: Config.InfiniteTackle,
                 setValue: value => Config.InfiniteTackle = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_AutoHook(),
+                value: Config.AddAutoHookEnchantment,
+                setValue: value => Config.AddAutoHookEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Efficient(),
+                value: Config.AddEfficientEnchantment,
+                setValue: value => Config.AddEfficientEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Master(),
+                value: Config.AddMasterEnchantment,
+                setValue: value => Config.AddMasterEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_Preserving(),
+                value: Config.AddPreservingEnchantment,
+                setValue: value => Config.AddPreservingEnchantment = value));
+
+            this.Options.Add(new CheckboxOptionElement(
+                label: I18n.Menu_Config_Label_Enchantment_WhenHeld(),
+                value: Config.OnlyAddEnchantmentWhenHeld,
+                setValue: value => Config.OnlyAddEnchantmentWhenHeld = value));
 
             #endregion Fishing Rod
 

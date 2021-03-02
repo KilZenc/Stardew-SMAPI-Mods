@@ -6,16 +6,31 @@ namespace FishingAssistant
 {
     internal partial class ModEntry : Mod
     {
-        /// <summary>Make bait and tackle last long forever</summary>
-        private void ApplyInfiniteBaitAndTackle(UpdateTickedEventArgs e)
+        private void AddEnchantment()
         {
-            if (!(Context.IsWorldReady && e.IsOneSecond && fishingRod != null))
+            if (Config.AddAutoHookEnchantment && !fishingRod.hasEnchantmentOfType<AutoHookEnchantment>())
+                fishingRod.enchantments.Add(new AutoHookEnchantment());
+
+            if (Config.AddEfficientEnchantment && !fishingRod.hasEnchantmentOfType<EfficientToolEnchantment>())
+                fishingRod.enchantments.Add(new EfficientToolEnchantment());
+
+            if (Config.AddMasterEnchantment && !fishingRod.hasEnchantmentOfType<MasterEnchantment>())
+                fishingRod.enchantments.Add(new MasterEnchantment());
+
+            if (Config.AddPreservingEnchantment && !fishingRod.hasEnchantmentOfType<PreservingEnchantment>())
+                fishingRod.enchantments.Add(new PreservingEnchantment());
+        }
+
+        /// <summary>Make bait and tackle last long forever</summary>
+        private void ApplyInfiniteBaitAndTackle()
+        {
+            if (!(Context.IsWorldReady && fishingRod != null))
                 return;
 
-            if (Config.InfiniteBait && fishingRod.attachments?.Length > 0 && fishingRod.attachments[0] != null)
+            if (Config.InfiniteBait && fishingRod.attachments?.Length > 0 && fishingRod.attachments[0] != null && fishingRod.attachments[0].Stack < fishingRod.attachments[0].maximumStackSize())
                 fishingRod.attachments[0].Stack = fishingRod.attachments[0].maximumStackSize();
 
-            if (Config.InfiniteTackle && fishingRod.attachments?.Length > 1 && fishingRod.attachments[1] != null)
+            if (Config.InfiniteTackle && fishingRod.attachments?.Length > 1 && fishingRod.attachments[1] != null && fishingRod.attachments[1].uses.Value != 0)
                 fishingRod.attachments[1].uses.Value = 0;
         }
 

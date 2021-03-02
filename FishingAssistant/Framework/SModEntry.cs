@@ -144,7 +144,8 @@ namespace FishingAssistant
         private void ReloadConfig()
         {
             Config = Helper.ReadConfig<ModConfig>();
-            AddHUDMessage(2, I18n.Hud_Message_Config_Saved());
+
+            autoEatWhenLowEnergy = (Config.EnableAutoEatFood && Config.EnergyPrecentToEat == 0);
 
             switch (Config.FishInfoDisplayPosition)
             {
@@ -178,6 +179,8 @@ namespace FishingAssistant
                     this.Monitor.Log($"Invalid config value {Config.FishInfoDisplayPosition} for FishDisplayPosition. Valid entries include Top, Bottom, UpperRight, UpperLeft, LowerRight and LowerLeft.", LogLevel.Warn);
                     break;
             }
+
+            AddHUDMessage(2, I18n.Hud_Message_Config_Saved());
         }
 
         private void GetPlayerData()
