@@ -36,7 +36,7 @@
 
 	"menu.config.header.general": "Allgemein",
 	"menu.config.label.mod.status.position": "Mod-Status Position",
-	"menu.config.label.enable.auto.pause.fishing": "Auto-Pause beim Fischen aktivieren",
+	"menu.config.label.auto.pause.fishing": "Auto-Pause beim Fischen aktivieren",
 	"menu.config.label.pause.fishing.time": "Fangzeit pausieren",
 
 	"menu.config.header.fishing.rod": "Angel",
