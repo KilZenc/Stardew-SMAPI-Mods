@@ -49,6 +49,8 @@
 	"menu.config.label.auto.attach.tackle": "Auto attach tackle",
 	"menu.config.label.infinite.bait": "Infinite bait",
 	"menu.config.label.infinite.tackle": "Infinite tackle",
+
+	"menu.config.header.enchantment": "Enchantment",
 	"menu.config.label.enchantment.auto-hook": "Add Auto-Hook enchantment",
 	"menu.config.label.enchantment.efficient": "Add Efficient enchantment",
 	"menu.config.label.enchantment.master": "Add Master enchantment",

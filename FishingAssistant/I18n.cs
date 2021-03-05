@@ -286,6 +286,12 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.label.infinite.tackle");
         }
 
+        /// <summary>Get a translation equivalent to "Enchantment".</summary>
+        public static string Menu_Config_Header_Enchantment()
+        {
+            return I18n.GetByKey("menu.config.header.enchantment");
+        }
+
         /// <summary>Get a translation equivalent to "Add Auto-Hook enchantment".</summary>
         public static string Menu_Config_Label_Enchantment_AutoHook()
         {

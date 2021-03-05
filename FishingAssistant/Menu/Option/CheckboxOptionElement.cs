@@ -16,6 +16,9 @@ namespace FishingAssistant.Menu.Option
         /// <summary>A callback to invoke when the value changes.</summary>
         private readonly Action<bool> SetValue;
 
+        /// <summary>Whether the slider should be disabled.</summary>
+        private readonly Func<bool> IsDisabled;
+
         /*********
         ** Accessors
         *********/
@@ -31,11 +34,12 @@ namespace FishingAssistant.Menu.Option
         /// <param name="label">The checkbox label.</param>
         /// <param name="value">The initial value to set.</param>
         /// <param name="setValue">A callback to invoke when the value changes.</param>
-        public CheckboxOptionElement(string label, bool value, Action<bool> setValue)
+        public CheckboxOptionElement(string label, bool value, Action<bool> setValue, Func<bool> disabled = null)
           : base(label, -1, -1, 9 * Game1.pixelZoom, 9 * Game1.pixelZoom, 0)
         {
-            IsChecked = value;
-            SetValue = setValue;
+            this.IsChecked = value;
+            this.SetValue = setValue;
+            this.IsDisabled = disabled ?? (() => false);
         }
 
         /// <summary>Handle the player clicking the left mouse button.</summary>
@@ -58,6 +62,7 @@ namespace FishingAssistant.Menu.Option
         /// <param name="context">The menu drawing the component.</param>
         public override void draw(SpriteBatch spriteBatch, int slotX, int slotY, IClickableMenu context = null)
         {
+            this.greyedOut = this.IsDisabled();
             spriteBatch.Draw(Game1.mouseCursors, new Vector2(slotX + bounds.X, slotY + bounds.Y), IsChecked ? OptionsCheckbox.sourceRectChecked : OptionsCheckbox.sourceRectUnchecked, Color.White * (greyedOut ? 0.33f : 1f), 0.0f, Vector2.Zero, Game1.pixelZoom, SpriteEffects.None, 0.4f);
             base.draw(spriteBatch, slotX + GetOffsetX(), slotY, context);
         }

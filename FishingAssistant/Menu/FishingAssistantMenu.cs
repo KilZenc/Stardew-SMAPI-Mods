@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 using System;
 using System.Collections.Generic;
@@ -172,7 +173,8 @@ namespace FishingAssistant.Menu
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Allow_Eat_Fish(),
                 value: Config.AllowEatingFish,
-                setValue: value => Config.AllowEatingFish = value));
+                setValue: value => Config.AllowEatingFish = value,
+                disabled: () => !Config.EnableAutoEatFood));
 
             this.AddDescription(I18n.Menu_Config_Etc_Allow_Eat_Fish_Warning());
 
@@ -201,6 +203,11 @@ namespace FishingAssistant.Menu
                 value: Config.InfiniteTackle,
                 setValue: value => Config.InfiniteTackle = value));
 
+            #endregion Fishing Rod
+
+            #region Enchantment
+
+            this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Enchantment()));
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Enchantment_AutoHook(),
                 value: Config.AddAutoHookEnchantment,
@@ -224,9 +231,10 @@ namespace FishingAssistant.Menu
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Enchantment_WhenHeld(),
                 value: Config.OnlyAddEnchantmentWhenHeld,
-                setValue: value => Config.OnlyAddEnchantmentWhenHeld = value));
+                setValue: value => Config.OnlyAddEnchantmentWhenHeld = value,
+                disabled: () => (!Config.AddAutoHookEnchantment && !Config.AddEfficientEnchantment && !Config.AddMasterEnchantment && !Config.AddPreservingEnchantment)));
 
-            #endregion Fishing Rod
+            #endregion Enchantment
 
             #region Mini-game
 
@@ -477,7 +485,7 @@ namespace FishingAssistant.Menu
                 spriteBatch.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.4f);
 
             Game1.drawDialogueBox(this.xPositionOnScreen, this.yPositionOnScreen, this.width, this.height, false, true);
-            MenuHelper.DrawTab(this.Title.bounds.X, this.Title.bounds.Y, Game1.dialogueFont, this.Title.name, 1);
+            SpriteText.drawStringWithScrollCenteredAt(spriteBatch, this.Title.name, this.Title.bounds.X, this.Title.bounds.Y);
             for (int index = 0; index < this.OptionSlots.Count; ++index)
             {
                 if (this.CurrentItemIndex >= 0 && this.CurrentItemIndex + index < this.Options.Count)
