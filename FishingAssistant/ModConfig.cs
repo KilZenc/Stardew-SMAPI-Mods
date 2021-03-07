@@ -85,16 +85,22 @@ namespace FishingAssistant
         /// <summary>Add Preserving enchantment to fishing rod</summary>
         public bool OnlyAddEnchantmentWhenHeld { get; set; } = false;
 
+        /// <summary></summary>
         public string AutomationPresets { get; set; } = "Default";
 
+        /// <summary>Auto cast fishing rod on custon preset</summary>
         public bool AutoCastFishingRod { get; set; } = true;
 
+        /// <summary>Auto hook fish rod on custon preset</summary>
         public bool AutoHookFish { get; set; } = true;
 
+        /// <summary>Auto play fishing mini-game on custon preset</summary>
         public bool AutoPlayMiniGame { get; set; } = true;
 
+        /// <summary>Auto close fish popup on custon preset</summary>
         public bool AutoClosePopup { get; set; } = true;
 
+        /// <summary>Auto loot treasure on custon preset</summary>
         public bool AutoLootTreasure { get; set; } = true;
 
         /// <summary>Shold mod auto attach bait if possible.</summary>
