@@ -34,12 +34,6 @@ namespace FishingAssistant
         /// <summary>Whether to catch treasure instantly.</summary>
         public bool InstantCatchTreasure { get; set; } = false;
 
-        /// <summary>Shold mod auto attach bait if possible.</summary>
-        public bool AutoAttachBait { get; set; } = false;
-
-        /// <summary>Shold mod auto attach bait if possible.</summary>
-        public bool AutoAttachTackles { get; set; } = false;
-
         /// <summary>Whether fishing tackles last forever.</summary>
         public bool InfiniteTackle { get; set; } = false;
 
@@ -76,6 +70,39 @@ namespace FishingAssistant
         /// <summary>Alway show fish info if current fish is legendary</summary>
         public bool AlwaysShowLegendaryFish { get; set; } = false;
 
+        /// <summary>Add auto-Hook enchantment to fishing rod</summary>
+        public bool AddAutoHookEnchantment { get; set; } = false;
+
+        /// <summary>Add Efficient enchantment to fishing rod</summary>
+        public bool AddEfficientEnchantment { get; set; } = false;
+
+        /// <summary>Add Master enchantment to fishing rod</summary>
+        public bool AddMasterEnchantment { get; set; } = false;
+
+        /// <summary>Add Preserving enchantment to fishing rod</summary>
+        public bool AddPreservingEnchantment { get; set; } = false;
+
+        /// <summary>Add Preserving enchantment to fishing rod</summary>
+        public bool OnlyAddEnchantmentWhenHeld { get; set; } = false;
+
+        public string AutomationPresets { get; set; } = "Default";
+
+        public bool AutoCastFishingRod { get; set; } = true;
+
+        public bool AutoHookFish { get; set; } = true;
+
+        public bool AutoPlayMiniGame { get; set; } = true;
+
+        public bool AutoClosePopup { get; set; } = true;
+
+        public bool AutoLootTreasure { get; set; } = true;
+
+        /// <summary>Shold mod auto attach bait if possible.</summary>
+        public bool AutoAttachBait { get; set; } = false;
+
+        /// <summary>Shold mod auto attach bait if possible.</summary>
+        public bool AutoAttachTackles { get; set; } = false;
+
         /// <summary>Whether to pause fishing on given time</summary>
         public bool EnableAutoPauseFishing { get; set; } = true;
 
@@ -90,20 +117,5 @@ namespace FishingAssistant
 
         /// <summary>Allow to eat fish that you caught</summary>
         public bool AllowEatingFish { get; set; } = false;
-
-        /// <summary>Add auto-Hook enchantment to fishing rod</summary>
-        public bool AddAutoHookEnchantment = false;
-
-        /// <summary>Add Efficient enchantment to fishing rod</summary>
-        public bool AddEfficientEnchantment = false;
-
-        /// <summary>Add Master enchantment to fishing rod</summary>
-        public bool AddMasterEnchantment = false;
-
-        /// <summary>Add Preserving enchantment to fishing rod</summary>
-        public bool AddPreservingEnchantment = false;
-
-        /// <summary>Add Preserving enchantment to fishing rod</summary>
-        public bool OnlyAddEnchantmentWhenHeld = false;
     }
 }

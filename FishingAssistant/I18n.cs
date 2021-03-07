@@ -256,6 +256,72 @@ namespace FishingAssistant
             return I18n.GetByKey("menu.config.etc.when-low-energy");
         }
 
+        /// <summary>Get a translation equivalent to "Automation".</summary>
+        public static string Menu_Config_Header_Automation()
+        {
+            return I18n.GetByKey("menu.config.header.automation");
+        }
+
+        /// <summary>Get a translation equivalent to "Automation preset".</summary>
+        public static string Menu_Config_Label_Current_Preset()
+        {
+            return I18n.GetByKey("menu.config.label.current.preset");
+        }
+
+        /// <summary>Get a translation equivalent to "Default".</summary>
+        public static string Menu_Config_Label_Preset_Default()
+        {
+            return I18n.GetByKey("menu.config.label.preset.default");
+        }
+
+        /// <summary>Get a translation equivalent to "Custom".</summary>
+        public static string Menu_Config_Label_Preset_Custom()
+        {
+            return I18n.GetByKey("menu.config.label.preset.custom");
+        }
+
+        /// <summary>Get a translation equivalent to "Disable".</summary>
+        public static string Menu_Config_Label_Preset_Disable()
+        {
+            return I18n.GetByKey("menu.config.label.preset.disable");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto cast fishing rod".</summary>
+        public static string Menu_Config_Label_Automation_Auto_Cast()
+        {
+            return I18n.GetByKey("menu.config.label.automation.auto.cast");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto hook fish".</summary>
+        public static string Menu_Config_Label_Automation_Auto_Hook()
+        {
+            return I18n.GetByKey("menu.config.label.automation.auto.hook");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto play mini-game".</summary>
+        public static string Menu_Config_Label_Automation_Auto_PlayMiniGame()
+        {
+            return I18n.GetByKey("menu.config.label.automation.auto.play-mini-game");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto close popup".</summary>
+        public static string Menu_Config_Label_Automation_Auto_ClosePopup()
+        {
+            return I18n.GetByKey("menu.config.label.automation.auto.close-popup");
+        }
+
+        /// <summary>Get a translation equivalent to "Auto loot treasure".</summary>
+        public static string Menu_Config_Label_Automation_Auto_LootTreasure()
+        {
+            return I18n.GetByKey("menu.config.label.automation.auto.loot-treasure");
+        }
+
+        /// <summary>Get a translation equivalent to "To enable this section. set Automation preset to Custom.".</summary>
+        public static string Menu_Config_Description_Enable_Custom_Automation()
+        {
+            return I18n.GetByKey("menu.config.description.enable.custom.automation");
+        }
+
         /// <summary>Get a translation equivalent to "Fishing rod".</summary>
         public static string Menu_Config_Header_Fishing_Rod()
         {

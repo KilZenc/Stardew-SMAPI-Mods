@@ -38,6 +38,7 @@ namespace FishingAssistant
         public bool IsForceEnable { get => isForceEnable; set => isForceEnable = value; }
 
         public List<string> ModDisplayPosition = new List<string> { "Left", "Right" };
+        public List<string> AutomationPresets = new List<string> { "Default", "Custom", "Disable" };
         public List<string> FishInfoDisplayPosition = new List<string> { "Top", "UpperRight", "UpperLeft", "Bottom", "LowerRight", "LowerLeft" };
 
         private void Initialize(IModHelper helper)
@@ -141,7 +142,7 @@ namespace FishingAssistant
             }
         }
 
-        private void ReloadConfig()
+        private void ReloadConfig(bool hideMessage = true)
         {
             Config = Helper.ReadConfig<ModConfig>();
 
@@ -180,7 +181,28 @@ namespace FishingAssistant
                     break;
             }
 
-            AddHUDMessage(2, I18n.Hud_Message_Config_Saved());
+            if (!hideMessage)
+                AddHUDMessage(2, I18n.Hud_Message_Config_Saved());
+        }
+
+        public void ResetConfigurationToDefault()
+        {
+            Config.AutomationPresets = ModConfig.Defaults.AutomationPresets;
+            Config.AutoAttachBait = ModConfig.Defaults.AutoAttachBait;
+            Config.AutoAttachTackles = ModConfig.Defaults.AutoAttachTackles;
+            Config.AutoCastFishingRod = ModConfig.Defaults.AutoCastFishingRod;
+            Config.AutoHookFish = ModConfig.Defaults.AutoHookFish;
+            Config.AutoPlayMiniGame = ModConfig.Defaults.AutoPlayMiniGame;
+            Config.AutoClosePopup = ModConfig.Defaults.AutoClosePopup;
+            Config.AutoLootTreasure = ModConfig.Defaults.AutoLootTreasure;
+            Config.EnableAutoPauseFishing = ModConfig.Defaults.EnableAutoPauseFishing;
+            Config.PauseFishingTime = ModConfig.Defaults.PauseFishingTime;
+            Config.EnableAutoEatFood = ModConfig.Defaults.EnableAutoEatFood;
+            Config.EnergyPrecentToEat = ModConfig.Defaults.EnergyPrecentToEat;
+            Config.AllowEatingFish = ModConfig.Defaults.AllowEatingFish;
+
+            Helper.WriteConfig(Config);
+            ReloadConfig();
         }
 
         private void GetPlayerData()

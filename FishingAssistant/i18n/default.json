@@ -44,6 +44,18 @@
 	"menu.config.etc.allow.eat.fish.warning": "Be careful, the legendary fish may be eaten.",
 	"menu.config.etc.when-low-energy": "When low energy",
 
+	"menu.config.header.automation": "Automation",
+	"menu.config.label.current.preset": "Automation preset",
+	"menu.config.label.preset.default": "Default",
+	"menu.config.label.preset.custom": "Custom",
+	"menu.config.label.preset.disable": "Disable",
+	"menu.config.label.automation.auto.cast": "Auto cast fishing rod",
+	"menu.config.label.automation.auto.hook": "Auto hook fish",
+	"menu.config.label.automation.auto.play-mini-game": "Auto play mini-game",
+	"menu.config.label.automation.auto.close-popup": "Auto close popup",
+	"menu.config.label.automation.auto.loot-treasure": "Auto loot treasure",
+	"menu.config.description.enable.custom.automation": "To enable this section. set Automation preset to Custom.",
+
 	"menu.config.header.fishing.rod": "Fishing rod",
 	"menu.config.label.auto.attach.bait": "Auto attach bait",
 	"menu.config.label.auto.attach.tackle": "Auto attach tackle",

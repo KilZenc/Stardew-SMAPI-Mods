@@ -61,8 +61,11 @@ namespace FishingAssistant.Menu
             // set dimensions
             this.width = (this.IsAndroid ? 750 : 800) + IClickableMenu.borderWidth * 2;
             this.height = (this.IsAndroid ? 550 : 600) + IClickableMenu.borderWidth * 2;
-            this.xPositionOnScreen = Game1.uiViewport.Width / 2 - (this.width /*- (int)(Game1.tileSize * 2.4f)*/) / 2;
-            this.yPositionOnScreen = Game1.uiViewport.Height / 2 - this.height / 2;
+            this.xPositionOnScreen = (Game1.uiViewport.Width / 2) - (this.width /*- (int)(Game1.tileSize * 2.4f)*/) / 2;
+            this.yPositionOnScreen = (Game1.uiViewport.Height / 2) - (this.height / 2);
+
+            /*if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.pt)
+                 this.width += 150;*/
 
             // show close button on Android
             if (this.IsAndroid)
@@ -141,57 +144,104 @@ namespace FishingAssistant.Menu
                 value: Mod.GetCurrentListValue(Config.ModStatusDisplayPosition, Mod.ModDisplayPosition),
                 maxValue: Mod.ModDisplayPosition.Count - 1,
                 setValue: value => Config.ModStatusDisplayPosition = Mod.ModDisplayPosition[value],
-                format: value => MenuHelper.GetLocalizationPosition(Mod.ModDisplayPosition[value])));
-
-            this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Auto_Pause_Fishing(),
-                value: Config.EnableAutoPauseFishing,
-                setValue: value => Config.EnableAutoPauseFishing = value));
+                format: value => MenuHelper.GetLocalizationText(Mod.ModDisplayPosition[value])));
 
             this.Options.Add(new SliderOptionElement(
-                label: I18n.Menu_Config_Label_Pause_Fishing_Time(),
-                value: Config.PauseFishingTime,
-                minValue: 6, maxValue: 25,
-                setValue: value => Config.PauseFishingTime = value,
-                setValueBool: value => Mod.IsForceEnable = value,
-                disabled: () => !Config.EnableAutoPauseFishing,
-                format: value => Game1.getTimeOfDayString(value * 100)));
-
-            this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Auto_Eat_Food(),
-                value: Config.EnableAutoEatFood,
-                setValue: value => Config.EnableAutoEatFood = value));
-
-            this.Options.Add(new SliderOptionElement(
-                label: I18n.Menu_Config_Label_Energy_To_Eat_Food(),
-                value: Config.EnergyPrecentToEat / 5,
-                minValue: 0, maxValue: 19,
-                setValue: value => Config.EnergyPrecentToEat = value * 5,
-                disabled: () => !Config.EnableAutoEatFood,
-                format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
-
-            this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Allow_Eat_Fish(),
-                value: Config.AllowEatingFish,
-                setValue: value => Config.AllowEatingFish = value,
-                disabled: () => !Config.EnableAutoEatFood));
-
-            this.AddDescription(I18n.Menu_Config_Etc_Allow_Eat_Fish_Warning());
+                label: I18n.Menu_Config_Label_Current_Preset(),
+                value: Mod.GetCurrentListValue(Config.AutomationPresets, Mod.AutomationPresets),
+                maxValue: Mod.AutomationPresets.Count - 1,
+                setValue: value =>
+                {
+                    Config.AutomationPresets = Mod.AutomationPresets[value];
+                    if (Mod.AutomationPresets[value] == "Default")
+                        Mod.ResetConfigurationToDefault();
+                    ResetComponents();
+                    SetOptions();
+                },
+                format: value => MenuHelper.GetLocalizationText(Mod.AutomationPresets[value])));
 
             #endregion General
+
+            this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Automation()));
+            if (Config.AutomationPresets == "Custom")
+            {
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Auto_Attach_Bait(),
+                    value: Config.AutoAttachBait,
+                    setValue: value => Config.AutoAttachBait = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Auto_Attach_Tackle(),
+                    value: Config.AutoAttachTackles,
+                    setValue: value => Config.AutoAttachTackles = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Automation_Auto_Cast(),
+                    value: Config.AutoCastFishingRod,
+                    setValue: value => Config.AutoCastFishingRod = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Automation_Auto_Hook(),
+                    value: Config.AutoHookFish,
+                    setValue: value => Config.AutoHookFish = value,
+                    disabled: () => Config.AddAutoHookEnchantment));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Automation_Auto_PlayMiniGame(),
+                    value: Config.AutoPlayMiniGame,
+                    setValue: value => Config.AutoPlayMiniGame = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Automation_Auto_ClosePopup(),
+                    value: Config.AutoClosePopup,
+                    setValue: value => Config.AutoClosePopup = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Automation_Auto_LootTreasure(),
+                    value: Config.AutoLootTreasure,
+                    setValue: value => Config.AutoLootTreasure = value));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Auto_Eat_Food(),
+                    value: Config.EnableAutoEatFood,
+                    setValue: value => Config.EnableAutoEatFood = value));
+
+                this.Options.Add(new SliderOptionElement(
+                    label: I18n.Menu_Config_Label_Energy_To_Eat_Food(),
+                    value: Config.EnergyPrecentToEat / 5,
+                    minValue: 0, maxValue: 19,
+                    setValue: value => Config.EnergyPrecentToEat = value * 5,
+                    disabled: () => !Config.EnableAutoEatFood,
+                    format: value => value == 0 ? I18n.Menu_Config_Etc_WhenLowEnergy() : string.Format("{0}%", value * 5)));
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Allow_Eat_Fish(),
+                    value: Config.AllowEatingFish,
+                    setValue: value => Config.AllowEatingFish = value,
+                    disabled: () => !Config.EnableAutoEatFood));
+
+                this.AddDescription(I18n.Menu_Config_Etc_Allow_Eat_Fish_Warning());
+
+                this.Options.Add(new CheckboxOptionElement(
+                    label: I18n.Menu_Config_Label_Auto_Pause_Fishing(),
+                    value: Config.EnableAutoPauseFishing,
+                    setValue: value => Config.EnableAutoPauseFishing = value));
+
+                this.Options.Add(new SliderOptionElement(
+                    label: I18n.Menu_Config_Label_Pause_Fishing_Time(),
+                    value: Config.PauseFishingTime,
+                    minValue: 6, maxValue: 25,
+                    setValue: value => Config.PauseFishingTime = value,
+                    setValueBool: value => Mod.IsForceEnable = value,
+                    disabled: () => !Config.EnableAutoPauseFishing,
+                    format: value => Game1.getTimeOfDayString(value * 100)));
+            }
+            else
+                this.AddDescription(I18n.Menu_Config_Description_Enable_Custom_Automation());
 
             #region Fishing Rod
 
             this.Options.Add(new OptionsElement(I18n.Menu_Config_Header_Fishing_Rod()));
-            this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Auto_Attach_Bait(),
-                value: Config.AutoAttachBait,
-                setValue: value => Config.AutoAttachBait = value));
-
-            this.Options.Add(new CheckboxOptionElement(
-                label: I18n.Menu_Config_Label_Auto_Attach_Tackle(),
-                value: Config.AutoAttachTackles,
-                setValue: value => Config.AutoAttachTackles = value));
 
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Infinite_Bait(),
@@ -299,7 +349,7 @@ namespace FishingAssistant.Menu
                 value: Mod.GetCurrentListValue(Config.FishInfoDisplayPosition, Mod.FishInfoDisplayPosition),
                 maxValue: Mod.FishInfoDisplayPosition.Count - 1,
                 setValue: value => Config.FishInfoDisplayPosition = Mod.FishInfoDisplayPosition[value],
-                format: value => MenuHelper.GetLocalizationPosition(Mod.FishInfoDisplayPosition[value])));
+                format: value => MenuHelper.GetLocalizationText(Mod.FishInfoDisplayPosition[value])));
 
             this.Options.Add(new CheckboxOptionElement(
                 label: I18n.Menu_Config_Label_Show_Fish_Name(),

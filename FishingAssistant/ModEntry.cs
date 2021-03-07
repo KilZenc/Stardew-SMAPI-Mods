@@ -80,7 +80,8 @@ namespace FishingAssistant
                 AutoEatFood(ignoreCondition: false);
 
                 // Find bait and tackle add attach to fishing rod
-                AutoAttachBaitAndTackles();
+                AutoAttachBait();
+                AutoAttachTackles();
 
                 // Cast fishing rod if possible
                 AutoCastFishingRod();
@@ -118,7 +119,7 @@ namespace FishingAssistant
             if (e.OldMenu is FishingAssistantMenu)
             {
                 Helper.WriteConfig(Config);
-                ReloadConfig();
+                ReloadConfig(false);
             }
 
             if (!modEnable)

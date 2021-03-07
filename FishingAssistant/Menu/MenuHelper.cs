@@ -7,7 +7,7 @@ namespace FishingAssistant.Menu
 {
     internal static class MenuHelper
     {
-        public static string GetLocalizationPosition(string value)
+        public static string GetLocalizationText(string value)
         {
             switch (value)
             {
@@ -19,6 +19,9 @@ namespace FishingAssistant.Menu
                 case "UpperLeft": return I18n.General_Position_UpperLeft();
                 case "LowerRight": return I18n.General_Position_LowerRight();
                 case "LowerLeft": return I18n.General_Position_LowerLeft();
+                case "Default": return I18n.Menu_Config_Label_Preset_Default();
+                case "Custom": return I18n.Menu_Config_Label_Preset_Custom();
+                case "Disable": return I18n.Menu_Config_Label_Preset_Disable();
                 default: return "";
             }
         }

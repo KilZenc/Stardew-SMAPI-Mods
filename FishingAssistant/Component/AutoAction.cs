@@ -30,9 +30,19 @@ namespace FishingAssistant
 
         private ModState modState;
 
-        public void AutoEatFood(bool ignoreCondition)
+        private bool CheckCurrentPreset(bool automation)
         {
-            if (!Game1.player.isEating && RodIsNotInUse() && (ignoreCondition || Game1.player.Stamina <= Game1.player.MaxStamina * ((float)Config.EnergyPrecentToEat / 100)))
+            if (Config.AutomationPresets == "Custom" && automation || Config.AutomationPresets == "Default")
+                return true;
+            return false;
+        }
+
+        public bool AutoEatFood(bool ignoreCondition)
+        {
+            if (!CheckCurrentPreset(Config.EnableAutoEatFood))
+                return false;
+
+            if (!Game1.player.isEating && RodIsNotInUse() && Config.EnableAutoEatFood && (ignoreCondition || Game1.player.Stamina <= Game1.player.MaxStamina * ((float)Config.EnergyPrecentToEat / 100)))
             {
                 Object bestItem = null;
                 foreach (Object item in Game1.player.Items.OfType<Object>())
@@ -44,21 +54,26 @@ namespace FishingAssistant
                         bestItem = item;
                 }
 
-                if (bestItem == null)
-                    return;
+                if (bestItem != null)
+                {
+                    Game1.player.eatObject(bestItem);
+                    bestItem.Stack--;
+                    if (bestItem.Stack == 0)
+                        Game1.player.removeItemFromInventory(bestItem);
 
-                Game1.player.eatObject(bestItem);
-                bestItem.Stack--;
-                if (bestItem.Stack == 0)
-                    Game1.player.removeItemFromInventory(bestItem);
-
-                AddHUDMessage(2, $"Auto eat : {bestItem.DisplayName}");
+                    AddHUDMessage(2, $"Auto eat : {bestItem.DisplayName}");
+                    return true;
+                }
             }
+            return false;
         }
 
-        private void AutoAttachBaitAndTackles()
+        private void AutoAttachBait()
         {
-            if (RodIsNotInUse() && !Game1.isFestival() && (Config.AutoAttachBait || Config.AutoAttachTackles))
+            if (!CheckCurrentPreset(Config.AutoAttachBait))
+                return;
+
+            if (RodIsNotInUse() && !Game1.isFestival() && Config.AutoAttachBait)
             {
                 IList<Item> items = Game1.player.Items;
 
@@ -102,6 +117,18 @@ namespace FishingAssistant
                         }
                     }
                 }
+            }
+        }
+
+        private void AutoAttachTackles()
+        {
+            if (!CheckCurrentPreset(Config.AutoAttachTackles))
+                return;
+
+            if (RodIsNotInUse() && !Game1.isFestival() && Config.AutoAttachTackles)
+            {
+                IList<Item> items = Game1.player.Items;
+
                 // Check the tackle slot.
                 if (Config.AutoAttachTackles && fishingRod.attachments[1] == null && fishingRod.upgradeLevel == 3)
                 {
@@ -124,7 +151,10 @@ namespace FishingAssistant
         /// <summary>Auto cast fishing rod if posible by last player facing direction.</summary>
         private void AutoCastFishingRod()
         {
-            if (RodIsNotInUse() && !Game1.isFestival())
+            if (!CheckCurrentPreset(Config.AutoCastFishingRod))
+                return;
+
+            if (RodIsNotInUse() && !Game1.isFestival() && Config.AutoCastFishingRod)
             {
                 modState = ModState.Idle;
                 if (autoCastDelay-- > 0)
@@ -136,11 +166,8 @@ namespace FishingAssistant
                 //prevent player from exhausted
                 if (Game1.player.stamina <= (8.0f - (Game1.player.fishingLevel * 0.1f)))
                 {
-                    if (autoEatWhenLowEnergy)
-                    {
-                        AutoEatFood(ignoreCondition: true);
+                    if (autoEatWhenLowEnergy && AutoEatFood(ignoreCondition: true))
                         return;
-                    }
 
                     AddHUDMessage(3, I18n.Hud_Message_Low_Stamina());
                     modEnable = false;
@@ -167,12 +194,15 @@ namespace FishingAssistant
         /// <summary>Auto hook fish when fish bite.</summary>
         private void AutoHook()
         {
+            if (!CheckCurrentPreset(Config.AutoHookFish))
+                return;
+
             //Do nothing if fishing rod already had auto hook enchantment
             if (fishingRod.hasEnchantmentOfType<AutoHookEnchantment>())
                 return;
 
             //apply auto hook if mod enable
-            if (IsRodCasting)
+            if (IsRodCasting && Config.AutoHookFish)
                 autoHook = true;
 
             // auto hook fish when fish bite
@@ -189,43 +219,52 @@ namespace FishingAssistant
         /// <summary>Auto play fishing minigame.</summary>
         private void AutoPlayMiniGame()
         {
-            modState = ModState.Fishing;
+            if (!CheckCurrentPreset(Config.AutoPlayMiniGame))
+                return;
 
-            float fishPos = BarBobberPosition;
-            float barPosMax = 568 - (BarHeight / 2);
-            float barPosMin = (BarHeight / 2);
-
-            if (BarDistanceFromCatching >= 1.0f)
+            if (Config.AutoPlayMiniGame)
             {
-                EndMiniGame();
-            }
-            else if (autoCatchTreasure && BarHasTreasure && !BarTreasureCaught && (BarDistanceFromCatching > 0.85 || catchingTreasure))
-            {
-                catchingTreasure = true;
-                fishPos = BarTreasurePosition;
+                modState = ModState.Fishing;
 
-                if (!IsTreasureInBar())
-                    HandleTreasureCatchError();
-            }
-            else if (catchingTreasure && BarDistanceFromCatching < 0.15)
-            {
-                catchingTreasure = false;
-                fishPos = BarBobberPosition;
-            }
-            fishPos += 25;
+                float fishPos = BarBobberPosition;
+                float barPosMax = 568 - (BarHeight / 2);
+                float barPosMin = (BarHeight / 2);
 
-            if (fishPos < barPosMin)
-                fishPos = barPosMin;
-            else if (fishPos > barPosMax)
-                fishPos = barPosMax;
+                if (BarDistanceFromCatching >= 1.0f)
+                {
+                    EndMiniGame();
+                }
+                else if (autoCatchTreasure && BarHasTreasure && !BarTreasureCaught && (BarDistanceFromCatching > 0.85 || catchingTreasure))
+                {
+                    catchingTreasure = true;
+                    fishPos = BarTreasurePosition;
 
-            BarPosition = fishPos - (BarHeight / 2);
+                    if (!IsTreasureInBar())
+                        HandleTreasureCatchError();
+                }
+                else if (catchingTreasure && BarDistanceFromCatching < 0.15)
+                {
+                    catchingTreasure = false;
+                    fishPos = BarBobberPosition;
+                }
+                fishPos += 25;
+
+                if (fishPos < barPosMin)
+                    fishPos = barPosMin;
+                else if (fishPos > barPosMax)
+                    fishPos = barPosMax;
+
+                BarPosition = fishPos - (BarHeight / 2);
+            }
         }
 
         /// <summary>Auto close fish popup when fishing minigame finish</summary>
         private void AutoCloseFishPopup()
         {
-            if (IsRodShowingFish() && !Game1.isFestival())
+            if (!CheckCurrentPreset(Config.AutoClosePopup))
+                return;
+
+            if (IsRodShowingFish() && !Game1.isFestival() && Config.AutoClosePopup)
             {
                 if (autoClosePopupDelay-- > 0)
                     return;
@@ -326,7 +365,10 @@ namespace FishingAssistant
         /// <summary>Loot all item in treasure if treasure is caught during fishing minigame</summary>
         private void AutoLootTreasure()
         {
-            if (Game1.isFestival() || !(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
+            if (!CheckCurrentPreset(Config.AutoLootTreasure))
+                return;
+
+            if (Game1.isFestival() || !Config.AutoLootTreasure || !(Game1.activeClickableMenu is ItemGrabMenu itemGrab) || itemGrab.organizeButton != null || itemGrab.shippingBin)
                 return;
 
             IList<Item> actualInventory = itemGrab.ItemsToGrabMenu.actualInventory;
@@ -378,6 +420,9 @@ namespace FishingAssistant
 
         private void AutoStopFishingOnTime()
         {
+            if (!CheckCurrentPreset(Config.EnableAutoPauseFishing))
+                return;
+
             if (Game1.timeOfDay >= Config.PauseFishingTime * 100 && modEnable && !isForceEnable && Config.EnableAutoPauseFishing)
             {
                 Game1.playSound("coin");
