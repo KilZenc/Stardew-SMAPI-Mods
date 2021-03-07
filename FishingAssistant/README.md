@@ -102,22 +102,6 @@ Instantly catch fish when fish hooked.
 Instantly catch treasure when treasure appeared.
 ```
 
-### AutoAttachBait         
-**Default value:** `false`
-**Possible values:** `true | false`
-
-```
-Should mod auto attach bait for you.
-```
-
-### AutoAttachTackles         
-**Default value:** `false`
-**Possible values:** `true | false`
-
-```
-Should mod auto attach tackle for you.
-```
-
 ### InfiniteTackle         
 **Default value:** `false`
 **Possible values:** `true | false`
@@ -214,46 +198,6 @@ Show a preview for all fish species, even ones you have never caught.
 Show a preview for legendary fish.
 ```
 
-### EnableAutoPauseFishing                
-**Default value:** `true`
-**Possible values:** `true | false`
-
-```
-Should mod auto pause fishing on night.
-```
-
-### PauseFishingTime                 
-**Default value:** `24`
-**Possible values:** `6 - 25`
-
-```
-Time to stop fishing.
-```
-
-### EnableAutoEatFood                
-**Default value:** `false`
-**Possible values:** `true | false`
-
-```
-Whether to eat some food if need.
-```
-
-### EnergyPrecentToEat                 
-**Default value:** `0`
-**Possible values:** `0 - 95`
-
-```
-Amount of energy in percent to find food to eat.
-```
-
-### AllowEatingFish                
-**Default value:** `false`
-**Possible values:** `true | false`
-
-```
-Allow to eat fish that you caught.
-```
-
 ### AddAutoHookEnchantment                
 **Default value:** `false`
 **Possible values:** `true | false`
@@ -292,6 +236,110 @@ Add Preserving enchantment to fishing rod.
 
 ```
 Remove all enchantment when fishing rod is switching out.
+```
+
+### AutomationPresets                
+**Default value:** `"Default"`
+**Possible values:** `"Default" | "Custom" | "Disable"`
+
+```
+What automation preset that this mod should use.
+```
+
+### AutoCastFishingRod                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod do auto cast fishing rod.
+```
+
+### AutoHookFish                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod do auto hook fish.
+```
+
+### AutoPlayMiniGame                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod do auto play fishing mini-game.
+```
+
+### AutoClosePopup                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod do auto close popup.
+```
+
+### AutoLootTreasure                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod do auto loot treasure.
+```
+
+### AutoAttachBait         
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Should mod auto attach bait for you.
+```
+
+### AutoAttachTackles         
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Should mod auto attach tackle for you.
+```
+
+### EnableAutoPauseFishing                
+**Default value:** `true`
+**Possible values:** `true | false`
+
+```
+Should mod auto pause fishing on night.
+```
+
+### PauseFishingTime                 
+**Default value:** `24`
+**Possible values:** `6 - 25`
+
+```
+Time to stop fishing.
+```
+
+### EnableAutoEatFood                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Whether to eat some food if need.
+```
+
+### EnergyPrecentToEat                 
+**Default value:** `0`
+**Possible values:** `0 - 95`
+
+```
+Amount of energy in percent to find food to eat.
+```
+
+### AllowEatingFish                
+**Default value:** `false`
+**Possible values:** `true | false`
+
+```
+Allow to eat fish that you caught.
 ```
 
 ## Open-Source commitment
