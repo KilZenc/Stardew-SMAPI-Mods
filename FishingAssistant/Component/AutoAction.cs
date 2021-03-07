@@ -154,7 +154,7 @@ namespace FishingAssistant
             if (!CheckCurrentPreset(Config.AutoCastFishingRod))
                 return;
 
-            if (RodIsNotInUse() && !Game1.isFestival() && Config.AutoCastFishingRod)
+            if (RodIsNotInUse() && !Game1.player.isRidingHorse() && !Game1.isFestival() && Config.AutoCastFishingRod)
             {
                 modState = ModState.Idle;
                 if (autoCastDelay-- > 0)
