@@ -24,7 +24,7 @@
 	"hud.message.config.saved" : "正在保存新配置",
 	"hud.message.auto.attach.bait" : "自动安装鱼饵：{0}",
 	"hud.message.auto.attach.tackle" : "自动安装钓具：{0}",
-	
+
 	//Config Menu
 	"menu.config.header.control": "控制",
 	"menu.config.button.toggle.mod": "开关模组按钮",
@@ -44,11 +44,25 @@
 	"menu.config.etc.allow.eat.fish.warning": "小心，传说之鱼可能会被吃掉。",
 	"menu.config.etc.when-low-energy": "低能量时",
 
+	"menu.config.header.automation": "自动化",
+	"menu.config.label.current.preset": "自动化预设",
+	"menu.config.label.preset.default": "默认",
+	"menu.config.label.preset.custom": "自定义",
+	"menu.config.label.preset.disable": "禁用",
+	"menu.config.label.automation.auto.cast": "自动抛竿",
+	"menu.config.label.automation.auto.hook": "自动上钩",
+	"menu.config.label.automation.auto.play-mini-game": "自动玩迷你游戏",
+	"menu.config.label.automation.auto.close-popup": "自动关闭弹窗",
+	"menu.config.label.automation.auto.loot-treasure": "自动收集宝藏",
+	"menu.config.description.enable.custom.automation": "启用此部分，将“自动化预设”设置为“自定义”。",	
+
 	"menu.config.header.fishing.rod": "鱼竿",
 	"menu.config.label.auto.attach.bait": "自动安装鱼饵",
 	"menu.config.label.auto.attach.tackle": "自动安装钓具",
 	"menu.config.label.infinite.bait": "无限鱼饵",
 	"menu.config.label.infinite.tackle": "无限钓具",
+
+	"menu.config.header.enchantment": "附魔",	
 	"menu.config.label.enchantment.auto-hook": "添加自动上钩附魔",
 	"menu.config.label.enchantment.efficient": "添加省力附魔",
 	"menu.config.label.enchantment.master": "添加精通附魔",
