@@ -65,7 +65,7 @@ namespace FishingAssistant
                 bool caughtSpecies = Game1.player.fishCaught.ContainsKey(fishPreviewFishId) && Game1.player.fishCaught[fishPreviewFishId][0] > 0;
 
                 // is it a legendary fish?
-                bool isLegendary = Helper.Reflection.GetMethod(typeof(FishingRod), "isFishBossFish").Invoke<bool>(fishPreviewFishId);
+                bool isLegendary = fishingRod.bossFish;
                 Monitor.Log($"Catching legendary fish? {isLegendary}", LogLevel.Trace);
 
                 // determine value of showFish value

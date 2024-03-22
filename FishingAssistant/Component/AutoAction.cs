@@ -280,14 +280,18 @@ namespace FishingAssistant
                 if (!IsRodTreasureCaught)
                 {
                     Object item2 = null;
-                    if (RodItemCategory == "Object")
+                    if (fishingRod.whichFish.TypeIdentifier == "furniture")
                     {
-                        item2 = new Object(RodWhichFish, 1, isRecipe: false, -1, RodFishQuality);
-                        if (RodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM_QID)
+                        item2 = new Furniture(RodWhichFish.LocalItemId, Vector2.Zero);
+                    }
+                    else
+                    {
+                        item2 = new Object(RodWhichFish.QualifiedItemId, 1, isRecipe: false, -1, RodFishQuality);
+                        if (RodWhichFish.QualifiedItemId == GameLocation.CAROLINES_NECKLACE_ITEM_QID)
                         {
                             item2.questItem.Value = true;
                         }
-                        if (RodWhichFish == "79" || RodWhichFish == "842")
+                        if (RodWhichFish.LocalItemId == "79" || RodWhichFish.LocalItemId == "842")
                         {
                             item2 = player.currentLocation.tryToCreateUnseenSecretNote(fishingRod.getLastFarmerToUse());
                             if (item2 == null)
@@ -295,19 +299,12 @@ namespace FishingAssistant
                                 return;
                             }
                         }
-                        if (RodCaughtDoubleFish)
-                        {
-                            item2.Stack = 2;
-                        }
-                    }
-                    else if (RodItemCategory == "Furniture")
-                    {
-                        item2 = new Furniture(RodWhichFish, Vector2.Zero);
-                    }
+                        item2.Stack = RodCaughtDoubleFish;
+                    } 
                     bool cachedFromFishPond = RodFromFishPond;
                     fishingRod.getLastFarmerToUse().completelyStopAnimatingOrDoingAction();
                     fishingRod.doneFishing(fishingRod.getLastFarmerToUse(), !cachedFromFishPond);
-                    if (!Game1.isFestival() && !cachedFromFishPond && RodItemCategory == "Object" && Game1.player.team.specialOrders != null)
+                    if (!Game1.isFestival() && !cachedFromFishPond)
                     {
                         foreach (SpecialOrder order2 in Game1.player.team.specialOrders)
                         {
@@ -327,20 +324,14 @@ namespace FishingAssistant
                     IsRodFishCaught = false;
                     IsRodShowingTreasure = true;
                     player.UsingTool = true;
-                    int stack = 1;
-                    if (RodCaughtDoubleFish)
+                    int stack = RodCaughtDoubleFish;
+                    
+                    Object item = new Object(RodWhichFish.LocalItemId, stack, isRecipe: false, -1, RodFishQuality);
+                    foreach (SpecialOrder order in Game1.player.team.specialOrders)
                     {
-                        stack = 2;
-                    }
-                    Object item = new Object(RodWhichFish, stack, isRecipe: false, -1, RodFishQuality);
-                    if (Game1.player.team.specialOrders != null)
-                    {
-                        foreach (SpecialOrder order in Game1.player.team.specialOrders)
+                        if (order.onFishCaught != null)
                         {
-                            if (order.onFishCaught != null)
-                            {
-                                order.onFishCaught(Game1.player, item);
-                            }
+                            order.onFishCaught(Game1.player, item);
                         }
                     }
                     bool hadroomForfish = fishingRod.getLastFarmerToUse().addItemToInventoryBool(item);
