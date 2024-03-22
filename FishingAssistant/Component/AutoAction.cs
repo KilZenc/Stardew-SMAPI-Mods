@@ -4,6 +4,8 @@ using StardewValley;
 using StardewValley.Menus;
 using StardewValley.Objects;
 using StardewValley.Tools;
+using StardewValley.Enchantments;
+using StardewValley.SpecialOrders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +79,7 @@ namespace FishingAssistant
             {
                 IList<Item> items = Game1.player.Items;
 
-                if (Config.AutoAttachBait && fishingRod.upgradeLevel >= 2)
+                if (Config.AutoAttachBait && fishingRod.UpgradeLevel >= 2)
                 {
                     // Check the bait slot.
                     // Case where there is already bait attached.
@@ -130,7 +132,7 @@ namespace FishingAssistant
                 IList<Item> items = Game1.player.Items;
 
                 // Check the tackle slot.
-                if (Config.AutoAttachTackles && fishingRod.attachments[1] == null && fishingRod.upgradeLevel == 3)
+                if (Config.AutoAttachTackles && fishingRod.attachments[1] == null && fishingRod.UpgradeLevel == 3)
                 {
                     foreach (Item item in items)
                     {
@@ -164,7 +166,7 @@ namespace FishingAssistant
                 modState = ModState.Fishing;
 
                 //prevent player from exhausted
-                if (Game1.player.stamina <= (8.0f - (Game1.player.fishingLevel * 0.1f)))
+                if (Game1.player.stamina <= (8.0f - (Game1.player.FishingLevel * 0.1f)))
                 {
                     if (autoEatWhenLowEnergy && AutoEatFood(ignoreCondition: true))
                         return;
@@ -186,7 +188,7 @@ namespace FishingAssistant
                 }
 
                 Game1.player.faceDirection(playerFacingDirection);
-                fishingRod.beginUsing(Game1.currentLocation, playerStandingX, playerStandingY, Game1.player);
+                fishingRod.beginUsing(Game1.currentLocation, (int)playerStanding.X, (int)playerStanding.Y, Game1.player);
                 modState = ModState.Idle;
             }
         }
@@ -281,11 +283,11 @@ namespace FishingAssistant
                     if (RodItemCategory == "Object")
                     {
                         item2 = new Object(RodWhichFish, 1, isRecipe: false, -1, RodFishQuality);
-                        if (RodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM)
+                        if (RodWhichFish == GameLocation.CAROLINES_NECKLACE_ITEM_QID)
                         {
                             item2.questItem.Value = true;
                         }
-                        if (RodWhichFish == 79 || RodWhichFish == 842)
+                        if (RodWhichFish == "79" || RodWhichFish == "842")
                         {
                             item2 = player.currentLocation.tryToCreateUnseenSecretNote(fishingRod.getLastFarmerToUse());
                             if (item2 == null)
@@ -342,7 +344,7 @@ namespace FishingAssistant
                         }
                     }
                     bool hadroomForfish = fishingRod.getLastFarmerToUse().addItemToInventoryBool(item);
-                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, fishingRod.getLastFarmerToUse().Position + new Vector2(-32f, -160f), flicker: false, flipped: false, (float)fishingRod.getLastFarmerToUse().getStandingY() / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
+                    fishingRod.animations.Add(new TemporaryAnimatedSprite("LooseSprites\\Cursors", new Rectangle(64, 1920, 32, 32), 500f, 1, 0, fishingRod.getLastFarmerToUse().Position + new Vector2(-32f, -160f), flicker: false, flipped: false, (float)fishingRod.getLastFarmerToUse().getStandingPosition().Y / 10000f + 0.001f, 0f, Color.White, 4f, 0f, 0f, 0f)
                     {
                         motion = new Vector2(0f, -0.128f),
                         timeBasedMotion = true,
@@ -393,9 +395,9 @@ namespace FishingAssistant
                 Item obj = ((IEnumerable<Item>)actualInventory).First();
                 if (obj != null)
                 {
-                    if (obj.parentSheetIndex == 102)
+                    if (obj.ParentSheetIndex == 102)
                     {
-                        Game1.player.foundArtifact(102, 1);
+                        Game1.player.foundArtifact("102", 1);
                         Game1.playSound("fireball");
                     }
                     else

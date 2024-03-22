@@ -230,17 +230,17 @@ namespace FishingAssistant
             }
         }
 
-        private int BarWhichFish
+        private string BarWhichFish
         {
             get
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                return Helper.Reflection.GetField<int>(bobberBar, KeyHelper.whichFish, true).GetValue();
+                return Helper.Reflection.GetField<string>(bobberBar, KeyHelper.whichFish, true).GetValue();
             }
             set
             {
                 if (bobberBar == null) throw new NullReferenceException(nameof(bobberBar));
-                Helper.Reflection.GetField<int>(bobberBar, KeyHelper.whichFish, true).SetValue(value);
+                Helper.Reflection.GetField<string>(bobberBar, KeyHelper.whichFish, true).SetValue(value);
             }
         }
 

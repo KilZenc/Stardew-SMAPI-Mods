@@ -173,7 +173,7 @@ namespace FishingAssistant
             bobberBar = bar;
             inFishingMiniGame = true;
             isCatching = true;
-            fishPreviewFishId = 0;
+            fishPreviewFishId = "0";
 
             //Overide fish difficulty
             OverrideFishDifficult();

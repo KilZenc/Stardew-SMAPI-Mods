@@ -1,5 +1,6 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Enchantments;
 
 namespace FishingAssistant
 {
@@ -48,10 +49,10 @@ namespace FishingAssistant
 
             Game1.playSound("jingle1");
 
-            int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].parentSheetIndex;
-            bool caughtDouble = Config.AlwaysCatchDoubleFish || (!BarBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0);
+            int attachmentValue = fishingRod.attachments[0] == null ? -1 : fishingRod.attachments[0].ParentSheetIndex;
+            int caughtDouble = Config.AlwaysCatchDoubleFish || (!BarBossFish && attachmentValue == 774 && Game1.random.NextDouble() < 0.25 + Game1.player.DailyLuck / 2.0) ? 2 : 1;
 
-            fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarTreasureCaught, BarPerfect, BarFromFishPond, caughtDouble);
+            fishingRod.pullFishFromWater(BarWhichFish, BarFishSize, BarFishQuality, (int)BarDifficulty, BarTreasureCaught, BarPerfect, BarFromFishPond, "", BarBossFish, caughtDouble);
             Game1.exitActiveMenu();
 
             Game1.setRichPresence("location", Game1.currentLocation.Name);

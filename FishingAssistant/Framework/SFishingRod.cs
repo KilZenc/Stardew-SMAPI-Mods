@@ -206,18 +206,17 @@ namespace FishingAssistant
                 fishingRod.timeUntilFishingBite = value;
             }
         }
-
-        private int RodWhichFish
+        private string RodWhichFish
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).GetValue();
+                return Helper.Reflection.GetField<string>(fishingRod, KeyHelper.whichFish, true).GetValue();
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).SetValue(value);
+                Helper.Reflection.GetField<string>(fishingRod, KeyHelper.whichFish, true).SetValue(value);
             }
         }
 
