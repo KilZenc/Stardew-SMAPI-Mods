@@ -61,8 +61,11 @@ namespace FishingAssistant
                 // save fish object to use in drawing // check for errors?
                 fishSprite = new Object(fishPreviewFishId, 1);
 
+                // tranform id to qualifiedId, since fishCaught uses qualifiedId
+                string qualifiedFishId = "(O)" + fishPreviewFishId;
+
                 // determine if species has been caught before
-                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(fishPreviewFishId) && Game1.player.fishCaught[fishPreviewFishId][0] > 0;
+                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(qualifiedFishId) && Game1.player.fishCaught[qualifiedFishId][0] > 0;
 
                 // is it a legendary fish?
                 bool isLegendary = fishingRod.bossFish;

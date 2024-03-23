@@ -138,7 +138,7 @@ namespace FishingAssistant
             }
         }
 
-        private int RodCaughtDoubleFish
+        private int RodStackSize
         {
             get
             {

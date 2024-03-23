@@ -280,13 +280,11 @@ namespace FishingAssistant
                 if (!IsRodTreasureCaught)
                 {
                     Object item2 = null;
-                    if (fishingRod.whichFish.TypeIdentifier == "furniture")
+                    
+                    //I'm not sure if this is the correct way to handle this, but it's the best I could come up with.
+                    if (fishingRod.whichFish.TypeIdentifier == "(O)")
                     {
-                        item2 = new Furniture(RodWhichFish.LocalItemId, Vector2.Zero);
-                    }
-                    else
-                    {
-                        item2 = new Object(RodWhichFish.QualifiedItemId, 1, isRecipe: false, -1, RodFishQuality);
+                        item2 = new Object(RodWhichFish.LocalItemId, 1, isRecipe: false, -1, RodFishQuality);
                         if (RodWhichFish.QualifiedItemId == GameLocation.CAROLINES_NECKLACE_ITEM_QID)
                         {
                             item2.questItem.Value = true;
@@ -299,12 +297,16 @@ namespace FishingAssistant
                                 return;
                             }
                         }
-                        item2.Stack = RodCaughtDoubleFish;
-                    } 
+                        item2.Stack = RodStackSize;
+                    }
+                    else if (fishingRod.whichFish.TypeIdentifier == "(BC)")
+                    {
+                        item2 = new Furniture(RodWhichFish.LocalItemId, Vector2.Zero);
+                    }
                     bool cachedFromFishPond = RodFromFishPond;
                     fishingRod.getLastFarmerToUse().completelyStopAnimatingOrDoingAction();
                     fishingRod.doneFishing(fishingRod.getLastFarmerToUse(), !cachedFromFishPond);
-                    if (!Game1.isFestival() && !cachedFromFishPond)
+                    if (!Game1.isFestival() && !cachedFromFishPond && fishingRod.whichFish.TypeIdentifier == "(O)" && Game1.player.team.specialOrders != null)
                     {
                         foreach (SpecialOrder order2 in Game1.player.team.specialOrders)
                         {
@@ -324,8 +326,8 @@ namespace FishingAssistant
                     IsRodFishCaught = false;
                     IsRodShowingTreasure = true;
                     player.UsingTool = true;
-                    int stack = RodCaughtDoubleFish;
-                    
+                    int stack = RodStackSize;
+
                     Object item = new Object(RodWhichFish.LocalItemId, stack, isRecipe: false, -1, RodFishQuality);
                     foreach (SpecialOrder order in Game1.player.team.specialOrders)
                     {
