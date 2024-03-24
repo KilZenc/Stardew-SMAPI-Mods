@@ -1,6 +1,7 @@
 ﻿using FishingAssistant.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using StardewValley.ItemTypeDefinitions;
 using StardewValley.Tools;
 using System;
 
@@ -137,20 +138,6 @@ namespace FishingAssistant
             }
         }
 
-        private bool RodCaughtDoubleFish
-        {
-            get
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.caughtDoubleFish, true).GetValue();
-            }
-            set
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<bool>(fishingRod, KeyHelper.caughtDoubleFish, true).SetValue(value);
-            }
-        }
-
         private int RodFishQuality
         {
             get
@@ -179,20 +166,6 @@ namespace FishingAssistant
             }
         }
 
-        private string RodItemCategory
-        {
-            get
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<string>(fishingRod, KeyHelper.itemCategory, true).GetValue();
-            }
-            set
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<string>(fishingRod, KeyHelper.itemCategory, true).SetValue(value);
-            }
-        }
-
         private float RodTimeUntilFishBite
         {
             get
@@ -206,18 +179,17 @@ namespace FishingAssistant
                 fishingRod.timeUntilFishingBite = value;
             }
         }
-
-        private int RodWhichFish
+        private ItemMetadata RodWhichFish
         {
             get
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).GetValue();
+                return fishingRod.whichFish;
             }
             set
             {
                 if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                Helper.Reflection.GetField<int>(fishingRod, KeyHelper.whichFish, true).SetValue(value);
+                fishingRod.whichFish = value;
             }
         }
 

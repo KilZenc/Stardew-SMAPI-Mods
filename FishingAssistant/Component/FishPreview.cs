@@ -13,7 +13,7 @@ namespace FishingAssistant
     internal partial class ModEntry : Mod
     {
         private bool isCatching = false;
-        private int fishPreviewFishId = 0;
+        private string fishPreviewFishId = "0";
         private Object fishSprite;
         private Object treasureSprite;
         private bool showFish;
@@ -41,7 +41,7 @@ namespace FishingAssistant
                     return;
 
                 // figure out which fish is being caught
-                int newFishId = BarWhichFish;
+                string newFishId = BarWhichFish;
 
                 // check if fish has changed somehow. If yes, re-make the fish sprite and its display text.
                 GetFishData(newFishId);
@@ -51,7 +51,7 @@ namespace FishingAssistant
             }
         }
 
-        private void GetFishData(int newFishId)
+        private void GetFishData(string newFishId)
         {
             if (newFishId != fishPreviewFishId) // catching a new fish OR the fish species has changed mid-cast
             {
@@ -61,11 +61,14 @@ namespace FishingAssistant
                 // save fish object to use in drawing // check for errors?
                 fishSprite = new Object(fishPreviewFishId, 1);
 
+                // tranform id to qualifiedId, since fishCaught uses qualifiedId
+                string qualifiedFishId = "(O)" + fishPreviewFishId;
+
                 // determine if species has been caught before
-                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(fishPreviewFishId) && Game1.player.fishCaught[fishPreviewFishId][0] > 0;
+                bool caughtSpecies = Game1.player.fishCaught.ContainsKey(qualifiedFishId) && Game1.player.fishCaught[qualifiedFishId][0] > 0;
 
                 // is it a legendary fish?
-                bool isLegendary = Helper.Reflection.GetMethod(typeof(FishingRod), "isFishBossFish").Invoke<bool>(fishPreviewFishId);
+                bool isLegendary = fishingRod.bossFish;
                 Monitor.Log($"Catching legendary fish? {isLegendary}", LogLevel.Trace);
 
                 // determine value of showFish value
@@ -186,7 +189,7 @@ namespace FishingAssistant
             // if show treasure draw treasure with fish icon
             if (Config.ShowTreasure && BarHasTreasure && !BarTreasureCaught)
             {
-                treasureSprite = new Object(693, 1);
+                treasureSprite = new Object("693", 1);
                 treasureSprite.drawInMenu(Game1.spriteBatch, new Vector2(x + (boxwidth / 2) - (spriteSize / 2) + (treasureSpacing / 2) + treasureOffset, y + margin), 1.0f, 1.0f, 1.0f, StackDrawType.Hide);
             }
         }

@@ -15,8 +15,8 @@ namespace FishingAssistant
         private bool hasEnableRequest;
         private bool isForceEnable;
 
-        private int playerStandingX;
-        private int playerStandingY;
+        private Vector2 playerStanding;
+        
         private int playerFacingDirection;
 
         private bool maxCastPower;
@@ -207,8 +207,7 @@ namespace FishingAssistant
 
         private void GetPlayerData()
         {
-            playerStandingX = Game1.player.getStandingX();
-            playerStandingY = Game1.player.getStandingY();
+            playerStanding = Game1.player.getStandingPosition();
             playerFacingDirection = Game1.player.getDirection() != -1 ? Game1.player.getDirection() : Game1.player.FacingDirection;
         }
 
