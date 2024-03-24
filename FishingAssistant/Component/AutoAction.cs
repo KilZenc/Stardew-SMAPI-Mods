@@ -297,7 +297,7 @@ namespace FishingAssistant
                                 return;
                             }
                         }
-                        item2.Stack = RodStackSize;
+                        item2.Stack = fishingRod.numberOfFishCaught;
                     }
                     else if (fishingRod.whichFish.TypeIdentifier == "(BC)")
                     {
@@ -326,7 +326,7 @@ namespace FishingAssistant
                     IsRodFishCaught = false;
                     IsRodShowingTreasure = true;
                     player.UsingTool = true;
-                    int stack = RodStackSize;
+                    int stack = fishingRod.numberOfFishCaught;
 
                     Object item = new Object(RodWhichFish.LocalItemId, stack, isRecipe: false, -1, RodFishQuality);
                     foreach (SpecialOrder order in Game1.player.team.specialOrders)

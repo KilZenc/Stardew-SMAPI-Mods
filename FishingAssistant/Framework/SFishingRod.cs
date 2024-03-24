@@ -138,20 +138,6 @@ namespace FishingAssistant
             }
         }
 
-        private int RodStackSize
-        {
-            get
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                return fishingRod.Stack;
-            }
-            set
-            {
-                if (fishingRod == null) throw new NullReferenceException(nameof(fishingRod));
-                fishingRod.Stack = value;
-            }
-        }
-
         private int RodFishQuality
         {
             get
